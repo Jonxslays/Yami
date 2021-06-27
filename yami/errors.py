@@ -1,0 +1,2 @@
+class YamiError(Exception):
+    pass

@@ -5,12 +5,14 @@ description = "A command handler that complements Hikari, a Discord API wrapper 
 authors = ["Jonxslays <jonxxslays@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = ">=3.8"
+python = ">=3.8,<3.11"
+hikari = "2.0.0.dev100"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
 black = "^21.6b0"
 nox = "^2021.6.12"
+mypy = "^0.910"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
