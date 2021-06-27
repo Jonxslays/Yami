@@ -1,11 +1,11 @@
 [tool.poetry]
 name = "Yami"
-version = "0.1.0"
-description = ""
+version = "0.1.1"
+description = "A command handler that complements Hikari, a Discord API wrapper written in Python."
 authors = ["Jonxslays <jonxxslays@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = ">=3.8"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
