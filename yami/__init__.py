@@ -1,7 +1,8 @@
-from . import commands
-from . import errors
 from .commands import *
 from .errors import *
 from .bot import Bot
 
-__version__ = '0.1.1'
+with open("pyproject.toml", "r") as f:
+    __version__ = f.readlines()[2].split(" ")[-1].strip('"\n')
+
+__all__ = ["Bot", "Command", "YamiError"]

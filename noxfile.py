@@ -1,15 +1,15 @@
 import nox
 
 
-@nox.session(python=["3.8", "3.9", "3.10"])
-def tests(session):
+@nox.session(reuse_venv=True)
+def tests(session: nox.Session) -> None:
     session.run("poetry", "shell")
     session.run("poetry", "install")
-    session.run("pytest")
+    session.run("pytest", "--verbose")
 
 
-@nox.session(python=["3.8", "3.9", "3.10"])
-def lint(session):
+@nox.session(reuse_venv=True)
+def lint(session: nox.Session) -> None:
     session.run("poetry", "shell")
     session.run("poetry", "install")
-    session.run("pytest")
+    session.run("mypy", "--strict", ".")
