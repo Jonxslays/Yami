@@ -1,13 +1,13 @@
-import concurrent
 import typing as t
 
 import hikari
+import yami
 
-from yami import commands
+__all__: t.List[str] = ["Bot"]
 
 
 class Bot(hikari.BotApp):
-    """An object that inherits from hikari.impl.bot.BotApp and adds
+    """An Object that inherits from hikari.BotApp and adds
     an additional API overlay to easily implement and handle commands.
 
     Args:
@@ -24,6 +24,11 @@ class Bot(hikari.BotApp):
         **kwargs: Remaining arguments passed to hikari.BotApp.
     """
 
+    __slots__: t.Sequence[str] = (
+        "_prefix", "_shun_bots", "_case_insensitive",
+        "_owners", "_commands",
+    )
+
     def __init__(
         self,
         prefix: t.Union[t.Callable[..., str], str],
@@ -38,6 +43,12 @@ class Bot(hikari.BotApp):
         self._shun_bots = shun_bots
         self._case_insensitive = case_insensitive
         self._owners = owners
+        self._commands: t.MutableMapping[str, yami.Command] = {}
+
+    @property
+    def commands(self) -> set[yami.Command]:
+        """A Set containing all commands registered to the Bot."""
+        return set(self._commands.values())
 
     @property
     def prefix(self) -> t.Union[t.Callable[..., str], str]:

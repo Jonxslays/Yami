@@ -1,11 +1,19 @@
 [tool.poetry]
 name = "Yami"
-version = "0.1.3"
+version = "0.1.4"
 description = "A command handler that complements Hikari, a Discord API wrapper written in Python."
 license = "GPL-3.0-only"
 homepage = "https://github.com/Jonxslays/Yami"
 repository = "https://github.com/Jonxslays/Yami"
 authors = ["Jonxslays <jon@jonxslays.com>"]
+readme = "README.md"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Framework :: AsyncIO",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Operating System :: OS Independent"
+]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
@@ -17,6 +25,8 @@ black = "^21.6b0"
 nox = "^2021.6.12"
 mypy = "^0.910"
 poetry = "^1.1.7"
+mock = "^4.0.3"
+types-mock = "^0.1.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

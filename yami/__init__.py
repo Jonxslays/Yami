@@ -1,3 +1,8 @@
+"""
+A command handler API wrapper for Hikari.
+To get started you will want to initialize and instance of yami.Bot.
+"""
+
 from .commands import *
 from .errors import *
 from .bot import Bot
