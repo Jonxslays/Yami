@@ -13,23 +13,18 @@ class Bot(hikari.BotApp):
     an additional API overlay to easily implement and handle commands.
 
     Args:
-        prefix (str): The command prefix the `Bot` should respond to.
+        prefix (Callable[..., Union[List[str], str]], Union[List[str], str): The command prefix the `Bot` should respond to.
 
         shun_bots (bool, optional): Whether or not the `Bot` should shun it's own kind.
             Defaults to True. (The `Bot` will ignore commands invoked by bots.)
 
-        owners (iterable[int], optional): An iterable of integers representing the `Bot`'s owners ID's.
+        owners (Iterable[int], optional): An iterable of integers representing the `Bot`'s owners ID's.
 
         case_insensitive (bool, optional): Check case during command invokations.
             Defaults to True. (Commands are invoked regardless of case.)
 
         **kwargs: Remaining arguments passed to `hikari.BotApp`.
     """
-
-    __slots__: t.Sequence[str] = (
-        "_prefix", "_shun_bots", "_case_insensitive",
-        "_owners", "_commands", "_modules", "_aliases"
-    )
 
     def __init__(
         self,
@@ -69,11 +64,6 @@ class Bot(hikari.BotApp):
         """The `Command` prefix the `Bot` should respond to."""
         return self._prefix
 
-    @prefix.setter
-    def prefix(self, new: t.Union[t.Callable[..., str], str]) -> t.Union[t.Callable[..., str], str]:
-        self._prefix = new
-        return self._prefix
-
     @property
     def shun_bots(self) -> bool:
         """Whether or not the `Bot` should shun it's own kind."""
@@ -105,7 +95,7 @@ class Bot(hikari.BotApp):
             )
 
         if self.case_insensitive:
-            callback_cmd.name = callback_cmd.name.lower()
+            callback_cmd._name = callback_cmd.name.lower()
             callback_cmd._aliases = [a.lower() for a in callback_cmd._aliases]
 
         if callback_cmd.name in (c.name for c in self.commands):
@@ -121,6 +111,8 @@ class Bot(hikari.BotApp):
         if callback_cmd.aliases:
             for a in callback_cmd.aliases:
                 self._aliases[a] = callback_cmd
+
+        # TODO optimize the above if statements.
 
         self._commands[callback_cmd.name] = callback_cmd
         return self._commands[callback_cmd.name]

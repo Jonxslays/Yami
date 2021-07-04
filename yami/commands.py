@@ -31,11 +31,6 @@ class Command:
         """The name of this `Command` `Object`."""
         return self._name
 
-    @name.setter
-    def name(self, name: str) -> str:
-        self._name = name
-        return self._name
-
     @property
     def hidden(self) -> bool:
         """Boolean representing whether a `Command` is hidden or not."""
@@ -43,5 +38,5 @@ class Command:
 
     @property
     def aliases(self) -> t.List[str]:
-        """A set of `Command` aliases."""
+        """A Set of `Command` aliases."""
         return self._aliases
