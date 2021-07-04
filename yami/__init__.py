@@ -5,9 +5,11 @@ To get started you will want to initialize and instance of yami.Bot.
 
 from .commands import *
 from .errors import *
-from .bot import Bot
+from .modules import *
+from .bot import *
+
 
 with open("pyproject.toml", "r") as f:
     __version__ = f.readlines()[2].split(" ")[-1].strip('"\n')
 
-__all__ = ["Bot", "Command", "YamiError"]
+__all__ = ["Bot", "Command", "YamiError", "Module"]

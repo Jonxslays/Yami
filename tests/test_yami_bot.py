@@ -11,6 +11,7 @@ def bot() -> yami.Bot:
         owners=[123, 654]
     )
     bot._commands["help"] = yami.Command(name="help")
+    bot._modules["test-mod"] = yami.Module(name="test-mod")
     return bot
 
 
@@ -26,3 +27,9 @@ def test_bot_commands(bot: yami.Bot) -> None:
     assert len(bot.commands) == 1
     assert type(bot.commands.pop()) is yami.Command
     assert "help" in (c.name for c in bot.commands)
+
+
+def test_bot_modules(bot: yami.Bot) -> None:
+    assert len(bot.modules) == 1
+    assert type(bot.modules.pop()) is yami.Module
+    assert "test-mod" in (m.name for m in bot.modules)
