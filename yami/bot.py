@@ -28,7 +28,7 @@ class Bot(hikari.BotApp):
 
     __slots__: t.Sequence[str] = (
         "_prefix", "_shun_bots", "_case_insensitive",
-        "_owners", "_commands", "_modules",
+        "_owners", "_commands", "_modules", "_aliases"
     )
 
     def __init__(
@@ -46,6 +46,7 @@ class Bot(hikari.BotApp):
         self._case_insensitive = case_insensitive
         self._owners = owners
         self._commands: t.MutableMapping[str, yami.Command] = {}
+        self._aliases: t.MutableMapping[str, yami.Command] = {}
         self._modules: t.MutableMapping[str, yami.Module] = {}
 
     @property
@@ -59,8 +60,18 @@ class Bot(hikari.BotApp):
         return set(self._commands.values())
 
     @property
+    def aliases(self) -> set[str]:
+        """A Set containing all `Command` aliases."""
+        return set(self._aliases.keys())
+
+    @property
     def prefix(self) -> t.Union[t.Callable[..., str], str]:
         """The `Command` prefix the `Bot` should respond to."""
+        return self._prefix
+
+    @prefix.setter
+    def prefix(self, new: t.Union[t.Callable[..., str], str]) -> t.Union[t.Callable[..., str], str]:
+        self._prefix = new
         return self._prefix
 
     @property
@@ -77,3 +88,53 @@ class Bot(hikari.BotApp):
     def owners(self) -> t.Iterable[int]:
         """An iterable containing the Owner ID's of the `Bot`."""
         return self._owners
+
+    def command(self, **kwargs: t.Any) -> t.Callable[..., t.Any]:
+        """Decorator used to instantiate a new `Command`."""
+        def predicate(callback: t.Callable[..., t.Any]) -> yami.Command:
+            return self.add_command(callback, **kwargs)
+
+        return predicate
+
+    def add_command(self, callback: t.Union[t.Callable[..., t.Any], yami.Command], **kwargs: t.Any) -> yami.Command:
+        """Registers a `Command` to the `Bot`."""
+        if not isinstance(callback, yami.Command):
+            callback_cmd = yami.Command(
+                callback, name=kwargs.get("name", callback.__name__),
+                aliases=kwargs.get("aliases", []), hidden=kwargs.get("hidden", False),
+            )
+
+        if self.case_insensitive:
+            callback_cmd.name = callback_cmd.name.lower()
+            callback_cmd._aliases = [a.lower() for a in callback_cmd._aliases]
+
+        if callback_cmd.name in (c.name for c in self.commands):
+            raise yami.CommandAlreadyRegistered(
+                f"Command name already registered: {callback_cmd.name}."
+            )
+
+        if (x := set(callback_cmd.aliases) & self.aliases):
+            raise yami.CommandAlreadyRegistered(
+                f"Command already registered with alias: {x}"
+            )
+
+        if callback_cmd.aliases:
+            for a in callback_cmd.aliases:
+                self._aliases[a] = callback_cmd
+
+        self._commands[callback_cmd.name] = callback_cmd
+        return self._commands[callback_cmd.name]
+
+    def get_command(self, name: str) -> t.Optional[yami.Command]:
+        """Method used to get a `Command` Object from the `Bot`.
+        Returns `None` if one is not found with this `name`."""
+        if self.case_insensitive:
+            name = name.lower()
+
+        if name in self._commands:
+            return self._commands[name]
+
+        if name in self.aliases:
+            return self._aliases[name]
+
+        return None

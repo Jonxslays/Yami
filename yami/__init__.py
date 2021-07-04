@@ -12,4 +12,6 @@ from .bot import *
 with open("pyproject.toml", "r") as f:
     __version__ = f.readlines()[2].split(" ")[-1].strip('"\n')
 
-__all__ = ["Bot", "Command", "YamiError", "Module"]
+__all__ = [
+    "Bot", "Command", "YamiError", "Module", "command", "CommandAlreadyRegistered"
+]
