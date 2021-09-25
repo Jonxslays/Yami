@@ -1,75 +1,184 @@
-import typing as t
+import abc
+import typing
 
 import hikari
 
-import yami
+from yami import bot, commands
 
-__all__: t.List[str] = [
-    "Context",
+__all__: typing.List[str] = [
+    "AbstractContext",
+    "LegacyContext",
 ]
 
-class Context:
-    """An `Object` representing the `Context` that a `Command` was invoked in."""
 
-    def __init__(
-        self, bot: yami.Bot, message: hikari.Message, prefix: str,
-        invoked_with: t.Optional[str], command: yami.Command, args: t.List[t.Any]
-    ) -> None:
-        self._bot = bot
-        self._message = message
-        self._prefix = prefix
-        self._invoked_with = invoked_with
-        self._command = command
-        self._args = args
+class AbstractContext(type, abc.ABC):
+    """The base class all command context's will inherit from.
+
+    Args:
+
+    """
+
+    __slots__: typing.Sequence[str] = ()
 
     @property
-    def bot(self) -> yami.Bot:
-        """The `Bot` `Object` the `Command` was invoked from."""
+    @abc.abstractproperty
+    def bot(self) -> bot.Bot:
+        """The bot instance associated with the context.
+
+        Returns:
+            yami.Bot
+                The bot instance associated with the context.
+        """
+        ...
+
+    @property
+    @abc.abstractproperty
+    def author(self) -> hikari.User:
+        """The user associated with the context.
+
+        Returns:
+            hikari.User
+                The user associated with the context.
+        """
+        ...
+
+    @property
+    @abc.abstractproperty
+    def guild_id(self) -> typing.Optional[hikari.Snowflake]:
+        """The guild id associated with the context.
+
+        Returns:
+            typing.Optional[hikari.Snowflake]
+                The guild id associated with the context or None
+                if the Context is a DMChannel.
+        """
+        ...
+
+    @property
+    @abc.abstractproperty
+    def channel_id(self) -> hikari.Snowflake:
+        """The channel id associated with the context.
+
+        Returns:
+            hikari.Snowflake
+                The channel id associated with the context.
+        """
+        ...
+
+    @property
+    @abc.abstractproperty
+    def message_id(self) -> hikari.Snowflake:
+        """The message id associated with the context.
+
+        Returns:
+            hikari.Snowflake
+                The message id associated with the context.
+        """
+        ...
+
+    @abc.abstractmethod
+    async def grab_guild(self) -> typing.Optional[hikari.Guild]:
+        """Grabs the `hikari.Guild` object associated with the context.
+        This method calls to the cache first, and falls back to rest if
+        not found.
+
+        **WARNING**:
+            This method can utilize both cache, and rest. For more fine
+            grained control consider using cache or rest yourself
+            explicitly.
+
+        Returns:
+            typing.Optiona[hikari.Guild]
+                The guild object associated with the context, or
+                None if the context is a DMChannel.
+        """
+        ...
+
+    @abc.abstractmethod
+    async def grab_message(self) -> hikari.Message:
+        """Grabs the `hikari.Message` object associated with the
+        context. This method calls to the cache first, and falls back
+        to rest if not found.
+
+        **WARNING**:
+            This method can utilize both cache, and rest. For more fine
+            grained control consider using cache or rest yourself
+            explicitly.
+
+        Returns:
+            hikari.Message
+                The message object associated with the context.
+        """
+        ...
+
+    @abc.abstractmethod
+    async def grab_channel(self) -> hikari.PartialChannel:
+        """Grabs the `hikari.PartialChannel` object associated with the
+        Context. This method calls to the cache first, and falls back to
+        rest if not found.
+
+        This method can return one of any:
+            DMChannel, GroupDMChannel, GuildTextChannel,
+            GuildVoiceChannel, GuildStoreChannel, GuildNewsChannel.
+
+        **WARNING**:
+            This method can utilize both cache, and rest. For more fine
+            grained control consider using cache or rest yourself
+            explicitly.
+
+        Returns:
+            hikari.PartialChannel
+                The channel object associated with the context.
+        """
+        ...
+
+
+class LegacyContext(metaclass=AbstractContext):
+    """An object representing a legacy context. A `boomer` command
+    handler, if you will.
+
+    Args:
+        bot: yami.Bot
+            The bot instance associated with the context.
+        command: yami.AbstractCommand
+            The command associated with the context.
+        message: hikari.Message
+            The message associated with the context.
+    """
+
+    __slots__: typing.Sequence[str] = ("_message", "_command", "_content")
+
+    def __init__(
+        self,
+        bot: bot.Bot,
+        content: str,
+        message: hikari.Message,
+        *,
+        command: commands.LegacyCommand,
+    ) -> None:
+        if not message.content:
+            raise ValueError("No content in message. what?")
+
+        self._content = content
+        self._message = message
+        self._command = command
+        self._bot = bot
+
+    @property
+    def bot(self) -> bot.Bot:
         return self._bot
 
     @property
-    def message(self) -> hikari.Message:
-        """The `Message` that invoked the command."""
-        return self._message
+    def content(self) -> str:
+        return self._content
 
     @property
-    def message_id(self) -> hikari.Snowflake:
-        """The ID of the `Message` the `Command` was invoked with."""
-        return self.message.id
-
-    @property
-    def prefix(self) -> str:
-        """The prefix that invoked the command."""
-        return self._prefix
-
-    @property
-    def invoked_with(self) -> t.Optional[yami.Command]:
-        """The `Command` that was invoked. """
+    def command(self) -> commands.LegacyCommand:
         return self._command
 
     @property
-    def args(self) -> t.List[t.Any]:
-        """A `List` of arguments passed to the command"""
-        return self._args
+    def message(self) -> hikari.Message:
+        return self._message
 
-    @property
-    def author(self) -> hikari.User:
-        """Returns the `User` that invoked the `Command`."""
-        return self.message.author
-
-    @property
-    def channel_id(self) -> hikari.Snowflake:
-        """The ID of the `TextChannel` the `Command` was invoked in."""
-        return self.message.channel_id
-
-    @property
-    async def channel(self) -> t.Union[hikari.GuildChannel, hikari.PartialChannel, hikari.TextChannel]:
-        """Returns the `TextChannel` the `Command` was invoked in.
-        Calls the API using fetch, if the channel isn't cached."""
-        if get_chan := self.bot.cache.get_guild_channel(self.channel_id):
-            return get_chan
-
-        if fetch_chan := await self.bot.rest.fetch_channel(self.channel_id):
-            return fetch_chan
-
-        raise yami.ChannelNotFound(f"No Channel was found with ID: {self.channel_id}.")
+    async def respond(self, content: str) -> hikari.Message:
+        return await self._message.respond(content)

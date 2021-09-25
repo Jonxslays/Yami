@@ -1,132 +1,132 @@
-import typing as t
+import concurrent.futures
+import typing
 
 import hikari
-import yami
 
-__all__: t.List[str] = [
-    "Bot",
-]
+from yami import commands
 
 
-class Bot(hikari.BotApp):
-    """An `Object` that inherits from `hikari.BotApp` and adds
-    an additional API overlay to easily implement and handle commands.
+
+__all__: typing.List[str] = ["Bot"]
+
+
+class Bot(hikari.GatewayBot):
+    """A subclass of `hikari.GatewayBot` that provides an interface
+    for handling commands.
+
+    This is the class you will instantiate, to utilize command features
+    on top of the `hikari.GatewayBot` superclass.
 
     Args:
-        prefix (Callable[..., Union[List[str], str]], Union[List[str], str): The command prefix the `Bot` should respond to.
-
-        shun_bots (bool, optional): Whether or not the `Bot` should shun it's own kind.
-            Defaults to True. (The `Bot` will ignore commands invoked by bots.)
-
-        owners (Iterable[int], optional): An iterable of integers representing the `Bot`'s owners ID's.
-
-        case_insensitive (bool, optional): Check case during command invokations.
-            Defaults to True. (Commands are invoked regardless of case.)
-
-        **kwargs: Remaining arguments passed to `hikari.BotApp`.
+        token: str
+            The bot token to sign in with.
+        prefix: typing.Union[str, typing.Sequence[str]]
+            The prefix, or sequence of prefixes to listen for.
+            Planned support for mentions, and functions soon (tm).
+        message_subscription: bool
+            Whether or not to subscribe to `hikari.MessageCreateEvent`.
+            Defaults to True. Set this to False if you only plan to
+            utilize slash commands.
+        owner_ids: typing.Optional[typing.Sequence[int]]
+            A sequence of integers representing the Snowflakes of the
+            bots owners.
+        **kwargs: typing.Any
+            The remaining kwargs for `hikari.GatewayBot`.
     """
+
+    __slots__: typing.Sequence[str] = (
+        "_prefix",
+        "_case_insenstive",
+        "_owner_ids",
+        "_commands",
+        "_aliases",
+    )
 
     def __init__(
         self,
-        prefix: t.Union[t.Callable[..., str], str],
+        token: str,
         *,
-        shun_bots: bool = True,
-        owners: t.Iterable[int] = (),
+        prefix: typing.Union[str, typing.Sequence[str]],
         case_insensitive: bool = True,
-        **kwargs: t.Any
+        message_subscription: bool = True,
+        owner_ids: typing.Optional[typing.Sequence[int]] = None,
+        allow_color: bool = True,
+        banner: typing.Optional[str] = "hikari",
+        executor: typing.Optional[concurrent.futures.Executor] = None,
+        force_color: bool = False,
+        cache_settings: typing.Optional[hikari.CacheSettings] = None,
+        http_settings: typing.Optional[hikari.HTTPSettings] = None,
+        intents: hikari.Intents = hikari.Intents.ALL_UNPRIVILEGED,
+        logs: typing.Union[None, int, str, typing.Dict[str, typing.Any]] = "INFO",
+        max_rate_limit: float = 300,
+        max_retries: int = 3,
+        proxy_settings: typing.Optional[hikari.ProxySettings] = None,
+        rest_url: typing.Optional[str] = None,
     ) -> None:
-        super().__init__(**kwargs)
-        self._prefix = prefix
-        self._shun_bots = shun_bots
-        self._case_insensitive = case_insensitive
-        self._owners = owners
-        self._commands: t.MutableMapping[str, yami.Command] = {}
-        self._aliases: t.MutableMapping[str, yami.Command] = {}
-        self._modules: t.MutableMapping[str, yami.Module] = {}
+        super().__init__(
+            token,
+            allow_color=allow_color,
+            banner=banner,
+            executor=executor,
+            force_color=force_color,
+            cache_settings=cache_settings,
+            http_settings=http_settings,
+            intents=intents,
+            logs=logs,
+            max_rate_limit=max_rate_limit,
+            max_retries=max_retries,  # will be implemented in dev102
+            proxy_settings=proxy_settings,
+            rest_url=rest_url,
+        )
 
-    @property
-    def modules(self) -> set[yami.Module]:
-        """A set containing all `Modules`s registered to the `Bot` (Only includes loaded `Module`s)."""
-        return set(self._modules.values())
+        # Validate the prefix
+        if isinstance(prefix, str):
+            self._prefix: typing.Sequence[str] = (prefix,)
 
-    @property
-    def commands(self) -> set[yami.Command]:
-        """A Set containing all `Command`s registered to the `Bot`."""
-        return set(self._commands.values())
+        elif isinstance(prefix, typing.Sequence):
+            if not prefix:
+                raise ValueError(f"The sequence passed to prefix was of length 0.")
 
-    @property
-    def aliases(self) -> set[str]:
-        """A Set containing all `Command` aliases."""
-        return set(self._aliases.keys())
+            if not all(isinstance(p, str) for p in prefix):
+                raise TypeError(f"One or more items passed to prefix were not of {repr(str)}.")
 
-    @property
-    def prefix(self) -> t.Union[t.Callable[..., str], str]:
-        """The `Command` prefix the `Bot` should respond to."""
-        return self._prefix
+            if not all(bool(p) for p in prefix):
+                raise ValueError("One or more items passed to prefix were of length 0.")
 
-    @property
-    def shun_bots(self) -> bool:
-        """Whether or not the `Bot` should shun it's own kind."""
-        return self._shun_bots
+            self._prefix = prefix
 
-    @property
-    def case_insensitive(self) -> bool:
-        """Check case during command invokations."""
-        return self._case_insensitive
+        else:
+            raise TypeError(f"{type(prefix)} is an unsupported type for 'prefix'.")
 
-    @property
-    def owners(self) -> t.Iterable[int]:
-        """An iterable containing the Owner ID's of the `Bot`."""
-        return self._owners
+        self._owner_ids = owner_ids
+        self._case_insenstive = case_insensitive
 
-    def command(self, **kwargs: t.Any) -> t.Callable[..., t.Any]:
-        """Decorator used to instantiate a new `Command`."""
-        def predicate(callback: t.Callable[..., t.Any]) -> yami.Command:
-            return self.add_command(callback, **kwargs)
+        if message_subscription:
+            self.event_manager.subscribe(hikari.MessageCreateEvent, self.watch_for_commands)
 
-        return predicate
+        self._commands: typing.MutableMapping[str, commands.LegacyCommand] = {}
+        self._aliases: typing.MutableMapping[str, str] = {}
 
-    def add_command(self, callback: t.Union[t.Callable[..., t.Any], yami.Command], **kwargs: t.Any) -> yami.Command:
-        """Registers a `Command` to the `Bot`."""
-        if not isinstance(callback, yami.Command):
-            callback_cmd = yami.Command(
-                callback, name=kwargs.get("name", callback.__name__),
-                aliases=kwargs.get("aliases", []), hidden=kwargs.get("hidden", False),
-            )
+    def add_command(
+        self,
+        command: typing.Union[typing.Callable[..., typing.Any], commands.LegacyCommand],
+        *,
+        name: typing.Optional[str] = None,
+    ) -> commands.LegacyCommand:
 
-        if self.case_insensitive:
-            callback_cmd._name = callback_cmd.name.lower()
-            callback_cmd._aliases = [a.lower() for a in callback_cmd._aliases]
+        if isinstance(command, commands.LegacyCommand):
+            self._commands[command.name] = command
+            return self._commands[command.name]
 
-        if callback_cmd.name in (c.name for c in self.commands):
-            raise yami.CommandAlreadyRegistered(
-                f"Command name already registered: {callback_cmd.name}."
-            )
+        name = command.__name__ if not name else name
+        new_cmd = commands.LegacyCommand.new(command, name)
+        self._commands[name] = new_cmd
 
-        if (x := set(callback_cmd.aliases) & self.aliases):
-            raise yami.CommandAlreadyRegistered(
-                f"Command already registered with alias: {x}"
-            )
+        return new_cmd
 
-        if callback_cmd.aliases:
-            for a in callback_cmd.aliases:
-                self._aliases[a] = callback_cmd
+    async def watch_for_commands(self, event: hikari.MessageCreateEvent) -> None:
+        if not event.message.content:
+            return None
 
-        # TODO optimize the above if statements.
-
-        self._commands[callback_cmd.name] = callback_cmd
-        return self._commands[callback_cmd.name]
-
-    def get_command(self, name: str) -> t.Optional[yami.Command]:
-        """Method used to get a `Command` Object from the `Bot`.
-        Returns `None` if one is not found with this `name`."""
-        if self.case_insensitive:
-            name = name.lower()
-
-        if name in self._commands:
-            return self._commands[name]
-
-        if name in self.aliases:
-            return self._aliases[name]
-
-        return None
+        # if event.message.content.startswith(self._prefix):
+        #     pass

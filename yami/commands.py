@@ -1,42 +1,75 @@
-import typing as t
+import abc
+import typing
 
-__all__: t.List[str] = [
-    "Command",
+__all__: typing.List[str] = [
+    "AbstractCommand",
+    "LegacyCommand",
 ]
 
-class Command:
-    """An `Object` representing a `Command`."""
 
-    __slots__: t.Sequence[str] = (
-        "_callback", "_name", "_aliases","_hidden",
-    )
+class AbstractCommand(type, abc.ABC):
+    """The base class all Yami Commands will inherit from.
+
+    Args:
+
+    """
+
+    __slots__: typing.Sequence[str] = ()
+
+    @property
+    @abc.abstractproperty
+    def callback(self) -> typing.Callable[..., typing.Any]:
+        """The callback function registered to the command.
+
+        Returns:
+            typing.Callable[... typing.Any]
+                The callback function registered to the command.
+        """
+        ...
+
+    @property
+    @abc.abstractproperty
+    def name(self) -> str:
+        """The name of the command.
+
+        Returns:
+            str
+                The name of the command.
+        """
+        ...
+
+
+class LegacyCommand(metaclass=AbstractCommand):
+    """An object that represents a legacy message content command.
+
+    Args:
+        callback:
+    """
+
+    __slots__: typing.Sequence[str] = [
+        "_callback",
+        "_name",
+    ]
 
     def __init__(
-        self, callback: t.Callable[..., t.Any],
-        name: str, aliases: t.List[str] = [],
-        hidden: bool = False,
+        self,
+        callback: typing.Callable[..., typing.Any],
+        name: str,
     ) -> None:
         self._callback = callback
         self._name = name
-        self._aliases = aliases
-        self._hidden = hidden
 
-    @property
-    def callback(self) -> t.Callable[..., t.Any]:
-        """The callback function associated with the `Command`."""
-        return self._callback
+    @classmethod
+    def new(cls, command: typing.Callable[..., typing.Any], name: str) -> "LegacyCommand":
+        return cls(
+            command,
+            name=name,
+        )
 
     @property
     def name(self) -> str:
-        """The name of this `Command` `Object`."""
         return self._name
 
     @property
-    def hidden(self) -> bool:
-        """Boolean representing whether a `Command` is hidden or not."""
-        return self._hidden
-
-    @property
-    def aliases(self) -> t.List[str]:
-        """A Set of `Command` aliases."""
-        return self._aliases
+    def callback(self) -> typing.Callable[..., typing.Any]:
+        return self._callback
