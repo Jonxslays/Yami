@@ -34,7 +34,7 @@ class Bot(hikari.GatewayBot):
 
     __slots__: typing.Sequence[str] = (
         "_prefix",
-        "_case_insenstive",
+        "_case_insensitive",
         "_owner_ids",
         "_commands",
         "_aliases",
@@ -97,7 +97,7 @@ class Bot(hikari.GatewayBot):
             raise TypeError(f"{type(prefix)} is an unsupported type for 'prefix'.")
 
         self._owner_ids = owner_ids
-        self._case_insenstive = case_insensitive
+        self._case_insensitive = case_insensitive
 
         if message_subscription:
             self.event_manager.subscribe(hikari.MessageCreateEvent, self.watch_for_commands)
