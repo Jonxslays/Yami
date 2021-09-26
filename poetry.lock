@@ -217,7 +217,7 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "len8"
-version = "0.2.0"
+version = "0.2.0.post1"
 description = "A utility for keeping line lengths within PEP 8 standards."
 category = "dev"
 optional = false
@@ -592,8 +592,8 @@ isort = [
     {file = "isort-5.9.3.tar.gz", hash = "sha256:9c2ea1e62d871267b78307fe511c0838ba0da28698c5732d54e2790bf3ba9899"},
 ]
 len8 = [
-    {file = "len8-0.2.0-py3-none-any.whl", hash = "sha256:83ef962d76c8503608742e767dc73a0101c49635f6121342c929b73f46753106"},
-    {file = "len8-0.2.0.tar.gz", hash = "sha256:ddd7006d71d7c103454fc9878d25c8807cfd1d29fe9afddf04f7443c7fade851"},
+    {file = "len8-0.2.0.post1-py3-none-any.whl", hash = "sha256:c272cff9bb05705e5360f358e2e4b385b6ff5b6cd14ba3cc45997b3046d4a315"},
+    {file = "len8-0.2.0.post1.tar.gz", hash = "sha256:c18f540df408ab2f8a6897414ec1e6adde388d31beb61fb0f9c500973e4d757a"},
 ]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
