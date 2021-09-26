@@ -5,8 +5,6 @@ import hikari
 
 from yami import commands
 
-
-
 __all__: typing.List[str] = ["Bot"]
 
 

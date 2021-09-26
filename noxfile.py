@@ -27,13 +27,7 @@ def types(session: nox.Session) -> None:
 @nox.session(reuse_venv=True)
 def formatting(session: nox.Session) -> None:
     session = _install(session, True)
-    session.run("black", ".", "-l99")
-    session.run("len8", "-l", "yami", "tests")
 
-
-@nox.session(reuse_venv=True)
-def imports(session: nox.Session) -> None:
-    session = _install(session, True)
     session.run(
         "flake8",
         "yami",
@@ -54,3 +48,6 @@ def imports(session: nox.Session) -> None:
         "--profile",
         "black",
     )
+
+    session.run("black", ".", "-l99")
+    session.run("len8", "-l", "yami", "tests")

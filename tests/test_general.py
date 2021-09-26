@@ -1,5 +1,3 @@
-# import pytest  # type: ignore
-
 from yami import __version__
 
 
