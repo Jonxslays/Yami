@@ -1,5 +1,5 @@
-from yami import __version__
+import yami
 
 
 def test_version() -> None:
-    assert __version__ == "0.2.0"
+    assert yami.__version__ == "0.2.1"
