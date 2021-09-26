@@ -27,3 +27,4 @@ def test_add_legacy_command_object(model: yami.Bot) -> None:
     model.add_command(cmd)
     assert model._commands == {"owo-cmd": cmd}
     assert cmd.callback() == "Howdy"
+    assert cmd.name == "owo-cmd"
