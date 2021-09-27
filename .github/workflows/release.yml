@@ -1,12 +1,14 @@
 name: Publish to pypi
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*.*.*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
