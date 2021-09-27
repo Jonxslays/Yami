@@ -21,64 +21,24 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up python ${{ matrix.python-version }}
+      - name: Install python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Set up poetry and test on windows
-        if: ${{ matrix.os == 'windows-latest' }}
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v7
+
+      - name: Configure poetry and venv
         run: |
-          (Invoke-WebRequest -Uri https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py -UseBasicParsing).Content | python -
-
-          $env:Path += ";$HOME\AppData\Roaming\Python\Scripts"
-
           poetry config virtualenvs.create true
           poetry config virtualenvs.in-project true
           poetry config installer.parallel true
           poetry config experimental.new-installer false
+          poetry -q shell
 
-          python -m venv .venv
-          . .venv\Scripts\activate.bat
+      - name: Install dependencies and run tests
+        run: |
           pip install --upgrade pip
           pip install nox
-
-          nox
-
-      - name: Set up poetry and test on linux
-        if: ${{ matrix.os == 'ubuntu-latest' }}
-        run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
-
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
-
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
-          poetry config installer.parallel true
-          poetry config experimental.new-installer false
-
-          python3 -m venv .venv
-          source .venv/bin/activate
-          pip3 install --upgrade pip
-          pip3 install nox
-
-          nox
-
-      - name: Set up poetry and test on macos
-        if: ${{ matrix.os == 'macos-latest' }}
-        run: |
-          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py | python -
-
-          export PATH="/Users/runner/.local/bin:$PATH"
-
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
-          poetry config installer.parallel true
-          poetry config experimental.new-installer false
-
-          python3 -m venv .venv
-          source .venv/bin/activate
-          pip3 install --upgrade pip
-          pip3 install nox
-
           nox
