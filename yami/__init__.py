@@ -4,7 +4,7 @@ from yami.bot import *
 from yami.commands import *
 from yami.context import *
 
-__version__ = "0.2.2.post0"
+__version__ = "0.2.2.post2"
 
 __all__: typing.List[str] = [
     "__version__",

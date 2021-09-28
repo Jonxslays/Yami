@@ -21,8 +21,8 @@ jobs:
 
           if [ ! $LATEST_TAG = $PROJECT_VERS ]; then
             exit 1
-          elif [ ! $LATEST_TAG = $INIT_VERS]; then
-            exit 1
+          elif [ ! $LATEST_TAG = $INIT_VERS ]; then
+            exit 2
           fi
 
           exit 0
