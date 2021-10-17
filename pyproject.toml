@@ -27,7 +27,7 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
-hikari = "^2.0.0.dev102"
+hikari = ">=2.0.0.dev103"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
