@@ -1,53 +1,23 @@
-import abc
+from __future__ import annotations
+
 import typing
 
 __all__: typing.List[str] = [
-    "AbstractCommand",
     "LegacyCommand",
 ]
 
 
-class AbstractCommand(abc.ABC):
-    """The base class all Yami Commands will inherit from.
-
-    Args:
-
-    """
-
-    __slots__: typing.Sequence[str] = ()
-
-    @abc.abstractproperty
-    def callback(self) -> typing.Callable[..., typing.Any]:
-        """The callback function registered to the command.
-
-        Returns:
-            typing.Callable[... typing.Any]
-                The callback function registered to the command.
-        """
-        ...
-
-    @abc.abstractproperty
-    def name(self) -> str:
-        """The name of the command.
-
-        Returns:
-            str
-                The name of the command.
-        """
-        ...
-
-
-class LegacyCommand(AbstractCommand):
+class LegacyCommand:
     """An object that represents a legacy message content command.
 
     Args:
         callback:
     """
 
-    __slots__: typing.Sequence[str] = [
+    __slots__: typing.Sequence[str] = (
         "_callback",
         "_name",
-    ]
+    )
 
     def __init__(
         self,
@@ -57,17 +27,22 @@ class LegacyCommand(AbstractCommand):
         self._callback = callback
         self._name = name
 
-    @classmethod
-    def new(cls, command: typing.Callable[..., typing.Any], name: str) -> "LegacyCommand":
-        return cls(
-            command,
-            name=name,
-        )
-
     @property
     def name(self) -> str:
+        """The name of the command.
+
+        Returns:
+            str
+                The name of the command.
+        """
         return self._name
 
     @property
     def callback(self) -> typing.Callable[..., typing.Any]:
+        """The callback function registered to the command.
+
+        Returns:
+            typing.Callable[... typing.Any]
+                The callback function registered to the command.
+        """
         return self._callback

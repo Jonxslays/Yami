@@ -21,7 +21,7 @@ def tests(session: nox.Session) -> None:
 @nox.session(reuse_venv=True)
 def types(session: nox.Session) -> None:
     session = _install(session, True)
-    session.run("mypy", ".", "--strict")
+    session.run("pyright")
 
 
 @nox.session(reuse_venv=True)

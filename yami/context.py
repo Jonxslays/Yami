@@ -1,127 +1,26 @@
 from __future__ import annotations
-import abc
+
 import typing
 
 import hikari
 
 __all__: typing.List[str] = [
-    "AbstractContext",
     "LegacyContext",
 ]
 
 if typing.TYPE_CHECKING:
-    from yami.bot import Bot
     from yami import commands
+    from yami.bot import Bot
 
 
-class AbstractContext(abc.ABC):
-    """The base class all command context's will inherit from.
-
-    Args:
-
-    """
-
-    __slots__: typing.Sequence[str] = ()
-
-    @abc.abstractproperty
-    def bot(self) -> Bot:
-        """The bot instance associated with the context.
-
-        Returns:
-            yami.Bot
-                The bot instance associated with the context.
-        """
-        ...
-
-    @abc.abstractproperty
-    def author(self) -> hikari.User:
-        """The user associated with the context.
-
-        Returns:
-            hikari.User
-                The user associated with the context.
-        """
-        ...
-
-    @abc.abstractproperty
-    def guild_id(self) -> typing.Optional[hikari.Snowflake]:
-        """The guild id associated with the context.
-
-        Returns:
-            typing.Optional[hikari.Snowflake]
-                The guild id associated with the context or None
-                if the Context is a DMChannel.
-        """
-        ...
-
-    @abc.abstractproperty
-    def channel_id(self) -> hikari.Snowflake:
-        """The channel id associated with the context.
-
-        Returns:
-            hikari.Snowflake
-                The channel id associated with the context.
-        """
-        ...
-
-    @abc.abstractproperty
-    def message_id(self) -> hikari.Snowflake:
-        """The message id associated with the context.
-
-        Returns:
-            hikari.Snowflake
-                The message id associated with the context.
-        """
-        ...
-
-    @abc.abstractmethod
-    async def get_or_fetch_guild(self) -> typing.Optional[hikari.Guild]:
-        """Grabs the `hikari.Guild` object associated with the context.
-        This method calls to the cache first, and falls back to rest if
-        not found.
-
-        **WARNING**:
-            This method can utilize both cache, and rest. For more fine
-            grained control consider using cache or rest yourself
-            explicitly.
-
-        Returns:
-            typing.Optional[hikari.Guild]
-                The guild object associated with the context, or
-                None if the context is a DMChannel.
-        """
-        ...
-
-    @abc.abstractmethod
-    async def get_or_fetch_channel(self) -> hikari.PartialChannel:
-        """Grabs the `hikari.PartialChannel` object associated with the
-        Context. This method calls to the cache first, and falls back to
-        rest if not found.
-
-        This method can return one of any:
-            DMChannel, GroupDMChannel, GuildTextChannel,
-            GuildVoiceChannel, GuildStoreChannel, GuildNewsChannel.
-
-        **WARNING**:
-            This method can utilize both cache, and rest. For more fine
-            grained control consider using cache or rest yourself
-            explicitly.
-
-        Returns:
-            hikari.PartialChannel
-                The channel object associated with the context.
-        """
-        ...
-
-
-class LegacyContext(AbstractContext):
-    """An object representing a legacy context. A `boomer` command
-    handler, if you will.
+class LegacyContext:
+    """An object representing a legacy context. A `boomer` context,
+    the old school, cancelled by discord.
 
     Args:
         bot: yami.Bot
             The bot instance associated with the context.
-        command: yami.AbstractCommand
+        command: yami.LegacyCommand
             The command associated with the context.
         message: hikari.Message
             The message associated with the context.
@@ -146,22 +45,53 @@ class LegacyContext(AbstractContext):
 
     @property
     def bot(self) -> Bot:
+        """The bot instance associated with the context.
+
+        Returns:
+            yami.Bot
+                The bot instance associated with the context.
+        """
         return self._bot
 
     @property
     def author(self) -> hikari.User:
+        """The user associated with the context.
+
+        Returns:
+            hikari.User
+                The user associated with the context.
+        """
         return self._message.author
 
     @property
     def guild_id(self) -> typing.Optional[hikari.Snowflake]:
+        """The guild id associated with the context.
+
+        Returns:
+            Optional[hikari.Snowflake]
+                The guild id associated with the context or None
+                if the Context is a DMChannel.
+        """
         return self._message.guild_id
 
     @property
     def channel_id(self) -> hikari.Snowflake:
+        """The channel id associated with the context.
+
+        Returns:
+            hikari.Snowflake
+                The channel id associated with the context.
+        """
         return self._message.channel_id
 
     @property
     def message_id(self) -> hikari.Snowflake:
+        """The message id associated with the context.
+
+        Returns:
+            hikari.Snowflake
+                The message id associated with the context.
+        """
         return self._message.id
 
     @property
@@ -180,16 +110,45 @@ class LegacyContext(AbstractContext):
         return await self._message.respond(content)
 
     async def get_or_fetch_guild(self) -> typing.Optional[hikari.Guild]:
+        """Grabs the `hikari.Guild` object associated with the context.
+        This method calls to the cache first, and falls back to rest if
+        not found.
+
+        **WARNING**:
+            This method can utilize both cache, and rest. For more fine
+            grained control consider using cache or rest yourself
+            explicitly.
+
+        Returns:
+            Optional[hikari.Guild]
+                The guild object associated with the context, or
+                None if the context is a DMChannel.
+        """
         if not self.guild_id:
             return
 
-        return (
-            self.bot.cache.get_guild(self.guild_id)
-            or await self.bot.rest.fetch_guild(self.guild_id)
+        return self.bot.cache.get_guild(self.guild_id) or await self.bot.rest.fetch_guild(
+            self.guild_id
         )
 
     async def get_or_fetch_channel(self) -> hikari.GuildChannel | hikari.PartialChannel:
-        return (
-            self.bot.cache.get_guild_channel(self.channel_id)
-            or await self.bot.rest.fetch_channel(self.channel_id)
-        )
+        """Grabs the `hikari.PartialChannel` object associated with the
+        Context. This method calls to the cache first, and falls back to
+        rest if not found.
+
+        This method can return one of any:
+            DMChannel, GroupDMChannel, GuildTextChannel,
+            GuildVoiceChannel, GuildStoreChannel, GuildNewsChannel.
+
+        **WARNING**:
+            This method can utilize both cache, and rest. For more fine
+            grained control consider using cache or rest yourself
+            explicitly.
+
+        Returns:
+            hikari.PartialChannel
+                The channel object associated with the context.
+        """
+        return self.bot.cache.get_guild_channel(
+            self.channel_id
+        ) or await self.bot.rest.fetch_channel(self.channel_id)

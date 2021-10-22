@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import concurrent.futures
 import typing
 
@@ -5,7 +7,7 @@ import hikari
 
 from yami import commands, context, exceptions
 
-__all__: typing.List[str] = ["Bot"]
+__all__: list[str] = ["Bot"]
 
 
 class Bot(hikari.GatewayBot):
@@ -65,12 +67,13 @@ class Bot(hikari.GatewayBot):
         cache_settings: hikari.CacheSettings | None = None,
         http_settings: hikari.HTTPSettings | None = None,
         intents: hikari.Intents = hikari.Intents.ALL_UNPRIVILEGED,
-        logs: int | str | typing.Dict[str, typing.Any] | None = "INFO",
+        logs: int | str | dict[str, typing.Any] | None = "INFO",
         max_rate_limit: float = 300,
         max_retries: int = 3,
         proxy_settings: hikari.ProxySettings | None = None,
         rest_url: str | None = None,
     ) -> None:
+        self._token: str
         super().__init__(
             token,
             allow_color=allow_color,
@@ -91,11 +94,11 @@ class Bot(hikari.GatewayBot):
         if isinstance(prefix, str):
             self._prefix: typing.Sequence[str] = (prefix,)
 
-        elif isinstance(prefix, typing.Sequence): # type: ignore
+        elif isinstance(prefix, typing.Sequence):  # type: ignore
             if not prefix:
                 raise ValueError(f"The sequence passed to prefix was of length 0.")
 
-            if not all(isinstance(p, str) for p in prefix): # type: ignore
+            if not all(isinstance(p, str) for p in prefix):  # type: ignore
                 raise TypeError(f"One or more items passed to prefix were not of {repr(str)}.")
 
             if not all(bool(p) for p in prefix):
@@ -115,9 +118,9 @@ class Bot(hikari.GatewayBot):
 
     def add_command(
         self,
-        command: typing.Union[typing.Callable[..., typing.Any], commands.LegacyCommand],
+        command: typing.Callable[..., typing.Any] | commands.LegacyCommand,
         *,
-        name: typing.Optional[str] = None,
+        name: str | None = None,
     ) -> commands.LegacyCommand:
 
         if isinstance(command, commands.LegacyCommand):
@@ -141,7 +144,7 @@ class Bot(hikari.GatewayBot):
     async def _invoke(self, p: str, event: hikari.MessageCreateEvent, content: str) -> None:
         """Attempts to invoke a command."""
         parsed = content.split(" ")
-        name = parsed[0][len(p):]
+        name = parsed[0][len(p) :]
 
         if name in self._aliases:
             cmd = self._commands[self._aliases[name]]
@@ -150,7 +153,7 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name: `{name}`")
 
-        if isinstance(cmd, commands.LegacyCommand):
+        if isinstance(cmd, commands.LegacyCommand):  # type: ignore
             ctx = context.LegacyContext(self, content, event.message, cmd)
         else:
             raise RuntimeError("Something went wrong")

@@ -32,13 +32,19 @@ hikari = ">=2.0.0.dev103"
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
 black = "^21.6b0"
-mypy = "^0.910"
 mock = "^4.0.3"
 types-mock = "^4.0.2"
 len8 = "^0.2.1"
 flake8 = "^4.0.1"
 isort = "^5.9.3"
 nox = "^2021.10.1"
+pyright = "^0.0.10"
+
+[tool.pyright]
+include = ["yami"]
+ignore = ["tests"]
+typeCheckingMode = "strict"
+reportImportCycles = false
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
