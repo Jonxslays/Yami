@@ -7,7 +7,7 @@ __all__: typing.List[str] = [
 ]
 
 
-class AbstractCommand(type, abc.ABC):
+class AbstractCommand(abc.ABC):
     """The base class all Yami Commands will inherit from.
 
     Args:
@@ -16,7 +16,6 @@ class AbstractCommand(type, abc.ABC):
 
     __slots__: typing.Sequence[str] = ()
 
-    @property
     @abc.abstractproperty
     def callback(self) -> typing.Callable[..., typing.Any]:
         """The callback function registered to the command.
@@ -27,7 +26,6 @@ class AbstractCommand(type, abc.ABC):
         """
         ...
 
-    @property
     @abc.abstractproperty
     def name(self) -> str:
         """The name of the command.
@@ -39,7 +37,7 @@ class AbstractCommand(type, abc.ABC):
         ...
 
 
-class LegacyCommand(metaclass=AbstractCommand):
+class LegacyCommand(AbstractCommand):
     """An object that represents a legacy message content command.
 
     Args:

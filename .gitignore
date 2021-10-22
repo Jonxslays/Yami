@@ -130,4 +130,4 @@ dmypy.json
 
 # Personal
 .vscode
-testbot.py
+.tests

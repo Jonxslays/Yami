@@ -1,17 +1,20 @@
+from __future__ import annotations
 import abc
 import typing
 
 import hikari
-
-from yami import bot, commands
 
 __all__: typing.List[str] = [
     "AbstractContext",
     "LegacyContext",
 ]
 
+if typing.TYPE_CHECKING:
+    from yami.bot import Bot
+    from yami import commands
 
-class AbstractContext(type, abc.ABC):
+
+class AbstractContext(abc.ABC):
     """The base class all command context's will inherit from.
 
     Args:
@@ -20,9 +23,8 @@ class AbstractContext(type, abc.ABC):
 
     __slots__: typing.Sequence[str] = ()
 
-    @property
     @abc.abstractproperty
-    def bot(self) -> bot.Bot:
+    def bot(self) -> Bot:
         """The bot instance associated with the context.
 
         Returns:
@@ -31,7 +33,6 @@ class AbstractContext(type, abc.ABC):
         """
         ...
 
-    @property
     @abc.abstractproperty
     def author(self) -> hikari.User:
         """The user associated with the context.
@@ -42,7 +43,6 @@ class AbstractContext(type, abc.ABC):
         """
         ...
 
-    @property
     @abc.abstractproperty
     def guild_id(self) -> typing.Optional[hikari.Snowflake]:
         """The guild id associated with the context.
@@ -54,7 +54,6 @@ class AbstractContext(type, abc.ABC):
         """
         ...
 
-    @property
     @abc.abstractproperty
     def channel_id(self) -> hikari.Snowflake:
         """The channel id associated with the context.
@@ -65,7 +64,6 @@ class AbstractContext(type, abc.ABC):
         """
         ...
 
-    @property
     @abc.abstractproperty
     def message_id(self) -> hikari.Snowflake:
         """The message id associated with the context.
@@ -77,7 +75,7 @@ class AbstractContext(type, abc.ABC):
         ...
 
     @abc.abstractmethod
-    async def grab_guild(self) -> typing.Optional[hikari.Guild]:
+    async def get_or_fetch_guild(self) -> typing.Optional[hikari.Guild]:
         """Grabs the `hikari.Guild` object associated with the context.
         This method calls to the cache first, and falls back to rest if
         not found.
@@ -88,31 +86,14 @@ class AbstractContext(type, abc.ABC):
             explicitly.
 
         Returns:
-            typing.Optiona[hikari.Guild]
+            typing.Optional[hikari.Guild]
                 The guild object associated with the context, or
                 None if the context is a DMChannel.
         """
         ...
 
     @abc.abstractmethod
-    async def grab_message(self) -> hikari.Message:
-        """Grabs the `hikari.Message` object associated with the
-        context. This method calls to the cache first, and falls back
-        to rest if not found.
-
-        **WARNING**:
-            This method can utilize both cache, and rest. For more fine
-            grained control consider using cache or rest yourself
-            explicitly.
-
-        Returns:
-            hikari.Message
-                The message object associated with the context.
-        """
-        ...
-
-    @abc.abstractmethod
-    async def grab_channel(self) -> hikari.PartialChannel:
+    async def get_or_fetch_channel(self) -> hikari.PartialChannel:
         """Grabs the `hikari.PartialChannel` object associated with the
         Context. This method calls to the cache first, and falls back to
         rest if not found.
@@ -133,7 +114,7 @@ class AbstractContext(type, abc.ABC):
         ...
 
 
-class LegacyContext(metaclass=AbstractContext):
+class LegacyContext(AbstractContext):
     """An object representing a legacy context. A `boomer` command
     handler, if you will.
 
@@ -146,14 +127,13 @@ class LegacyContext(metaclass=AbstractContext):
             The message associated with the context.
     """
 
-    __slots__: typing.Sequence[str] = ("_message", "_command", "_content")
+    __slots__: typing.Sequence[str] = ("_message", "_command", "_content", "_bot")
 
     def __init__(
         self,
-        bot: bot.Bot,
+        bot: Bot,
         content: str,
         message: hikari.Message,
-        *,
         command: commands.LegacyCommand,
     ) -> None:
         if not message.content:
@@ -165,8 +145,24 @@ class LegacyContext(metaclass=AbstractContext):
         self._bot = bot
 
     @property
-    def bot(self) -> bot.Bot:
+    def bot(self) -> Bot:
         return self._bot
+
+    @property
+    def author(self) -> hikari.User:
+        return self._message.author
+
+    @property
+    def guild_id(self) -> typing.Optional[hikari.Snowflake]:
+        return self._message.guild_id
+
+    @property
+    def channel_id(self) -> hikari.Snowflake:
+        return self._message.channel_id
+
+    @property
+    def message_id(self) -> hikari.Snowflake:
+        return self._message.id
 
     @property
     def content(self) -> str:
@@ -182,3 +178,18 @@ class LegacyContext(metaclass=AbstractContext):
 
     async def respond(self, content: str) -> hikari.Message:
         return await self._message.respond(content)
+
+    async def get_or_fetch_guild(self) -> typing.Optional[hikari.Guild]:
+        if not self.guild_id:
+            return
+
+        return (
+            self.bot.cache.get_guild(self.guild_id)
+            or await self.bot.rest.fetch_guild(self.guild_id)
+        )
+
+    async def get_or_fetch_channel(self) -> hikari.GuildChannel | hikari.PartialChannel:
+        return (
+            self.bot.cache.get_guild_channel(self.channel_id)
+            or await self.bot.rest.fetch_channel(self.channel_id)
+        )
