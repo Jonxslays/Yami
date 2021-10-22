@@ -5,7 +5,7 @@ from yami.commands import *
 from yami.context import *
 from yami.exceptions import *
 
-__version__ = "0.2.2.post2"
+__version__ = "0.2.3"
 
 __all__: list[str] = [
     "__version__",
