@@ -180,7 +180,7 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name: `{name}`")
 
-        if isinstance(cmd, commands.LegacyCommand):  # type: ignore
+        if isinstance(cmd, commands_.LegacyCommand):  # type: ignore
             ctx = context.LegacyContext(self, content, event.message, cmd)
         else:
             raise RuntimeError("Something went wrong")

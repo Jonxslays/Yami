@@ -106,8 +106,46 @@ class LegacyContext:
     def message(self) -> hikari.Message:
         return self._message
 
-    async def respond(self, content: str) -> hikari.Message:
-        return await self._message.respond(content)
+    async def respond(
+        self,
+        content: hikari.UndefinedOr[typing.Any] = hikari.UNDEFINED,
+        *,
+        attachment: hikari.UndefinedOr[hikari.Resourceish] = hikari.UNDEFINED,
+        attachments: hikari.UndefinedOr[typing.Sequence[hikari.Resourceish]] = hikari.UNDEFINED,
+        component: hikari.UndefinedOr[hikari.api.ComponentBuilder] = hikari.UNDEFINED,
+        components: hikari.UndefinedOr[
+            typing.Sequence[hikari.api.ComponentBuilder]
+        ] = hikari.UNDEFINED,
+        embed: hikari.UndefinedOr[hikari.Embed] = hikari.UNDEFINED,
+        embeds: hikari.UndefinedOr[typing.Sequence[hikari.Embed]] = hikari.UNDEFINED,
+        nonce: hikari.UndefinedOr[str] = hikari.UNDEFINED,
+        tts: hikari.UndefinedOr[bool] = hikari.UNDEFINED,
+        reply: hikari.UndefinedOr[hikari.SnowflakeishOr[hikari.PartialMessage]] = hikari.UNDEFINED,
+        mentions_everyone: hikari.UndefinedOr[bool] = hikari.UNDEFINED,
+        mentions_reply: hikari.UndefinedOr[bool] = hikari.UNDEFINED,
+        user_mentions: hikari.UndefinedOr[
+            hikari.SnowflakeishSequence[hikari.PartialUser] | bool
+        ] = hikari.UNDEFINED,
+        role_mentions: hikari.UndefinedOr[
+            hikari.SnowflakeishSequence[hikari.PartialRole] | bool
+        ] = hikari.UNDEFINED,
+    ) -> hikari.Message:
+        return await self._message.respond(
+            content,
+            attachment=attachment,
+            attachments=attachments,
+            component=component,
+            components=components,
+            embed=embed,
+            embeds=embeds,
+            nonce=nonce,
+            tts=tts,
+            reply=reply,
+            mentions_everyone=mentions_everyone,
+            mentions_reply=mentions_reply,
+            user_mentions=user_mentions,
+            role_mentions=role_mentions,
+        )
 
     async def get_or_fetch_guild(self) -> typing.Optional[hikari.Guild]:
         """Grabs the `hikari.Guild` object associated with the context.
