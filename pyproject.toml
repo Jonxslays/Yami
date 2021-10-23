@@ -5,7 +5,7 @@ description = "A command handler that complements Hikari, a Discord API wrapper 
 license = "GPL-3.0-only"
 homepage = "https://github.com/Jonxslays/Yami"
 repository = "https://github.com/Jonxslays/Yami"
-authors = ["Jonxslays <jon@jonxslays.com>"]
+authors = ["Jonxslays"]
 readme = "README.md"
 packages = [
     { include = "yami" },
@@ -40,6 +40,7 @@ flake8 = "^4.0.1"
 isort = "^5.9.3"
 nox = "^2021.10.1"
 pyright = "^0.0.10"
+pytest-asyncio = "^0.16.0"
 
 [tool.pyright]
 include = ["yami"]

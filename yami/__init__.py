@@ -14,4 +14,7 @@ __all__: list[str] = [
     "LegacyCommand",
     "YamiException",
     "CommandNotFound",
+    "SyncCommand",
+    "legacy",
+    "BadAlias",
 ]

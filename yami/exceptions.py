@@ -10,3 +10,18 @@ class CommandNotFound(YamiException):
     """
 
     ...
+
+
+class SyncCommand(YamiException):
+    """Raised when a synchronous command is added to the bot via the
+    yami.legacy decorator."""
+
+    ...
+
+
+class BadAlias(YamiException):
+    """Raised what a bad argument is passed as aliases to a legacy
+    command.
+    """
+
+    ...

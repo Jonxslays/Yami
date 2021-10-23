@@ -5,7 +5,8 @@ import typing
 
 import hikari
 
-from yami import commands, context, exceptions
+from yami import commands as commands_
+from yami import context, exceptions
 
 __all__: list[str] = ["Bot"]
 
@@ -111,27 +112,53 @@ class Bot(hikari.GatewayBot):
 
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
-        self._commands: dict[str, commands.LegacyCommand] = {}
+        self._commands: dict[str, commands_.LegacyCommand] = {}
         self._owner_ids = owner_ids
 
         self.event_manager.subscribe(hikari.MessageCreateEvent, self._listen)
 
+    @property
+    def commands(self) -> dict[str, commands_.LegacyCommand]:
+        """A dictionary of name, LegacyCommand pairs associated with the
+        bot.
+        """
+        return self._commands
+
+    @property
+    def aliases(self) -> dict[str, str]:
+        """A dictionary of aliases to their corresponding
+        LegacyCommand's name.
+        """
+        return self._aliases
+
     def add_command(
         self,
-        command: typing.Callable[..., typing.Any] | commands.LegacyCommand,
+        command: typing.Callable[..., typing.Any] | commands_.LegacyCommand,
         *,
         name: str | None = None,
-    ) -> commands.LegacyCommand:
+        aliases: typing.Iterable[str] = [],
+    ) -> commands_.LegacyCommand:
 
-        if isinstance(command, commands.LegacyCommand):
+        if isinstance(command, commands_.LegacyCommand):
             self._commands[command.name] = command
+
+            if type(command.aliases) not in (list, tuple):
+                raise exceptions.BadAlias(
+                    f"Aliases must be a list or tuple of strings, not: `{type(command.aliases)}`."
+                )
+
+            for a in command.aliases:
+                self._aliases[a] = command.name
+
             return self._commands[command.name]
 
         name = name if name else command.__name__
-        new_cmd = commands.LegacyCommand(command, name)
-        self._commands[name] = new_cmd
+        cmd = commands_.LegacyCommand(command, name, aliases)
 
-        return new_cmd
+        return self.add_command(cmd)
+
+    def get_command(self, name: str) -> commands_.LegacyCommand | None:
+        return self.commands.get(name)
 
     async def _listen(self, e: hikari.MessageCreateEvent) -> None:
         if not e.message.content:
