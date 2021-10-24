@@ -1,6 +1,7 @@
 ## Yami
 ---
 [![CI](https://img.shields.io/github/workflow/status/Jonxslays/Yami/CI?label=Build&logo=github)](https://github.com/Jonxslays/Yami/actions/workflows/continuous-integration.yml)
+[![Downloads](https://pepy.tech/badge/yami)](https://pepy.tech/project/yami)
 [![Python](https://img.shields.io/pypi/pyversions/yami?label=Python&logo=python)](https://github.com/Jonxslays/Yami/blob/master/LICENSE)
 [![License](https://img.shields.io/pypi/l/yami?label=License)](https://github.com/Jonxslays/Yami/blob/master/LICENSE)
 
