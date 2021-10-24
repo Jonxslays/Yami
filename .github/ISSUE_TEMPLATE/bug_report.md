@@ -3,7 +3,7 @@ name: Bug report
 about: Report a bug
 title: Bug report
 labels: pending investigation
-assignees: ''
+assignees: Jonxslays
 
 ---
 
