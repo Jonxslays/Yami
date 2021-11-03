@@ -221,7 +221,7 @@ plugins = ["setuptools"]
 
 [[package]]
 name = "len8"
-version = "0.3.0"
+version = "0.3.1"
 description = "A utility for keeping line lengths within PEP 8 standards."
 category = "dev"
 optional = false
@@ -505,7 +505,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "8695dafc5388dbea6d41e47d8414aebe66329f0b36ea85507ff18c368d2edc78"
+content-hash = "d0d17ff7fd1637e1215416a980ffa8cc6046ae958600c9ef62a4695928c2981d"
 
 [metadata.files]
 aiohttp = [
@@ -616,8 +616,8 @@ isort = [
     {file = "isort-5.9.3.tar.gz", hash = "sha256:9c2ea1e62d871267b78307fe511c0838ba0da28698c5732d54e2790bf3ba9899"},
 ]
 len8 = [
-    {file = "len8-0.3.0-py3-none-any.whl", hash = "sha256:60f21e29290a51e6b4ee7e34cab76124cdc2fd62531af7a6e75d0b92ddeb4eb0"},
-    {file = "len8-0.3.0.tar.gz", hash = "sha256:99614f7f099f0d7dd8e61624837088e71dcca27576e2b69e636f7302a9a33abc"},
+    {file = "len8-0.3.1-py3-none-any.whl", hash = "sha256:0d6599ad7a6d564efccee4a582b33650983fea51ab7f7c64d1eb0fceeacb8797"},
+    {file = "len8-0.3.1.tar.gz", hash = "sha256:e037c6ec43dcd0e8c4a41a17d9480c207af1bcb23e7d5acaa0f33a30f51b752c"},
 ]
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
