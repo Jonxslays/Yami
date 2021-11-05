@@ -39,7 +39,7 @@ len8 = "^0.3.1"
 flake8 = "^4.0.1"
 isort = "^5.10.0"
 nox = "^2021.10.1"
-pyright = "^0.0.11"
+pyright = "^0.0.12"
 pytest-asyncio = "^0.16.0"
 
 [tool.pyright]
