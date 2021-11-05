@@ -32,8 +32,8 @@ async def test_add_legacy_command_object(model: yami.Bot) -> None:
 
     assert model.commands == {"owo-cmd": cmd}
     assert await cmd.callback() == "Howdy"
-    async_callback.assert_awaited_once()
     assert cmd.name == "owo-cmd"
+    async_callback.assert_awaited_once()
 
 
 @pytest.mark.asyncio()
@@ -44,8 +44,8 @@ async def test_add_non_command_object(model: yami.Bot) -> None:
 
     cmd = model.get_command("owo-cmd")
     assert await cmd.callback() == "Hello"
-    async_callback.assert_awaited_once()
     assert cmd.aliases == ["testing"]
+    async_callback.assert_awaited_once()
 
 
 def test_add_command_aliases_failure(model: yami.Bot) -> None:
@@ -54,5 +54,5 @@ def test_add_command_aliases_failure(model: yami.Bot) -> None:
 
 
 def test_sync_callback_fails(model: yami.Bot) -> None:
-    with pytest.raises(yami.SyncCommand):
+    with pytest.raises(yami.AsyncRequired):
         model.add_command(mock.Mock(), name="bad")

@@ -12,7 +12,7 @@ class CommandNotFound(YamiException):
     ...
 
 
-class SyncCommand(YamiException):
+class AsyncRequired(YamiException):
     """Raised when a synchronous command is added to the bot via the
     yami.legacy decorator."""
 

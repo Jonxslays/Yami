@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Yami"
-version = "0.2.3"
+version = "0.2.4"
 description = "A command handler that complements Hikari, a Discord API wrapper written in Python."
 license = "GPL-3.0-only"
 homepage = "https://github.com/Jonxslays/Yami"
