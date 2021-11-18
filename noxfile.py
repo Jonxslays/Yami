@@ -50,4 +50,4 @@ def formatting(session: nox.Session) -> None:
     )
 
     session.run("black", ".", "-l99", "--check")
-    session.run("len8", "-l", "yami", "tests")
+    session.run("len8", "-ll", "yami", "tests")

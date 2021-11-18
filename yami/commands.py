@@ -35,7 +35,7 @@ class LegacyCommand:
         self._name = name
 
         if not asyncio.iscoroutinefunction(callback):
-            raise exceptions.SyncCommand(
+            raise exceptions.AsyncRequired(
                 f"Command callbacks must be asynchronous: function {callback}"
             )
 
