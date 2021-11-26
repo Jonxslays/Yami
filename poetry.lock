@@ -460,7 +460,7 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "types-mock"
-version = "4.0.3"
+version = "4.0.4"
 description = "Typing stubs for mock"
 category = "dev"
 optional = false
@@ -508,7 +508,7 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.8,<3.11"
-content-hash = "eb3039ed81b97f03458285d0d3470b2b09a1c01d12def0f286e85851ab75ea27"
+content-hash = "03d3d5be1817aa94b865af4305fe7a9a755910fcba5eb256370ae100fd7bae4a"
 
 [metadata.files]
 aiohttp = [
@@ -827,8 +827,8 @@ tomli = [
     {file = "tomli-1.2.2.tar.gz", hash = "sha256:c6ce0015eb38820eaf32b5db832dbc26deb3dd427bd5f6556cf0acac2c214fee"},
 ]
 types-mock = [
-    {file = "types-mock-4.0.3.tar.gz", hash = "sha256:a2a67f16548520ad5be82ae46399f81b9d2b7139e5f3107f15d18608604f6591"},
-    {file = "types_mock-4.0.3-py3-none-any.whl", hash = "sha256:a1039939f5dc8bebe0cdecde85ba9dcb3b779c5cced554247e5c5d7e4f3a4206"},
+    {file = "types-mock-4.0.4.tar.gz", hash = "sha256:b29a0d14b167ec83842b4c7c59201a1cc2eed7e603e894d0ccfeafc9a2646e31"},
+    {file = "types_mock-4.0.4-py3-none-any.whl", hash = "sha256:d51f75ea6732355cb400c3146adb4472d33203430639230c2ceac8816b9734ab"},
 ]
 typing-extensions = [
     {file = "typing_extensions-3.10.0.2-py2-none-any.whl", hash = "sha256:d8226d10bc02a29bcc81df19a26e56a9647f8b0a6d4a83924139f4a8b01f17b7"},
