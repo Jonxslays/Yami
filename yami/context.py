@@ -163,7 +163,7 @@ class LegacyContext:
                 None if the context is a DMChannel.
         """
         if not self.guild_id:
-            return
+            return None
 
         return self.bot.cache.get_guild(self.guild_id) or await self.bot.rest.fetch_guild(
             self.guild_id

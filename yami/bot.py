@@ -74,7 +74,6 @@ class Bot(hikari.GatewayBot):
         proxy_settings: hikari.ProxySettings | None = None,
         rest_url: str | None = None,
     ) -> None:
-        self._token: str
         super().__init__(
             token,
             allow_color=allow_color,
@@ -91,31 +90,13 @@ class Bot(hikari.GatewayBot):
             rest_url=rest_url,
         )
 
-        # Validate the prefix
-        if isinstance(prefix, str):
-            self._prefix: typing.Sequence[str] = (prefix,)
-
-        elif isinstance(prefix, typing.Sequence):  # type: ignore
-            if not prefix:
-                raise ValueError(f"The sequence passed to prefix was of length 0.")
-
-            if not all(isinstance(p, str) for p in prefix):  # type: ignore
-                raise TypeError(f"One or more items passed to prefix were not of {repr(str)}.")
-
-            if not all(bool(p) for p in prefix):
-                raise ValueError("One or more items passed to prefix were of length 0.")
-
-            self._prefix = prefix
-
-        else:
-            raise TypeError(f"{type(prefix)} is an unsupported type for 'prefix'.")
+        self._prefix: typing.Sequence[str] = (prefix,) if isinstance(prefix, str) else prefix
 
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
         self._commands: dict[str, commands_.LegacyCommand] = {}
         self._owner_ids = owner_ids
-
-        self.event_manager.subscribe(hikari.MessageCreateEvent, self._listen)
+        self.subscribe(hikari.MessageCreateEvent, self._listen)
 
     @property
     def commands(self) -> dict[str, commands_.LegacyCommand]:
@@ -180,9 +161,5 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name: `{name}`")
 
-        if isinstance(cmd, commands_.LegacyCommand):  # type: ignore
-            ctx = context.LegacyContext(self, content, event.message, cmd)
-        else:
-            raise RuntimeError("Something went wrong")
-
+        ctx = context.LegacyContext(self, content, event.message, cmd)
         await cmd.callback(ctx, *parsed[1:])
