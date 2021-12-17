@@ -59,7 +59,7 @@ def tests(session: nox.Session) -> None:
 
 
 @nox.session(reuse_venv=True)
-async def coverage(session: nox.Session) -> None:
+def coverage(session: nox.Session) -> None:
     session.install("-U", DEPS["coverage"])
 
     if not Path(".coverage").exists():
