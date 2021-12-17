@@ -1,5 +1,5 @@
 <h1 align="center">Yami</h1>
-<p align="center">A command handler for Hikari <3</p>
+<p align="center">A command handler that complements Hikari. <3</p>
 <p align="center">
 <a href="https://pypi.org/project/yami"><img height="20" alt="Stable version" src="https://img.shields.io/pypi/v/yami?label=Stable&logo=pypi"></a>
 <a href="https://github.com/Jonxslays/Yami/blob/master/LICENSE"><img height="20" alt="License" src="https://img.shields.io/pypi/l/yami?label=License"></a>
