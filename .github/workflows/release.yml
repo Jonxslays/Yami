@@ -19,11 +19,14 @@ jobs:
           INIT_VERS=$(sed -rn 's/__version__ = "(.*)"/v\1/p' yami/__init__.py )
 
           if [ ! $LATEST_TAG = $PROJECT_VERS ]; then
+            echo "Latest tag doesnt match project version!"
             exit 1
           elif [ ! $LATEST_TAG = $INIT_VERS ]; then
-            exit 2
+            echo "Latest tag doesnt match init version!"
+            exit 1
           fi
 
+          echo "Tags match!"
           exit 0
 
       - name: Build and publish to pypi
