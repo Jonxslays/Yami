@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - master
-
+      - task/**
+      - hotfix/**
+      - bugfix/**
   pull_request:
 
 jobs:
@@ -14,7 +16,6 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ["3.8", "3.9", "3.10"]
-
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -29,16 +30,29 @@ jobs:
       - name: Install poetry
         uses: Gr1N/setup-poetry@v7
 
-      - name: Configure poetry and venv
-        run: |
-          poetry config virtualenvs.create true
-          poetry config virtualenvs.in-project true
-          poetry config installer.parallel true
-          poetry config experimental.new-installer false
-          poetry -q shell
-
-      - name: Install dependencies and run tests
+      - name: Run tests
         run: |
           pip install --upgrade pip
-          pip install nox
-          nox
+          poetry install -q
+          poetry run nox -s tests
+
+  lint-and-format:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v7
+
+      - name: Lint and format
+        run: |
+          pip install --upgrade pip
+          poetry install -q
+          poetry run nox -s types formatting
