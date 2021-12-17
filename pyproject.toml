@@ -26,6 +26,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 
+[tool.poetry.scripts]
+yami = "yami._cli:info"
+
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
 hikari = ">=2.0.0.dev104"
