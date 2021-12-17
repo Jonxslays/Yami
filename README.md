@@ -42,22 +42,27 @@ pip install git+https://github.com/Jonxslays/Yami.git
 ```py
 from os import environ
 
-import yami
+from yami import Bot, MessageContext
 
 
-bot = yami.Bot(environ["TOKEN"], prefix="$")
+bot = Bot(environ["TOKEN"], prefix="$")
 
 
-@bot.command("add", "Adds 2 numbers together")
-async def add_cmd(ctx: yami.MessageContext, num1: int, num2: int) -> None:
-    # Basic python types are converted using their type hints.
-    # More types coming soon :tm:
+@bot.command("add", "Add 2 numbers together", aliases=["sum"])
+async def add_cmd(ctx: MessageContext, num1: int, num2: int) -> None:
+    # Basic python types are converted for you using their type hints.
+    # More types coming soon™.
     await ctx.respond(f"{num1} + {num2} = {num1 + num2}")
 
 
 if __name__ == "__main__":
     bot.run()
 ```
+
+## Contributing
+
+Yami is open for contributions. To get started check out the
+[contributing guide](https://github.com/Jonxslays/Yami/blob/master/CONTRIBUTING.md).
 
 ## License
 
