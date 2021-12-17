@@ -1,12 +1,49 @@
-## Yami
+<h1 align="center">Yami</h1>
+<p align="center">A command handler for Hikari <3</p>
+<p align="center">
+<a href="https://pypi.org/project/yami"><img height="20" alt="Stable version" src="https://img.shields.io/pypi/v/yami?label=Stable&logo=pypi"></a>
+<a href="https://github.com/Jonxslays/Yami/blob/master/LICENSE"><img height="20" alt="License" src="https://img.shields.io/pypi/l/yami?label=License"></a>
+</p>
+<p align="center">
+<a href="https://pepy.tech/project/yami"><img height="20" alt="Downloads" src="https://static.pepy.tech/personalized-badge/yami?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Downloads"></a>
+<a href="https://python.org"><img height="20" alt="Python versions" src="https://img.shields.io/pypi/pyversions/yami?label=Python&logo=python"></a>
+</p>
+<p align="center">
+<a href="https://github.com/Jonxslays/Yami/actions/workflows/ci.yml"><img height="20" alt="Last Commit" src="https://img.shields.io/github/workflow/status/Jonxslays/Yami/CI?label=Build&logo=github"></a>
+<a href="https://github.com/Jonxslays/Yami"><img height="20" alt="Last Commit" src="https://img.shields.io/maintenance/yes/2021?label=Maintained"></a>
+<a href="https://github.com/Jonxslays/Yami"><img height="20" alt="Last Commit" src="https://img.shields.io/github/last-commit/jonxslays/yami?label=Last%20Commit&logo=git"></a>
+</p>
+
 ---
-[![CI](https://img.shields.io/github/workflow/status/Jonxslays/Yami/CI?label=Build&logo=github)](https://github.com/Jonxslays/Yami/actions/workflows/continuous-integration.yml)
-[![Downloads](https://pepy.tech/badge/yami)](https://pepy.tech/project/yami)
-[![Python](https://img.shields.io/pypi/pyversions/yami?label=Python&logo=python)](https://github.com/Jonxslays/Yami/blob/master/LICENSE)
-[![License](https://img.shields.io/pypi/l/yami?label=License)](https://github.com/Jonxslays/Yami/blob/master/LICENSE)
 
-[![Latest Commit](https://img.shields.io/github/last-commit/jonxslays/yami?label=Latest%20Commit&logo=git)](https://github.com/Jonxslays/Yami)
-[![Maintained](https://img.shields.io/maintenance/yes/2021?label=Maintained)](https://github.com/Jonxslays/Yami)
-[![Latest Release](https://img.shields.io/pypi/v/yami?label=Latest%20Release&logo=pypi)](https://pypi.org/project/yami)
+## Disclaimer
 
-Still in early development. Not ready for use.
+Still in early development. Not ready for use. (As in don't download)
+
+## Getting started
+
+To get started with yami just install it with pip!
+
+```bash
+pip install yami
+```
+
+#### Creating a Bot:
+
+```py
+from os import environ
+
+import hikari
+import yami
+
+
+bot = yami.Bot(environ["TOKEN"])
+
+
+if __name__ == "__main__":
+    bot.run()
+```
+
+## License
+
+Yami is licensed under the [GPL V3](https://github.com/Jonxslays/Yami/blob/master/LICENSE) license.
