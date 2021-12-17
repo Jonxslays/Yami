@@ -100,8 +100,8 @@ class Bot(hikari.GatewayBot):
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
-        """A dictionary of name, MessageCommand pairs associated with the
-        bot.
+        """A dictionary of name, MessageCommand pairs associated with
+        the bot.
         """
         return self._commands
 
