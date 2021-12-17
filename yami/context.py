@@ -30,8 +30,7 @@ if typing.TYPE_CHECKING:
 
 
 class MessageContext:
-    """An object representing a message context. A `boomer` context,
-    the old school, cancelled by discord.
+    """An object representing a message context.
 
     Args:
         bot: yami.Bot
@@ -40,9 +39,11 @@ class MessageContext:
             The command associated with the context.
         message: hikari.Message
             The message associated with the context.
+        prefix: str
+            The prefix the context with created with.
     """
 
-    __slots__: typing.Sequence[str] = ("_message", "_command", "_content", "_bot")
+    __slots__: typing.Sequence[str] = ("_message", "_command", "_content", "_bot", "_prefix")
 
     def __init__(
         self,
@@ -50,6 +51,7 @@ class MessageContext:
         content: str,
         message: hikari.Message,
         command: commands.MessageCommand,
+        prefix: str
     ) -> None:
         if not message.content:
             raise ValueError("No content in message. what?")
@@ -58,6 +60,7 @@ class MessageContext:
         self._message = message
         self._command = command
         self._bot = bot
+        self._prefix = prefix
 
     @property
     def bot(self) -> Bot:
@@ -112,15 +115,43 @@ class MessageContext:
 
     @property
     def content(self) -> str:
+        """The content of the message associated with the context.
+
+        Returns:
+            str
+                The content
+        """
         return self._content
 
     @property
     def command(self) -> commands.MessageCommand:
+        """The command used to generate this context.
+
+        Returns:
+            yami.MessageCommand
+                The command that was invoked.
+        """
         return self._command
 
     @property
     def message(self) -> hikari.Message:
+        """The message associated with this context.
+
+        Returns:
+            hikari.Message
+                The message.
+        """
         return self._message
+
+    @property
+    def prefix(self) -> str:
+        """The prefix this context was created with.
+
+        Returns:
+            str
+                The prefix used.
+        """
+        return self._prefix
 
     async def respond(
         self,
@@ -163,10 +194,10 @@ class MessageContext:
             role_mentions=role_mentions,
         )
 
-    async def get_or_fetch_guild(self) -> typing.Optional[hikari.Guild]:
-        """Grabs the `hikari.Guild` object associated with the context.
-        This method calls to the cache first, and falls back to rest if
-        not found.
+    async def getch_guild(self) -> typing.Optional[hikari.Guild]:
+        """Get or fetch the `hikari.Guild` object associated with the
+        context. This method calls to the cache first, and falls back to
+        rest if not found.
 
         **WARNING**:
             This method can utilize both cache, and rest. For more fine
@@ -185,10 +216,10 @@ class MessageContext:
             self.guild_id
         )
 
-    async def get_or_fetch_channel(self) -> hikari.GuildChannel | hikari.PartialChannel:
-        """Grabs the `hikari.PartialChannel` object associated with the
-        Context. This method calls to the cache first, and falls back to
-        rest if not found.
+    async def getch_channel(self) -> hikari.GuildChannel | hikari.PartialChannel:
+        """Get or fetch the `hikari.PartialChannel` object associated
+        with the context. This method calls to the cache first, and
+        falls back to rest if not found.
 
         This method can return one of any:
             DMChannel, GroupDMChannel, GuildTextChannel,
