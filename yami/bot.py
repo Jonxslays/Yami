@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-import concurrent.futures
 import inspect
 import typing
 
@@ -38,29 +37,18 @@ class Bot(hikari.GatewayBot):
     Args:
         token: str
             The bot token to sign in with.
-
-    Other Args:
         prefix: Union[str, Sequence[str]]
             The prefix, or sequence of prefixes to listen for.
             Planned support for mentions, and functions soon (tm).
+
+    Kwargs:
         case_insensitive: bool
             Whether or not to ignore case when handling legacy command
             invocations. Defaults to True.
         owner_ids: Optional[Sequence[int]]
             A sequence of integers representing the Snowflakes of the
             bots owners.
-        allow_color : bool
-        banner : Optional[str]
-        executor : Optional[concurrent.futures.Executor]
-        force_color : bool
-        cache_settings : Optional[hikari.CacheSettings]
-        http_settings : Optional[hikari.HTTPSettings]
-        intents : hikari.Intents
-        logs : Union[None, LoggerLevel, Dict[str, Any]]
-        max_rate_limit : float
-        max_retries : Optional[int]
-        proxy_settings : Optional[hikari.ProxySettings]
-        rest_url : Optional[str]
+        **kwargs: The remaining kwargs for hikari.GatewayBot.
     """
 
     __slots__: typing.Sequence[str] = (
@@ -74,38 +62,13 @@ class Bot(hikari.GatewayBot):
     def __init__(
         self,
         token: str,
-        *,
         prefix: str | typing.Sequence[str],
+        *,
         case_insensitive: bool = True,
         owner_ids: typing.Sequence[int] | None = None,
-        allow_color: bool = True,
-        banner: str | None = "hikari",
-        executor: concurrent.futures.Executor | None = None,
-        force_color: bool = False,
-        cache_settings: hikari.CacheSettings | None = None,
-        http_settings: hikari.HTTPSettings | None = None,
-        intents: hikari.Intents = hikari.Intents.ALL_UNPRIVILEGED,
-        logs: int | str | dict[str, typing.Any] | None = "INFO",
-        max_rate_limit: float = 300,
-        max_retries: int = 3,
-        proxy_settings: hikari.ProxySettings | None = None,
-        rest_url: str | None = None,
+        **kwargs: typing.Any,
     ) -> None:
-        super().__init__(
-            token,
-            allow_color=allow_color,
-            banner=banner,
-            executor=executor,
-            force_color=force_color,
-            cache_settings=cache_settings,
-            http_settings=http_settings,
-            intents=intents,
-            logs=logs,
-            max_rate_limit=max_rate_limit,
-            max_retries=max_retries,
-            proxy_settings=proxy_settings,
-            rest_url=rest_url,
-        )
+        super().__init__(token, **kwargs)
 
         self._prefix: typing.Sequence[str] = (prefix,) if isinstance(prefix, str) else prefix
         self._aliases: dict[str, str] = {}
@@ -141,6 +104,8 @@ class Bot(hikari.GatewayBot):
         Args:
             command: Callable[..., Any] | yami.MessageCommand
                 The command to add.
+
+        Kwargs:
             name: str | None
                 The name of the command (defaults to the function name)
             description: str
@@ -185,17 +150,34 @@ class Bot(hikari.GatewayBot):
         cmd = commands_.MessageCommand(command, name, description, aliases)
         return self.add_command(cmd)
 
-    def get_command(self, name: str) -> commands_.MessageCommand | None:
+    def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
+        """Yields commands attached to the bot.
+
+        Returns:
+            Generator[yami.MessageCommand, ...]
+        """
+        for cmd in self._commands.values():
+            yield cmd
+
+    def get_command(self, name: str, *, alias: bool = False) -> commands_.MessageCommand | None:
         """Gets a command.
 
         Args:
             name: str
                 The name of the command to get.
 
+        Kwargs:
+            alias: bool
+                Whether or not to search aliases as well as names.
+                Defaults to False.
+
         Returns:
             yami.MessageCommand | None
                 The command, or None if not found.
         """
+        if alias:
+            name = self._aliases.get(name, name)
+
         return self._commands.get(name)
 
     def command(
@@ -229,6 +211,8 @@ class Bot(hikari.GatewayBot):
         parsed = content.split()
         name = parsed.pop(0)[len(p) :]
 
+        # TODO: Fire a CommandInvokeEvent here once we make it
+
         if name in self._aliases:
             cmd = self._commands[self._aliases[name]]
         elif name in self._commands:
@@ -247,5 +231,5 @@ class Bot(hikari.GatewayBot):
             except TypeError:
                 converted.append(arg)
 
-        ctx = context.MessageContext(self, content, event.message, cmd, p)
+        ctx = context.MessageContext(self, event.message, cmd, p)
         await cmd.callback(ctx, *converted)
