@@ -56,3 +56,17 @@ def test_add_command_aliases_failure(model: yami.Bot) -> None:
 def test_sync_callback_fails(model: yami.Bot) -> None:
     with pytest.raises(yami.AsyncRequired):
         model.add_command(mock.Mock(), name="bad")
+
+
+def test_bot_command_deco(model: yami.Bot) -> None:
+    @model.command("tester", "To be or not to be...", aliases=["lol"])
+    async def tester_callback(ctx: yami.MessageContext, arg: int) -> None:
+        await ctx.respond(f"arg was {arg}")
+
+    cmd = model.get_command("tester")
+
+    assert cmd is not None
+    assert len(model.commands) == 1
+    assert cmd.name == "tester"
+    assert cmd.description == "To be or not to be..."
+    assert cmd.aliases == ["lol"]

@@ -15,23 +15,34 @@ class MessageCommand:
     """An object that represents a message content command.
 
     Args:
-        callback:
+        callback: Callable[..., Any]
+            The callback to run when the command is invoked.
+        name: str
+            The name of the command.
+        descriptions: str
+            The commands description.
+        aliases: Iterable[str]
+            The aliases to use for the command.
+
     """
 
     __slots__: typing.Sequence[str] = (
         "_aliases",
         "_callback",
         "_name",
+        "_description",
     )
 
     def __init__(
         self,
         callback: typing.Callable[..., typing.Any],
         name: str,
+        description: str = "",
         aliases: typing.Iterable[str] = [],
     ) -> None:
         self._aliases = aliases
         self._callback = callback
+        self._description = description
         self._name = name
 
         if not asyncio.iscoroutinefunction(callback):
@@ -61,6 +72,16 @@ class MessageCommand:
         return self._name
 
     @property
+    def description(self) -> str:
+        """The commands description.
+
+        Returns:
+            str
+                The description of the command.
+        """
+        return self._description
+
+    @property
     def callback(self) -> typing.Callable[..., typing.Any]:
         """The callback function registered to the command.
 
@@ -72,9 +93,15 @@ class MessageCommand:
 
 
 def command(
-    *,
     name: str | None = None,
+    description: str = "",
+    *,
     aliases: typing.Iterable[str] = [],
 ) -> typing.Callable[..., MessageCommand]:
     """Decorator to add commands to the bot inside of modules."""
-    return lambda callback: MessageCommand(callback, name if name else callback.__name__, aliases)
+    return lambda callback: MessageCommand(
+        callback,
+        name if name else callback.__name__,
+        description,
+        aliases,
+    )

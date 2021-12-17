@@ -117,6 +117,7 @@ class Bot(hikari.GatewayBot):
         command: typing.Callable[..., typing.Any] | commands_.MessageCommand,
         *,
         name: str | None = None,
+        description: str = "",
         aliases: typing.Iterable[str] = [],
     ) -> commands_.MessageCommand:
 
@@ -134,7 +135,7 @@ class Bot(hikari.GatewayBot):
             return self._commands[command.name]
 
         name = name if name else command.__name__
-        cmd = commands_.MessageCommand(command, name, aliases)
+        cmd = commands_.MessageCommand(command, name, description, aliases)
 
         return self.add_command(cmd)
 
@@ -150,7 +151,12 @@ class Bot(hikari.GatewayBot):
     ) -> typing.Callable[..., typing.Any]:
         """Decorator to add a message command to the bot."""
         return lambda callback: self.add_command(
-            commands_.MessageCommand(callback, name if name else callback.__name__, aliases)
+            commands_.MessageCommand(
+                callback,
+                name if name else callback.__name__,
+                description,
+                aliases,
+            )
         )
 
     async def _listen(self, e: hikari.MessageCreateEvent) -> None:
