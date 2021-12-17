@@ -1,32 +1,35 @@
 import nox
+import toml
 
 
-def _install(session: nox.Session, dev: bool = False) -> nox.Session:
-    session.run("poetry", "-q", "shell", external=True)
+def get_dependencies() -> dict[str, str]:
+    with open("pyproject.toml") as f:
+        data = toml.loads(f.read())["tool"]["poetry"]
+        deps = data["dev-dependencies"]
+        deps.update(data["dependencies"])
 
-    if dev:
-        session.run("poetry", "install", "-n", external=True)
-    else:
-        session.run("poetry", "install", "-n", "--no-dev", external=True)
+    return dict((k, f"{k}{v}") for k, v in deps.items())
 
-    return session
+
+DEPS = get_dependencies()
 
 
 @nox.session(reuse_venv=True)
 def tests(session: nox.Session) -> None:
-    session = _install(session, True)
+    session.install("-U", DEPS["pytest"], DEPS["pytest-asyncio"], DEPS["mock"], DEPS["hikari"])
     session.run("pytest", "--verbose")
 
 
 @nox.session(reuse_venv=True)
 def types(session: nox.Session) -> None:
-    session = _install(session, True)
+    session.install("-U", DEPS["pyright"], DEPS["mypy"], DEPS["hikari"])
+    session.run("mypy", "yami")
     session.run("pyright")
 
 
 @nox.session(reuse_venv=True)
 def formatting(session: nox.Session) -> None:
-    session = _install(session, True)
+    session.install("-U", DEPS["flake8"], DEPS["isort"], DEPS["black"], DEPS["len8"])
 
     session.run(
         "flake8",
@@ -40,14 +43,6 @@ def formatting(session: nox.Session) -> None:
         "__init__.py,",
     )
 
-    session.run(
-        "isort",
-        "yami",
-        "tests",
-        "-cq",
-        "--profile",
-        "black",
-    )
-
-    session.run("black", ".", "-l99", "--check")
-    session.run("len8", "-ll", "yami", "tests")
+    session.run("isort", "yami", "tests", "-cq")
+    session.run("black", ".", "--check")
+    session.run("len8")
