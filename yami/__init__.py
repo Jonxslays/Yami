@@ -28,7 +28,7 @@ __all__: list[str] = [
     "BadAlias",
 ]
 
-__version__ = "0.2.4"
+__version__ = "0.3.0"
 __author__ = "Jonxslays"
 __description__ = "A command handler that complements Hikari."
 __url__ = "https://github.com/Jonxslays/Yami"
