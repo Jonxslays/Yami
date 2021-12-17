@@ -1,7 +1,14 @@
+from __future__ import annotations
+
+__all__ = [
+    "YamiException",
+    "CommandNotFound",
+    "AsyncRequired",
+    "BadAlias",
+]
+
 class YamiException(Exception):
     """Base exception all Yami exceptions inherit from."""
-
-    ...
 
 
 class CommandNotFound(YamiException):
@@ -9,19 +16,13 @@ class CommandNotFound(YamiException):
     command with that name is found.
     """
 
-    ...
-
 
 class AsyncRequired(YamiException):
     """Raised when a synchronous command is added to the bot via the
     yami.legacy decorator."""
-
-    ...
 
 
 class BadAlias(YamiException):
     """Raised what a bad argument is passed as aliases to a legacy
     command.
     """
-
-    ...
