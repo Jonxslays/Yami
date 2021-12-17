@@ -131,3 +131,4 @@ dmypy.json
 # Personal
 .vscode
 .tests
+poetry.lock
