@@ -1,12 +1,12 @@
 <h1 align="center">Yami</h1>
 <p align="center">A command handler that complements Hikari. <3</p>
 <p align="center">
-<a href="https://github.com/Jonxslays/Yami/blob/master/LICENSE"><img height="20" alt="License" src="https://img.shields.io/pypi/l/yami?label=License"></a>
-<a href="https://pypi.org/project/yami"><img height="20" alt="Stable version" src="https://img.shields.io/pypi/v/yami?label=Stable&logo=pypi"></a>
-</p>
-<p align="center">
 <a href="https://pepy.tech/project/yami"><img height="20" alt="Downloads" src="https://static.pepy.tech/personalized-badge/yami?period=total&units=international_system&left_color=grey&right_color=blue&left_text=Downloads"></a>
 <a href="https://python.org"><img height="20" alt="Python versions" src="https://img.shields.io/pypi/pyversions/yami?label=Python&logo=python"></a>
+</p>
+<p align="center">
+<a href="https://github.com/Jonxslays/Yami/blob/master/LICENSE"><img height="20" alt="License" src="https://img.shields.io/pypi/l/yami?label=License"></a>
+<a href="https://pypi.org/project/yami"><img height="20" alt="Stable version" src="https://img.shields.io/pypi/v/yami?label=Stable&logo=pypi"></a>
 </p>
 <p align="center">
 <a href="https://github.com/Jonxslays/Yami"><img height="20" alt="Last Commit" src="https://img.shields.io/maintenance/yes/2021?label=Maintained"></a>
@@ -61,7 +61,7 @@ if __name__ == "__main__":
 
 ## Contributing
 
-Yami is open for contributions. To get started check out the
+Yami is open to contributions. To get started check out the
 [contributing guide](https://github.com/Jonxslays/Yami/blob/master/CONTRIBUTING.md).
 
 ## License
