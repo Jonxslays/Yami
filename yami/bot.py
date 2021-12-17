@@ -156,6 +156,8 @@ class Bot(hikari.GatewayBot):
             yami.DuplicateCommand
                 If the command shares a name or alias with an existing
                 command.
+            yami.BadArgument
+                If aliases is not a list or a tuple.
         """
 
         if isinstance(command, commands_.MessageCommand):
@@ -166,17 +168,16 @@ class Bot(hikari.GatewayBot):
 
             if command.name in self._commands:
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add '{command.name}', that name is already taken",
+                    f"Failed to add command '{command.name}' - name already is use",
                 )
 
             for a in command.aliases:
                 if a in self._aliases:
                     raise exceptions.DuplicateCommand(
-                        f"Failed to add '{command.name}', that alias '{a}' is already taken",
+                        f"Failed to add command '{command.name}' - alias '{a}' already in use",
                     )
 
-                self._aliases[a] = command.name
-
+            self._aliases.update(dict((a, command.name) for a in command.aliases))
             self._commands[command.name] = command
             return command
 
