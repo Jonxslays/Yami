@@ -36,8 +36,36 @@ DEPS = get_dependencies()
 
 @nox.session(reuse_venv=True)
 def tests(session: nox.Session) -> None:
-    session.install("-U", DEPS["pytest"], DEPS["pytest-asyncio"], DEPS["mock"], DEPS["hikari"])
-    session.run("pytest", "--verbose")
+    session.install(
+        "-U",
+        DEPS["pytest"],
+        DEPS["pytest-asyncio"],
+        DEPS["pytest-testdox"],
+        DEPS["mock"],
+        DEPS["hikari"],
+        DEPS["coverage"],
+    )
+
+    session.run(
+        "coverage",
+        "run",
+        "--omit",
+        "tests/*",
+        "-m",
+        "pytest",
+        "--testdox",
+        "--log-level=INFO",
+    )
+
+
+@nox.session(reuse_venv=True)
+async def coverage(session: nox.Session) -> None:
+    session.install("-U", DEPS["coverage"])
+
+    if not Path(".coverage").exists():
+        session.skip("Skipping coverage")
+
+    session.run("coverage", "report", "-m")
 
 
 @nox.session(reuse_venv=True)

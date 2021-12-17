@@ -43,6 +43,8 @@ toml = "~=0.10.2"
 len8 = "~=0.6.0"
 mock = "~=4.0.3"
 types-mock = "~=4.0.4"
+coverage = "~=6.2"
+pytest-testdox = "~=3.0.0"
 
 [tool.black]
 line-length = 99
