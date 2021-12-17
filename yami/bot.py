@@ -6,7 +6,7 @@ import typing
 
 import hikari
 
-from yami import commands
+from yami import commands as commands_
 from yami import context, exceptions
 
 __all__: list[str] = ["Bot"]
@@ -94,12 +94,12 @@ class Bot(hikari.GatewayBot):
         self._prefix: typing.Sequence[str] = (prefix,) if isinstance(prefix, str) else prefix
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
-        self._commands: dict[str, commands.MessageCommand] = {}
+        self._commands: dict[str, commands_.MessageCommand] = {}
         self._owner_ids = owner_ids
         self.subscribe(hikari.MessageCreateEvent, self._listen)
 
     @property
-    def commands(self) -> dict[str, commands.MessageCommand]:
+    def commands(self) -> dict[str, commands_.MessageCommand]:
         """A dictionary of name, MessageCommand pairs associated with the
         bot.
         """
@@ -114,13 +114,13 @@ class Bot(hikari.GatewayBot):
 
     def add_command(
         self,
-        command: typing.Callable[..., typing.Any] | commands.MessageCommand,
+        command: typing.Callable[..., typing.Any] | commands_.MessageCommand,
         *,
         name: str | None = None,
         aliases: typing.Iterable[str] = [],
-    ) -> commands.MessageCommand:
+    ) -> commands_.MessageCommand:
 
-        if isinstance(command, commands.MessageCommand):
+        if isinstance(command, commands_.MessageCommand):
             self._commands[command.name] = command
 
             if type(command.aliases) not in (list, tuple):
@@ -134,11 +134,11 @@ class Bot(hikari.GatewayBot):
             return self._commands[command.name]
 
         name = name if name else command.__name__
-        cmd = commands.MessageCommand(command, name, aliases)
+        cmd = commands_.MessageCommand(command, name, aliases)
 
         return self.add_command(cmd)
 
-    def get_command(self, name: str) -> commands.MessageCommand | None:
+    def get_command(self, name: str) -> commands_.MessageCommand | None:
         return self.commands.get(name)
 
     def command(
@@ -148,9 +148,9 @@ class Bot(hikari.GatewayBot):
         *,
         aliases: typing.Iterable[str] = [],
     ) -> typing.Callable[..., typing.Any]:
-        """Decorator to add commands to the bot."""
+        """Decorator to add a message command to the bot."""
         return lambda callback: self.add_command(
-            commands.MessageCommand(callback, name if name else callback.__name__, aliases)
+            commands_.MessageCommand(callback, name if name else callback.__name__, aliases)
         )
 
     async def _listen(self, e: hikari.MessageCreateEvent) -> None:
@@ -172,7 +172,7 @@ class Bot(hikari.GatewayBot):
         elif name in self._commands:
             cmd = self._commands[name]
         else:
-            raise exceptions.CommandNotFound(f"No command found with name: '{name}'")
+            raise exceptions.CommandNotFound(f"No command found with name '{name}'")
 
         annots = tuple(inspect.get_annotations(cmd.callback).values())
         converted: list[typing.Any] = []

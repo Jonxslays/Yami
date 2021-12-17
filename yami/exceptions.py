@@ -7,6 +7,7 @@ __all__ = [
     "BadAlias",
 ]
 
+
 class YamiException(Exception):
     """Base exception all Yami exceptions inherit from."""
 
