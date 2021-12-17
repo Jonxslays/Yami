@@ -21,26 +21,43 @@ classifiers = [
     "Programming Language :: Python :: 3.8",
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
+    # "Programming Language :: Python :: 3.11", # Blocked by hikari
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
 
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
-hikari = ">=2.0.0.dev103"
-aiohttp = ">=3.7.4.post0"
+hikari = ">=2.0.0.dev104"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2"
-black = "^21.12b0"
-mock = "^4.0.3"
-types-mock = "^4.0.4"
-len8 = "^0.5.0"
-flake8 = "^4.0.1"
-isort = "^5.10.1"
-nox = "^2021.10.1"
-pyright = "^0.0.13"
-pytest-asyncio = "^0.16.0"
+pytest = "~=6.2"
+black = "~=21.12b0"
+flake8 = "~=4.0.1"
+isort = "~=5.10.1"
+nox = "~=2021.10.1"
+pyright = "~=0.0.13"
+pytest-asyncio = "~=0.16.0"
+mypy = "~=0.920"
+toml = "~=0.10.2"
+len8 = "~=0.6.0"
+mock = "~=4.0.3"
+types-mock = "~=4.0.4"
+
+[tool.black]
+line-length = 99
+
+[tool.isort]
+profile = "black"
+
+[tool.len8]
+include = ["yami", "tests"]
+code-length = 99
+docs-length = 72
+strict = true
+
+[tool.mypy]
+strict = true
 
 [tool.pyright]
 include = ["yami"]
