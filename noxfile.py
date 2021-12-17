@@ -49,8 +49,15 @@ def types(session: nox.Session) -> None:
 
 @nox.session(reuse_venv=True)
 def formatting(session: nox.Session) -> None:
-    session.install("-U", DEPS["flake8"], DEPS["isort"], DEPS["black"], DEPS["len8"])
+    session.install("-U", DEPS["black"], DEPS["len8"])
+    session.run("black", ".", "--check")
+    session.run("len8")
 
+
+@nox.session(reuse_venv=True)
+def imports(session: nox.Session) -> None:
+    session.install("-U", DEPS["flake8"], DEPS["isort"])
+    session.run("isort", "yami", "tests", "-cq")
     session.run(
         "flake8",
         "yami",
@@ -62,10 +69,6 @@ def formatting(session: nox.Session) -> None:
         "--extend-exclude",
         "__init__.py,",
     )
-
-    session.run("isort", "yami", "tests", "-cq")
-    session.run("black", ".", "--check")
-    session.run("len8")
 
 
 @nox.session(reuse_venv=True)

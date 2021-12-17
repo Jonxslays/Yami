@@ -37,6 +37,10 @@ jobs:
           poetry run nox -s tests
 
   lint-and-format:
+    strategy:
+      fail-fast: false
+      matrix:
+        session: [types, formatting, imports, licensing]
     runs-on: ubuntu-latest
 
     steps:
@@ -55,4 +59,4 @@ jobs:
         run: |
           pip install --upgrade pip
           poetry install -q
-          poetry run nox -s types formatting
+          poetry run nox -s ${{ matrix.session }}
