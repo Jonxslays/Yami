@@ -20,7 +20,8 @@ __all__ = [
     "YamiException",
     "CommandNotFound",
     "AsyncRequired",
-    "BadAlias",
+    "BadArgument",
+    "DuplicateCommand",
 ]
 
 
@@ -36,10 +37,15 @@ class CommandNotFound(YamiException):
 
 class AsyncRequired(YamiException):
     """Raised when a synchronous command is added to the bot via the
-    yami.legacy decorator."""
+    yami.legacy decorator.
+    """
 
 
-class BadAlias(YamiException):
-    """Raised what a bad argument is passed as aliases to a legacy
-    command.
+class BadArgument(YamiException):
+    """Raised what a bad argument is passed to a message command."""
+
+
+class DuplicateCommand(YamiException):
+    """Raised when a command is added that shares a name or aliases with
+    an existing command.
     """
