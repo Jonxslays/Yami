@@ -67,7 +67,7 @@ async def test_add_non_command_object(model: yami.Bot) -> None:
 
 
 def test_add_command_aliases_failure(model: yami.Bot) -> None:
-    with pytest.raises(yami.BadAlias):
+    with pytest.raises(yami.BadArgument):
         model.add_command(mock.AsyncMock(), name="yoink", aliases="wrong")
 
 

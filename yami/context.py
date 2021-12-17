@@ -51,7 +51,7 @@ class MessageContext:
         content: str,
         message: hikari.Message,
         command: commands.MessageCommand,
-        prefix: str
+        prefix: str,
     ) -> None:
         if not message.content:
             raise ValueError("No content in message. what?")
