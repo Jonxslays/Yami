@@ -8,7 +8,7 @@ def test_version() -> None:
                 k, v = line.split(" = ")
 
                 if k == "version":
-                    assert yami.__version__ == v.strip("\"\n")
+                    assert yami.__version__ == v.strip('"\n')
                     return None
 
     raise RuntimeError("Wheres the version?")

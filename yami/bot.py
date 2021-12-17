@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import concurrent.futures
+import inspect
 import typing
 
 import hikari
@@ -91,7 +92,6 @@ class Bot(hikari.GatewayBot):
         )
 
         self._prefix: typing.Sequence[str] = (prefix,) if isinstance(prefix, str) else prefix
-
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
         self._commands: dict[str, commands.MessageCommand] = {}
@@ -125,7 +125,7 @@ class Bot(hikari.GatewayBot):
 
             if type(command.aliases) not in (list, tuple):
                 raise exceptions.BadAlias(
-                    f"Aliases must be a list or tuple of strings, not: `{type(command.aliases)}`."
+                    f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
                 )
 
             for a in command.aliases:
@@ -164,15 +164,26 @@ class Bot(hikari.GatewayBot):
 
     async def _invoke(self, p: str, event: hikari.MessageCreateEvent, content: str) -> None:
         """Attempts to invoke a command."""
-        parsed = content.split(" ")
-        name = parsed[0][len(p) :]
+        parsed = content.split()
+        name = parsed.pop(0)[len(p) :]
 
         if name in self._aliases:
             cmd = self._commands[self._aliases[name]]
         elif name in self._commands:
             cmd = self._commands[name]
         else:
-            raise exceptions.CommandNotFound(f"No command found with name: `{name}`")
+            raise exceptions.CommandNotFound(f"No command found with name: '{name}'")
+
+        annots = tuple(inspect.get_annotations(cmd.callback).values())
+        converted: list[typing.Any] = []
+
+        for i, arg in enumerate(parsed):
+            t = annots[i + 1]
+
+            try:
+                converted.append(t(arg))
+            except TypeError:
+                converted.append(arg)
 
         ctx = context.MessageContext(self, content, event.message, cmd)
-        await cmd.callback(ctx, *parsed[1:])
+        await cmd.callback(ctx, *converted)
