@@ -25,7 +25,8 @@ __all__: list[str] = [
     "CommandNotFound",
     "AsyncRequired",
     "command",
-    "BadAlias",
+    "BadArgument",
+    "DuplicateCommand",
 ]
 
 __version__ = "0.3.0"

@@ -39,7 +39,6 @@ class MessageCommand:
             The commands description.
         aliases: Iterable[str]
             The aliases to use for the command.
-
     """
 
     __slots__: typing.Sequence[str] = (
@@ -102,7 +101,7 @@ class MessageCommand:
         """The callback function registered to the command.
 
         Returns:
-            typing.Callable[... typing.Any]
+            Callable[... Any]
                 The callback function registered to the command.
         """
         return self._callback

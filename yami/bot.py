@@ -25,7 +25,7 @@ import hikari
 from yami import commands as commands_
 from yami import context, exceptions
 
-__all__: list[str] = ["Bot"]
+__all__ = ["Bot"]
 
 
 class Bot(hikari.GatewayBot):
@@ -136,27 +136,66 @@ class Bot(hikari.GatewayBot):
         description: str = "",
         aliases: typing.Iterable[str] = [],
     ) -> commands_.MessageCommand:
+        """Adds a command to the bot.
+
+        Args:
+            command: Callable[..., Any] | yami.MessageCommand
+                The command to add.
+            name: str | None
+                The name of the command (defaults to the function name)
+            description: str
+                The command descriptions (defaults to "")
+            aliases: Iterable[str]
+                The command aliases (defaults to [])
+
+        Returns:
+            yami.MessageCommand
+                The command that was added.
+
+        Raises:
+            yami.DuplicateCommand
+                If the command shares a name or alias with an existing
+                command.
+        """
 
         if isinstance(command, commands_.MessageCommand):
-            self._commands[command.name] = command
-
             if type(command.aliases) not in (list, tuple):
-                raise exceptions.BadAlias(
+                raise exceptions.BadArgument(
                     f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
                 )
 
+            if command.name in self._commands:
+                raise exceptions.DuplicateCommand(
+                    f"Failed to add '{command.name}', that name is already taken",
+                )
+
             for a in command.aliases:
+                if a in self._aliases:
+                    raise exceptions.DuplicateCommand(
+                        f"Failed to add '{command.name}', that alias '{a}' is already taken",
+                    )
+
                 self._aliases[a] = command.name
 
-            return self._commands[command.name]
+            self._commands[command.name] = command
+            return command
 
         name = name if name else command.__name__
         cmd = commands_.MessageCommand(command, name, description, aliases)
-
         return self.add_command(cmd)
 
     def get_command(self, name: str) -> commands_.MessageCommand | None:
-        return self.commands.get(name)
+        """Gets a command.
+
+        Args:
+            name: str
+                The name of the command to get.
+
+        Returns:
+            yami.MessageCommand | None
+                The command, or None if not found.
+        """
+        return self._commands.get(name)
 
     def command(
         self,
@@ -207,5 +246,5 @@ class Bot(hikari.GatewayBot):
             except TypeError:
                 converted.append(arg)
 
-        ctx = context.MessageContext(self, content, event.message, cmd)
+        ctx = context.MessageContext(self, content, event.message, cmd, p)
         await cmd.callback(ctx, *converted)
