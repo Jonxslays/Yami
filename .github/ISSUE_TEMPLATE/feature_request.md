@@ -3,7 +3,7 @@ name: Feature request
 about: Suggest an idea for Yami
 title: Feature request
 labels: enhancement
-assignees: ''
+assignees: Jonxslays
 
 ---
 
