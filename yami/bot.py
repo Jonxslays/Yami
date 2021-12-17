@@ -5,7 +5,7 @@ import typing
 
 import hikari
 
-from yami import commands as commands_
+from yami import commands
 from yami import context, exceptions
 
 __all__: list[str] = ["Bot"]
@@ -94,13 +94,13 @@ class Bot(hikari.GatewayBot):
 
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
-        self._commands: dict[str, commands_.LegacyCommand] = {}
+        self._commands: dict[str, commands.MessageCommand] = {}
         self._owner_ids = owner_ids
         self.subscribe(hikari.MessageCreateEvent, self._listen)
 
     @property
-    def commands(self) -> dict[str, commands_.LegacyCommand]:
-        """A dictionary of name, LegacyCommand pairs associated with the
+    def commands(self) -> dict[str, commands.MessageCommand]:
+        """A dictionary of name, MessageCommand pairs associated with the
         bot.
         """
         return self._commands
@@ -108,19 +108,19 @@ class Bot(hikari.GatewayBot):
     @property
     def aliases(self) -> dict[str, str]:
         """A dictionary of aliases to their corresponding
-        LegacyCommand's name.
+        MessageCommand's name.
         """
         return self._aliases
 
     def add_command(
         self,
-        command: typing.Callable[..., typing.Any] | commands_.LegacyCommand,
+        command: typing.Callable[..., typing.Any] | commands.MessageCommand,
         *,
         name: str | None = None,
         aliases: typing.Iterable[str] = [],
-    ) -> commands_.LegacyCommand:
+    ) -> commands.MessageCommand:
 
-        if isinstance(command, commands_.LegacyCommand):
+        if isinstance(command, commands.MessageCommand):
             self._commands[command.name] = command
 
             if type(command.aliases) not in (list, tuple):
@@ -134,14 +134,27 @@ class Bot(hikari.GatewayBot):
             return self._commands[command.name]
 
         name = name if name else command.__name__
-        cmd = commands_.LegacyCommand(command, name, aliases)
+        cmd = commands.MessageCommand(command, name, aliases)
 
         return self.add_command(cmd)
 
-    def get_command(self, name: str) -> commands_.LegacyCommand | None:
+    def get_command(self, name: str) -> commands.MessageCommand | None:
         return self.commands.get(name)
 
+    def command(
+        self,
+        name: str | None = None,
+        description: str = "",
+        *,
+        aliases: typing.Iterable[str] = [],
+    ) -> typing.Callable[..., typing.Any]:
+        """Decorator to add commands to the bot."""
+        return lambda callback: self.add_command(
+            commands.MessageCommand(callback, name if name else callback.__name__, aliases)
+        )
+
     async def _listen(self, e: hikari.MessageCreateEvent) -> None:
+        """Listens for messages."""
         if not e.message.content:
             return
 
@@ -161,5 +174,5 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name: `{name}`")
 
-        ctx = context.LegacyContext(self, content, event.message, cmd)
+        ctx = context.MessageContext(self, content, event.message, cmd)
         await cmd.callback(ctx, *parsed[1:])

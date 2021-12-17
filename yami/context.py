@@ -5,7 +5,7 @@ import typing
 import hikari
 
 __all__: typing.List[str] = [
-    "LegacyContext",
+    "MessageContext",
 ]
 
 if typing.TYPE_CHECKING:
@@ -13,14 +13,14 @@ if typing.TYPE_CHECKING:
     from yami.bot import Bot
 
 
-class LegacyContext:
-    """An object representing a legacy context. A `boomer` context,
+class MessageContext:
+    """An object representing a message context. A `boomer` context,
     the old school, cancelled by discord.
 
     Args:
         bot: yami.Bot
             The bot instance associated with the context.
-        command: yami.LegacyCommand
+        command: yami.MessageCommand
             The command associated with the context.
         message: hikari.Message
             The message associated with the context.
@@ -33,7 +33,7 @@ class LegacyContext:
         bot: Bot,
         content: str,
         message: hikari.Message,
-        command: commands.LegacyCommand,
+        command: commands.MessageCommand,
     ) -> None:
         if not message.content:
             raise ValueError("No content in message. what?")
@@ -99,7 +99,7 @@ class LegacyContext:
         return self._content
 
     @property
-    def command(self) -> commands.LegacyCommand:
+    def command(self) -> commands.MessageCommand:
         return self._command
 
     @property

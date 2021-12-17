@@ -6,13 +6,13 @@ import typing
 from yami import exceptions
 
 __all__: typing.List[str] = [
-    "LegacyCommand",
-    "legacy",
+    "MessageCommand",
+    "command",
 ]
 
 
-class LegacyCommand:
-    """An object that represents a legacy message content command.
+class MessageCommand:
+    """An object that represents a message content command.
 
     Args:
         callback:
@@ -71,10 +71,10 @@ class LegacyCommand:
         return self._callback
 
 
-def legacy(
+def command(
     *,
     name: str | None = None,
     aliases: typing.Iterable[str] = [],
-) -> typing.Callable[..., LegacyCommand]:
+) -> typing.Callable[..., MessageCommand]:
     """Decorator to add commands to the bot inside of modules."""
-    return lambda callback: LegacyCommand(callback, name if name else callback.__name__, aliases)
+    return lambda callback: MessageCommand(callback, name if name else callback.__name__, aliases)
