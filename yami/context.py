@@ -30,33 +30,28 @@ if typing.TYPE_CHECKING:
 
 
 class MessageContext:
-    """An object representing a message context.
+    """The context surround a message commands invokation.
 
     Args:
         bot: yami.Bot
             The bot instance associated with the context.
-        command: yami.MessageCommand
-            The command associated with the context.
         message: hikari.Message
             The message associated with the context.
+        command: yami.MessageCommand
+            The command associated with the context.
         prefix: str
             The prefix the context with created with.
     """
 
-    __slots__: typing.Sequence[str] = ("_message", "_command", "_content", "_bot", "_prefix")
+    __slots__: typing.Sequence[str] = ("_message", "_command", "_bot", "_prefix")
 
     def __init__(
         self,
         bot: Bot,
-        content: str,
         message: hikari.Message,
         command: commands.MessageCommand,
         prefix: str,
     ) -> None:
-        if not message.content:
-            raise ValueError("No content in message. what?")
-
-        self._content = content
         self._message = message
         self._command = command
         self._bot = bot
@@ -64,135 +59,63 @@ class MessageContext:
 
     @property
     def bot(self) -> Bot:
-        """The bot instance associated with the context.
-
-        Returns:
-            yami.Bot
-                The bot instance associated with the context.
-        """
+        """The bot instance associated with the context."""
         return self._bot
 
     @property
     def author(self) -> hikari.User:
-        """The user associated with the context.
-
-        Returns:
-            hikari.User
-                The user associated with the context.
-        """
+        """The user associated with the context."""
         return self._message.author
 
     @property
     def guild_id(self) -> typing.Optional[hikari.Snowflake]:
-        """The guild id associated with the context.
-
-        Returns:
-            Optional[hikari.Snowflake]
-                The guild id associated with the context or None
-                if the Context is a DMChannel.
-        """
+        """The guild id associated with the context."""
         return self._message.guild_id
 
     @property
     def channel_id(self) -> hikari.Snowflake:
-        """The channel id associated with the context.
-
-        Returns:
-            hikari.Snowflake
-                The channel id associated with the context.
-        """
+        """The channel id associated with the context."""
         return self._message.channel_id
 
     @property
     def message_id(self) -> hikari.Snowflake:
-        """The message id associated with the context.
-
-        Returns:
-            hikari.Snowflake
-                The message id associated with the context.
-        """
+        """The message id associated with the context."""
         return self._message.id
 
     @property
     def content(self) -> str:
-        """The content of the message associated with the context.
-
-        Returns:
-            str
-                The content
-        """
-        return self._content
+        """The content of the message associated with the context."""
+        # This is checked before the context is created.
+        assert self._message.content is not None
+        return self._message.content
 
     @property
     def command(self) -> commands.MessageCommand:
-        """The command used to generate this context.
-
-        Returns:
-            yami.MessageCommand
-                The command that was invoked.
-        """
+        """The command invoked during the creation of this context."""
         return self._command
 
     @property
     def message(self) -> hikari.Message:
-        """The message associated with this context.
-
-        Returns:
-            hikari.Message
-                The message.
-        """
+        """The message associated with this context."""
         return self._message
 
     @property
     def prefix(self) -> str:
-        """The prefix this context was created with.
-
-        Returns:
-            str
-                The prefix used.
-        """
+        """The prefix used to create this context."""
         return self._prefix
 
-    async def respond(
-        self,
-        content: hikari.UndefinedOr[typing.Any] = hikari.UNDEFINED,
-        *,
-        attachment: hikari.UndefinedOr[hikari.Resourceish] = hikari.UNDEFINED,
-        attachments: hikari.UndefinedOr[typing.Sequence[hikari.Resourceish]] = hikari.UNDEFINED,
-        component: hikari.UndefinedOr[hikari.api.ComponentBuilder] = hikari.UNDEFINED,
-        components: hikari.UndefinedOr[
-            typing.Sequence[hikari.api.ComponentBuilder]
-        ] = hikari.UNDEFINED,
-        embed: hikari.UndefinedOr[hikari.Embed] = hikari.UNDEFINED,
-        embeds: hikari.UndefinedOr[typing.Sequence[hikari.Embed]] = hikari.UNDEFINED,
-        nonce: hikari.UndefinedOr[str] = hikari.UNDEFINED,
-        tts: hikari.UndefinedOr[bool] = hikari.UNDEFINED,
-        reply: hikari.UndefinedOr[hikari.SnowflakeishOr[hikari.PartialMessage]] = hikari.UNDEFINED,
-        mentions_everyone: hikari.UndefinedOr[bool] = hikari.UNDEFINED,
-        mentions_reply: hikari.UndefinedOr[bool] = hikari.UNDEFINED,
-        user_mentions: hikari.UndefinedOr[
-            hikari.SnowflakeishSequence[hikari.PartialUser] | bool
-        ] = hikari.UNDEFINED,
-        role_mentions: hikari.UndefinedOr[
-            hikari.SnowflakeishSequence[hikari.PartialRole] | bool
-        ] = hikari.UNDEFINED,
-    ) -> hikari.Message:
-        return await self._message.respond(
-            content,
-            attachment=attachment,
-            attachments=attachments,
-            component=component,
-            components=components,
-            embed=embed,
-            embeds=embeds,
-            nonce=nonce,
-            tts=tts,
-            reply=reply,
-            mentions_everyone=mentions_everyone,
-            mentions_reply=mentions_reply,
-            user_mentions=user_mentions,
-            role_mentions=role_mentions,
-        )
+    async def respond(self, *args: typing.Any, **kwargs: typing.Any) -> hikari.Message:
+        """Respond to the message that created this context.
+
+        Args:
+            *args, **kwargs
+                The arguments for hikari.Message.respond
+
+        Returns:
+            hikari.Message
+                The message this response creates.
+        """
+        return await self._message.respond(*args, **kwargs)
 
     async def getch_guild(self) -> typing.Optional[hikari.Guild]:
         """Get or fetch the `hikari.Guild` object associated with the
