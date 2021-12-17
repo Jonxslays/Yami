@@ -53,7 +53,7 @@ line-length = 99
 profile = "black"
 
 [tool.len8]
-include = ["yami", "tests"]
+include = ["yami", "tests", "noxfile.py"]
 code-length = 99
 docs-length = 72
 strict = true
