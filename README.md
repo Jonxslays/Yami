@@ -20,24 +20,36 @@
 
 Still in early development. Not ready for use. (As in don't download)
 
-## Getting started
+## Getting started with Yami
 
-To get started with yami just install it with pip!
+Stable release
 
 ```bash
 pip install yami
 ```
 
-#### Creating a Bot:
+Development
+
+```bash
+pip install git+https://github.com/Jonxslays/Yami.git
+```
+
+#### Creating a Bot
 
 ```py
 from os import environ
 
-import hikari
 import yami
 
 
-bot = yami.Bot(environ["TOKEN"])
+bot = yami.Bot(environ["TOKEN"], prefix="$")
+
+
+@bot.command("add", "Adds 2 numbers together")
+async def add_cmd(ctx: yami.MessageContext, num1: int, num2: int) -> None:
+    # Basic python types are converted using their type hints.
+    # More types coming soon :tm:
+    await ctx.respond(f"{num1} + {num2} = {num1 + num2}")
 
 
 if __name__ == "__main__":
