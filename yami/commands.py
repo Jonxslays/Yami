@@ -21,7 +21,7 @@ import typing
 
 from yami import exceptions
 
-__all__: typing.List[str] = [
+__all__ = [
     "MessageCommand",
     "command",
 ]
@@ -41,7 +41,7 @@ class MessageCommand:
             The aliases to use for the command.
     """
 
-    __slots__: typing.Sequence[str] = (
+    __slots__ = (
         "_aliases",
         "_callback",
         "_name",

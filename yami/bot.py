@@ -51,7 +51,7 @@ class Bot(hikari.GatewayBot):
         **kwargs: The remaining kwargs for hikari.GatewayBot.
     """
 
-    __slots__: typing.Sequence[str] = (
+    __slots__ = (
         "_prefix",
         "_case_insensitive",
         "_owner_ids",
@@ -133,7 +133,7 @@ class Bot(hikari.GatewayBot):
 
             if command.name in self._commands:
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command.name}' - name already is use",
+                    f"Failed to add command '{command.name}' - name already in use",
                 )
 
             for a in command.aliases:
@@ -228,7 +228,7 @@ class Bot(hikari.GatewayBot):
 
             try:
                 converted.append(t(arg))
-            except TypeError:
+            except (TypeError, ValueError):
                 converted.append(arg)
 
         ctx = context.MessageContext(self, event.message, cmd, p)

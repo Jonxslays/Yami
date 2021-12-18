@@ -20,13 +20,12 @@ import typing
 
 import hikari
 
-__all__: typing.List[str] = [
+from yami import bot as bot_
+from yami import commands
+
+__all__ = [
     "MessageContext",
 ]
-
-if typing.TYPE_CHECKING:
-    from yami import commands
-    from yami.bot import Bot
 
 
 class MessageContext:
@@ -47,7 +46,7 @@ class MessageContext:
 
     def __init__(
         self,
-        bot: Bot,
+        bot: bot_.Bot,
         message: hikari.Message,
         command: commands.MessageCommand,
         prefix: str,
@@ -58,7 +57,7 @@ class MessageContext:
         self._prefix = prefix
 
     @property
-    def bot(self) -> Bot:
+    def bot(self) -> bot_.Bot:
         """The bot instance associated with the context."""
         return self._bot
 
