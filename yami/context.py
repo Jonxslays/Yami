@@ -131,12 +131,12 @@ class MessageContext:
                 The guild object associated with the context, or
                 None if the context is a DMChannel.
         """
-        if not self.guild_id:
+        if not self._message.guild_id:
             return None
 
-        return self.bot.cache.get_guild(self.guild_id) or await self.bot.rest.fetch_guild(
-            self.guild_id
-        )
+        return self._bot.cache.get_guild(
+            self._message.guild_id
+        ) or await self._bot.rest.fetch_guild(self._message.guild_id)
 
     async def getch_channel(self) -> hikari.GuildChannel | hikari.PartialChannel:
         """Get or fetch the `hikari.PartialChannel` object associated
@@ -156,6 +156,6 @@ class MessageContext:
             hikari.PartialChannel
                 The channel object associated with the context.
         """
-        return self.bot.cache.get_guild_channel(
-            self.channel_id
-        ) or await self.bot.rest.fetch_channel(self.channel_id)
+        return self._bot.cache.get_guild_channel(
+            self._message.channel_id
+        ) or await self._bot.rest.fetch_channel(self._message.channel_id)
