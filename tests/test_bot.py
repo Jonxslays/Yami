@@ -248,31 +248,15 @@ async def test_bot__invoke_with_aliases(
 async def test_bot__invoke_with_args(
     model: yami.Bot, with_content_with_cmd_m_create_event: hikari.MessageCreateEvent
 ) -> None:
-    import inspect
-
-    content_w_cmd_e = with_content_with_cmd_m_create_event
-
     @model.command("echo")
     async def my_cute_callback(ctx: yami.MessageContext, num: int) -> int:
         return num + 1
 
-    @model.command("whoah")
-    async def whoach_callback(ctx: yami.MessageContext, user: hikari.User) -> None:
-        return None
+    content_w_cmd_e = with_content_with_cmd_m_create_event
+    result = await model._invoke("&&", content_w_cmd_e, "&&echo 10")
 
-    with mock.patch.object(inspect.Signature, "parameters") as insp:
-        ctx = mock.Mock(spec=inspect.Parameter)
-        int_ = mock.Mock(spec=inspect.Parameter)
-        return_ = mock.Mock(spec=inspect.Parameter)
+    assert result is None
+    assert await model.get_command("echo").callback(mock.Mock(), 10) == 11
 
-        ctx.annotation = yami.MessageContext
-        int_.annotation = int
-        return_.annotation = int
-
-        result = await model._invoke("&&", content_w_cmd_e, "&&echo 10")
-
-        assert result is None
-        assert await model.get_command("echo").callback(mock.Mock(), 10) == 11
-
-        with pytest.raises(TypeError):
-            await model._invoke("&&", content_w_cmd_e, "&&echo sixty")
+    with pytest.raises(TypeError):
+        await model._invoke("&&", content_w_cmd_e, "&&echo sixty")

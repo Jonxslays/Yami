@@ -16,6 +16,7 @@
 
 from __future__ import annotations
 
+import builtins
 import inspect
 import typing
 
@@ -224,7 +225,7 @@ class Bot(hikari.GatewayBot):
         converted: list[typing.Any] = []
 
         for i, arg in enumerate(parsed):
-            t = annots[i + 1].annotation
+            t: type = getattr(builtins, annots[i + 1].annotation, str)
 
             try:
                 converted.append(t(arg))
