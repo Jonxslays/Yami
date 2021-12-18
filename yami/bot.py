@@ -220,11 +220,11 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name '{name}'")
 
-        annots = tuple(inspect.get_annotations(cmd.callback).values())
+        annots = tuple(inspect.signature(cmd.callback).parameters.values())
         converted: list[typing.Any] = []
 
         for i, arg in enumerate(parsed):
-            t = annots[i + 1]
+            t = annots[i + 1].annotation
 
             try:
                 converted.append(t(arg))

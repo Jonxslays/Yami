@@ -260,8 +260,15 @@ async def test_bot__invoke_with_args(
     async def whoach_callback(ctx: yami.MessageContext, user: hikari.User) -> None:
         return None
 
-    with mock.patch.object(inspect, "get_annotations") as insp:
-        insp.return_value = {"ctx": yami.MessageContext, "num": int, "return": int}
+    with mock.patch.object(inspect.Signature, "parameters") as insp:
+        ctx = mock.Mock(spec=inspect.Parameter)
+        int_ = mock.Mock(spec=inspect.Parameter)
+        return_ = mock.Mock(spec=inspect.Parameter)
+
+        ctx.annotation = yami.MessageContext
+        int_.annotation = int
+        return_.annotation = int
+
         result = await model._invoke("&&", content_w_cmd_e, "&&echo 10")
 
         assert result is None
