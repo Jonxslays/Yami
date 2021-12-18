@@ -116,7 +116,7 @@ def command(
     """Decorator to add commands to the bot inside of modules."""
     return lambda callback: MessageCommand(
         callback,
-        name if name else callback.__name__,
+        name or callback.__name__,
         description,
         aliases,
     )

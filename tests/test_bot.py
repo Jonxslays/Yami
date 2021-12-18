@@ -101,7 +101,6 @@ def test_dup_aliases_add_command(model: yami.Bot) -> None:
     model.add_command(mock.AsyncMock(), name="moon", aliases=["ET"])
     with pytest.raises(yami.DuplicateCommand) as e:
         model.add_command(mock.AsyncMock(), name="sdf", aliases=["ET"])
-
         assert "alias 'ET' already in use" in e
 
 
@@ -109,7 +108,6 @@ def test_dup_name_add_command(model: yami.Bot) -> None:
     model.add_command(mock.AsyncMock(), name="giraffe")
     with pytest.raises(yami.DuplicateCommand) as e:
         model.add_command(mock.AsyncMock(), name="giraffe")
-
         assert "'giraffe' - name already in use" in e
 
 
@@ -258,5 +256,51 @@ async def test_bot__invoke_with_args(
     assert result is None
     assert await model.get_command("echo").callback(mock.Mock(), 10) == 11
 
-    with pytest.raises(TypeError):
+    with pytest.raises(yami.BadArgument) as e:
         await model._invoke("&&", content_w_cmd_e, "&&echo sixty")
+        assert "Invalid arg 'sixty'" in e
+
+
+@pytest.mark.asyncio()
+async def test_bot__invoke_with_bool_args(
+    model: yami.Bot, with_content_with_cmd_m_create_event: hikari.MessageCreateEvent
+) -> None:
+    @model.command("change")
+    async def my_cute_callback(ctx: yami.MessageContext, state: bool) -> int:
+        return state
+
+    content_w_cmd_e = with_content_with_cmd_m_create_event
+    result = await model._invoke("&&", content_w_cmd_e, "&&change True")
+    assert result is None
+
+    result = await model._invoke("&&", content_w_cmd_e, "&&change False")
+    assert result is None
+
+    assert await model.get_command("change").callback(mock.Mock(), True) is True
+    assert await model.get_command("change").callback(mock.Mock(), False) is False
+
+    with pytest.raises(yami.BadArgument) as e:
+        await model._invoke("&&", content_w_cmd_e, "&&change what")
+        assert "Invalid arg 'what'" in e
+
+    with pytest.raises(yami.BadArgument) as e:
+        await model._invoke("&&", content_w_cmd_e, "&&change what")
+        assert "Invalid arg 'what'" in e
+
+
+@pytest.mark.asyncio()
+async def test_bot__invoke_with_adv_args(
+    model: yami.Bot, with_content_with_cmd_m_create_event: hikari.MessageCreateEvent
+) -> None:
+    @model.command("dictionary")
+    async def this_func(ctx: yami.MessageContext, data: dict[str, str]) -> int:
+        return data
+
+    content_w_cmd_e = with_content_with_cmd_m_create_event
+    result = await model._invoke("&&", content_w_cmd_e, "&&dictionary {'hi':'bye'}")
+    assert result is None
+
+    assert (
+        await model.get_command("dictionary").callback(mock.Mock(), "{'hi':'bye'}")
+        == "{'hi':'bye'}"
+    )

@@ -48,11 +48,14 @@ from yami import Bot, MessageContext
 bot = Bot(environ["TOKEN"], prefix="$")
 
 
-@bot.command("add", "Add 2 numbers together", aliases=["sum"])
-async def add_cmd(ctx: MessageContext, num1: int, num2: int) -> None:
-    # Basic python types are converted for you using their type hints.
-    # More types coming soon™.
-    await ctx.respond(f"{num1} + {num2} = {num1 + num2}")
+@bot.command("add", "Add 2 numbers together, and squares them maybe", aliases=["sum"])
+async def add_cmd(ctx: MessageContext, num1: int, num2: int, square: bool = False) -> None:
+    # Basic builtin python types are converted for you using their type
+    # hints (int, float, bool). More advanced conversions like
+    # dict[str, str] are not supported and the argument will be passed
+    # as a string. More types coming soon™.
+    num = num1 + num2
+    await ctx.respond(f"The result is {num ** 2 if square else num}")
 
 
 if __name__ == "__main__":

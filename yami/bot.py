@@ -35,6 +35,11 @@ class Bot(hikari.GatewayBot):
     This is the class you will instantiate, to utilize command features
     on top of the `hikari.GatewayBot` superclass.
 
+    NOTE: This class is slotted, if you want to set your own custom
+    properties you will need to subclass it. Remember to add `__slots__`
+    to your subclass so you can take advantage of the performance
+    increase!
+
     Args:
         token: str
             The bot token to sign in with.
@@ -44,7 +49,7 @@ class Bot(hikari.GatewayBot):
 
     Kwargs:
         case_insensitive: bool
-            Whether or not to ignore case when handling legacy command
+            Whether or not to ignore case when handling message command
             invocations. Defaults to True.
         owner_ids: Optional[Sequence[int]]
             A sequence of integers representing the Snowflakes of the
@@ -76,6 +81,7 @@ class Bot(hikari.GatewayBot):
         self._case_insensitive = case_insensitive
         self._commands: dict[str, commands_.MessageCommand] = {}
         self._owner_ids = owner_ids
+
         self.subscribe(hikari.MessageCreateEvent, self._listen)
 
     @property
@@ -147,7 +153,7 @@ class Bot(hikari.GatewayBot):
             self._commands[command.name] = command
             return command
 
-        name = name if name else command.__name__
+        name = name or command.__name__
         cmd = commands_.MessageCommand(command, name, description, aliases)
         return self.add_command(cmd)
 
@@ -157,8 +163,7 @@ class Bot(hikari.GatewayBot):
         Returns:
             Generator[yami.MessageCommand, ...]
         """
-        for cmd in self._commands.values():
-            yield cmd
+        yield from self._commands.values()
 
     def get_command(self, name: str, *, alias: bool = False) -> commands_.MessageCommand | None:
         """Gets a command.
@@ -192,7 +197,7 @@ class Bot(hikari.GatewayBot):
         return lambda callback: self.add_command(
             commands_.MessageCommand(
                 callback,
-                name if name else callback.__name__,
+                name or callback.__name__,
                 description,
                 aliases,
             )
@@ -225,12 +230,26 @@ class Bot(hikari.GatewayBot):
         converted: list[typing.Any] = []
 
         for i, arg in enumerate(parsed):
-            t: type = getattr(builtins, annots[i + 1].annotation, str)
+            a = annots[i + 1].annotation
+            t = getattr(builtins, a, str) if isinstance(a, str) else a
+
+            if t is bool:
+                if arg == "True":
+                    converted.append(True)
+                elif arg == "False":
+                    converted.append(False)
+                else:
+                    raise exceptions.BadArgument(
+                        f"Invalid arg '{arg}' for {bool} in " f"'{cmd.name}' at position {i + 1}"
+                    ) from None
+                continue
 
             try:
-                converted.append(t(arg))
+                converted.append(t(arg)) if type(t) in (type, str) else converted.append(arg)
             except (TypeError, ValueError):
-                converted.append(arg)
+                raise exceptions.BadArgument(
+                    f"Invalid arg '{arg}' for {t} in '{cmd.name}' at position {i + 1}"
+                ) from None
 
         ctx = context.MessageContext(self, event.message, cmd, p)
         await cmd.callback(ctx, *converted)
