@@ -21,7 +21,7 @@
 
 ## Disclaimer
 
-Still in early development. Not ready for use. (As in don't download)
+Still in early development. See the [TODO list](#TODO).
 
 ## Getting started with Yami
 
@@ -61,6 +61,46 @@ async def add_cmd(ctx: MessageContext, num1: int, num2: int, square: bool = Fals
 if __name__ == "__main__":
     bot.run()
 ```
+
+## TODO
+
+<div class="todolist" after=>
+<div class="todocolumn">
+
+<details>
+<summary> :heavy_check_mark: Complete</summary>
+
+- [x] CI and testing
+- [x] Fully typed
+- [x] Bot
+- [x] Message Commands
+- [x] Message Context
+- [x] Modules
+- [x] Exceptions (WIP)
+
+</details>
+</div>
+
+<div class="todocolumn">
+
+<details>
+<summary> :x: Incomplete</summary>
+
+- [ ] Checks
+- [ ] Events
+- [ ] Hooks?
+- [ ] Slash Commands
+- [ ] Slash Context
+- [ ] Converters
+- [ ] Utils
+- [ ] Proper command arg type parsing
+- [ ] QOL methods
+
+</details>
+</div>
+</div>
+
+---
 
 ## Contributing
 
