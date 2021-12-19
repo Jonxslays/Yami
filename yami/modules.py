@@ -21,6 +21,7 @@ from dataclasses import dataclass
 
 from yami import bot as bot_
 from yami import commands as commands_
+from yami import exceptions
 
 __all__ = ["Module"]
 
@@ -77,9 +78,18 @@ class Module:
         Args:
             command: yami.MessageCommand
                 The command to add.
+
+        Raises:
+            yami.DuplicateCommand:
+                When a command with this name already exists.
         """
         if command.name in self._commands:
-            raise ValueError(f"Failed to add command '{self.name}' - name already in use")
+            raise exceptions.DuplicateCommand(
+                f"Failed to add command to '{self._name}' - name '{command.name}' already in use"
+            )
+
+        if self._loaded:
+            self._bot.add_command(command)
 
         self._commands[command.name] = command
 
@@ -89,9 +99,19 @@ class Module:
         Args:
             name: str
                 The name of the command to remove. (case sensitive)
+
+        Raises:
+            yami.CommandNotFound:
+                When a command with this name is not found.
         """
         if name not in self.commands:
-            raise ValueError(f"Failed to remove command '{self.name}' - it was not found")
+            raise exceptions.CommandNotFound(
+                f"Failed to remove command from '{self._name}' - name '{name}' not found"
+            )
+
+        if self._loaded:
+            if name in self._bot.commands:
+                self._bot.remove_command(name)
 
         return self._commands.pop(name)
 

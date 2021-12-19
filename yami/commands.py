@@ -28,7 +28,9 @@ __all__ = [
 
 
 class MessageCommand:
-    """An object that represents a message content command.
+    """An object that represents a message content command. You should
+    not instantiate this class manually, instead use the `yami.command`
+    or `yami.Bot.command` decorator.
 
     Args:
         callback: Callable[..., Any]
@@ -53,8 +55,8 @@ class MessageCommand:
         self,
         callback: typing.Callable[..., typing.Any],
         name: str,
-        description: str = "",
-        aliases: typing.Iterable[str] = [],
+        description: str,
+        aliases: typing.Iterable[str],
         module: modules.Module | None = None,
     ) -> None:
         self._aliases = aliases
@@ -81,42 +83,22 @@ class MessageCommand:
 
     @property
     def name(self) -> str:
-        """The name of the command.
-
-        Returns:
-            str
-                The name of the command.
-        """
+        """The name of the command."""
         return self._name
 
     @property
     def module(self) -> modules.Module | None:
-        """The module this command originates from, if any.
-
-        Returns:
-            yami.Module | None
-                The module, or None if the command is standalone.
-        """
+        """The module this command originates from, if any."""
         return self._module
 
     @property
     def description(self) -> str:
-        """The commands description.
-
-        Returns:
-            str
-                The description of the command.
-        """
+        """The commands description."""
         return self._description
 
     @property
     def callback(self) -> typing.Callable[..., typing.Any]:
-        """The callback function registered to the command.
-
-        Returns:
-            Callable[... Any]
-                The callback function registered to the command.
-        """
+        """The callback function registered to the command."""
         return self._callback
 
 
@@ -126,10 +108,29 @@ def command(
     *,
     aliases: typing.Iterable[str] = [],
 ) -> typing.Callable[..., MessageCommand]:
-    """Decorator to add commands to the bot inside of modules."""
+    """Decorator to add commands to the bot inside of modules. It should
+    decorate the callback that should fire when this command is run.
+
+    Args:
+        name: str
+            The name of the command. Defaults to the function name.
+        description: str
+            The command description. If omitted, the callbacks docstring
+            will be used instead. REMINDER: docstrings are stripped from
+            your programs bytecode when it is run with the `-OO`
+            optimization flag.
+
+    Kwargs:
+        aliases: Iterable[str]
+            A list or tuple of aliases for the command.
+
+    Returns:
+        Callable[..., yami.MessageCommand]
+            The callback, but transformed into a message command.
+    """
     return lambda callback: MessageCommand(
         callback,
         name or callback.__name__,
-        description,
+        description or callback.__doc__,
         aliases,
     )

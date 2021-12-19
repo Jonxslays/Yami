@@ -23,8 +23,8 @@ __all__ = [
     "BadArgument",
     "DuplicateCommand",
     "ModuleException",
-    "ModuleAlreadyDetached",
-    "ModuleLoadException",
+    "ModuleRemoveException",
+    "ModuleAddException",
 ]
 
 
@@ -37,8 +37,8 @@ class CommandException(YamiException):
 
 
 class CommandNotFound(CommandException):
-    """Raised when a command is invoked with a valid prefix, but no
-    command with that name is found.
+    """Raised when a command is invoked, or attempted to be accessed but
+    no command with that name is found.
     """
 
 
@@ -62,13 +62,9 @@ class ModuleException(YamiException):
     """Raised when an error associated with a module occurs."""
 
 
-class ModuleAlreadyDetached(ModuleException):
-    """Raised when an attempt is made to detach a module, but the module
-    is not attached to any bot.
-    """
+class ModuleRemoveException(ModuleException):
+    """Raised when a module fails to be removed from the bot."""
 
 
-class ModuleLoadException(ModuleException):
-    """Raised when a module fails to load usually due to some command
-    issue.
-    """
+class ModuleAddException(ModuleException):
+    """Raised when a module fails to be added to the bot."""

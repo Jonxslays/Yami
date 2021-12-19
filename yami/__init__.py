@@ -30,8 +30,8 @@ __all__ = [
     "Module",
     "utils",
     "ModuleException",
-    "ModuleAlreadyDetached",
-    "ModuleLoadException",
+    "ModuleRemoveException",
+    "ModuleAddException",
     "command",
 ]
 

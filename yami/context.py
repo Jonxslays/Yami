@@ -108,7 +108,7 @@ class MessageContext:
 
         Args:
             *args, **kwargs
-                The arguments for hikari.Message.respond
+                The arguments for `hikari.Message.respond`
 
         Returns:
             hikari.Message

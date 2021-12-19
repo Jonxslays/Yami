@@ -111,34 +111,121 @@ class Bot(hikari.GatewayBot):
         """
         return self._modules
 
-    def load_modules(self, *paths: str | Path, recursive: bool = True) -> None:
-        """Loads all modules from each of the given relative filepaths.
-        This method looks for all `.py` files that do not begin with an
-        `_`. It is recursive by default.
+    def load_all_modules(self, *paths: str | Path, recursive: bool = True) -> None:
+        """Loads all modules from each of the given paths.This method
+        looks for all `.py` files that do not begin with an `_`. It is
+        recursive by default.
+
+        If this method fails partway through, the bots module's are
+        reverted to their state from before this method was called and
+        no modules will be added.
 
         Args:
             *paths: `str` | `pathlib.Path`
                 One or multiple paths to load modules from.
+
+        Raises:
+            `yami.ModuleAddException`
+                When a module with the same name is already added to the
+                bot, or there is a failure with one of the commands in
+                the module.
         """
+        mod_state = self._modules.copy()
+
         for p in paths:
             if not isinstance(p, Path):
                 p = Path(os.path.relpath(p))
 
-            for file in filter(
-                lambda m: not m.stem.startswith("_"),
-                (p.rglob("*.py") if recursive else p.glob("*.py")),
-            ):
-                container = importlib.import_module(
-                    str(file).replace(".py", "").replace(os.sep, ".")
+            mod_filter = (
+                filter(
+                    lambda m: not m.stem.startswith("_"),
+                    (p.rglob("*.py") if recursive else p.glob("*.py")),
                 )
+                if p.is_dir()
+                else (p,)
+            )
 
-                for mod in filter(
-                    lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
-                    container.__dict__.values(),
-                ):
-                    self.add_module(mod(self))
+            for file in mod_filter:
+                self._load_module(file, mod_state)
 
-    def add_module(self, module: modules_.Module) -> None:
+    def load_module(self, name: str, path: str | Path) -> None:
+        """Loads a single module class from the path specified.
+
+        If this method fails partway through, the bots module's are
+        reverted to their state from before this method was called and
+        no modules will be added.
+
+        Args:
+            name: `str`
+                The name of the module class to load. (case sensitive)
+            path: `str` | `pathlib.Path`
+                The path to load the module from.
+
+        Raises:
+            `yami.ModuleAddException`
+                When a module with the same name is already added to the
+                bot, or there is a failure with one of the commands in
+                the module, or when the named module is not found inside
+                the given path.
+        """
+        mod_state = self._modules.copy()
+
+        if not isinstance(path, Path):
+            path = Path(os.path.relpath(path))
+
+        try:
+            container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
+        except ModuleNotFoundError as e:
+            self._modules = mod_state
+            raise exceptions.ModuleAddException(f"Failed to import '{name}' - {e}") from None
+
+        for mod in filter(
+            lambda m: inspect.isclass(m) and issubclass(m, modules_.Module) and m.__name__ == name,
+            container.__dict__.values(),
+        ):
+            try:
+                self._add_module(mod(self))
+            except exceptions.ModuleAddException as e:
+                self._modules = mod_state
+                raise e from None
+
+            mod._loaded = True
+
+    def _load_module(self, path: Path, mod_state: dict[str, modules_.Module]) -> None:
+        """Load a given module onto the bot.
+
+        Args:
+            mod_filter: filter[Path] | tuple[Path]
+                The filter object to load modules from.
+            mod_state: dict[str, modules_.Module]
+                The state to revert to if there is an error while
+                loading this module.
+
+        Raises:
+            `yami.ModuleAddException`
+                When a module with the same name is already added to the
+                bot, or there is a failure with one of the commands in
+                the module.
+        """
+        try:
+            container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
+        except ModuleNotFoundError as e:
+            self._modules = mod_state
+            raise exceptions.ModuleAddException(f"Failed to load module - {e}") from None
+
+        for mod in filter(
+            lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
+            container.__dict__.values(),
+        ):
+            try:
+                self._add_module(mod(self))
+            except exceptions.ModuleAddException as e:
+                self._modules = mod_state
+                raise e from None
+            else:
+                mod._loaded = True
+
+    def _add_module(self, module: modules_.Module) -> None:
         """Adds a `yami.Module` to the bot.
 
         Args:
@@ -146,29 +233,29 @@ class Bot(hikari.GatewayBot):
                 The module to add to the bot.
 
         Raises:
-            `ValueError`
+            `yami.ModuleAddException`
                 When a module with the same name is already added to the
-                bot.
+                bot, or there is a failure with one of the commands in
+                the module.
         """
         if module.name in self._modules:
-            raise ValueError(
-                f"Failed to add module, a module with name '{module.name}' already exists"
+            raise exceptions.ModuleAddException(
+                f"Failed to add module'{module.name}' to bot - name already exists"
             )
 
-        cmd_buf = self._commands.copy()
+        cmd_state = self._commands.copy()
         for cmd in module.commands.values():
             try:
                 self.add_command(cmd)
             except exceptions.YamiException:
-                self._commands = cmd_buf
-                raise exceptions.ModuleLoadException(
-                    f"Failed to load module {module} due to command '{cmd.name}'"
+                self._commands = cmd_state
+                raise exceptions.ModuleAddException(
+                    f"Failed to add module {module} to bot due to command '{cmd.name}'"
                 )
 
         self._modules[module.name] = module
-        module._loaded = True
 
-    def remove_module(self, name: str) -> modules_.Module:
+    def _remove_module(self, name: str) -> modules_.Module:
         """Removes a module from the bot.
 
         Args:
@@ -183,24 +270,23 @@ class Bot(hikari.GatewayBot):
             ValueError
                 When no module with this name is found on the bot.
         """
-        if name in self._modules:
-            module = self._modules.get(name)
-            assert module is not None
-            commands = module.commands.copy()
-
-            for cmd_name in commands:
+        try:
+            module = self._modules.pop(name)
+            module._loaded = False
+        except KeyError:
+            raise exceptions.ModuleRemoveException(
+                f"Failed to remove module '{name}' - it was not found"
+            ) from None
+        else:
+            for cmd in module.commands:
                 try:
-                    self.remove_command(cmd_name)
-                except exceptions.YamiException:
-                    raise exceptions.ModuleLoadException(
-                        f"Error with unloading module {module} due to command '{cmd_name}'"
-                    )
+                    self.remove_command(cmd)
+                except exceptions.CommandNotFound:
+                    # Allow failures to pass silently, as were removing
+                    # this module no matter what.
+                    pass
 
-            removed = self._modules.pop(name)
-            removed._loaded = False
-            return removed
-
-        raise ValueError(f"Failed to remove module '{name}', it was not found")
+            return module
 
     def add_command(
         self,
@@ -235,7 +321,6 @@ class Bot(hikari.GatewayBot):
             yami.BadArgument
                 If aliases is not a list or a tuple.
         """
-
         if isinstance(command, commands_.MessageCommand):
             if type(command.aliases) not in (list, tuple):
                 raise exceptions.BadArgument(
@@ -244,13 +329,14 @@ class Bot(hikari.GatewayBot):
 
             if command.name in self._commands:
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command.name}' - name already in use",
+                    f"Failed to add command '{command.name}' to bot - name already in use",
                 )
 
             for a in command.aliases:
                 if a in self._aliases:
                     raise exceptions.DuplicateCommand(
-                        f"Failed to add command '{command.name}' - alias '{a}' already in use",
+                        f"Failed to add command '{command.name}' to bot "
+                        f"- alias '{a}' already in use",
                     )
 
             self._aliases.update(dict((a, command.name) for a in command.aliases))
@@ -262,16 +348,49 @@ class Bot(hikari.GatewayBot):
         return self.add_command(cmd)
 
     def remove_command(self, name: str) -> commands_.MessageCommand:
-        if cmd := self._commands.pop(name):
-            if mod := cmd.module:
-                mod.remove_command(cmd.name)
+        """Removes a command from the bot.
 
+        Args:
+            command: Callable[..., Any] | yami.MessageCommand
+                The command to add.
+
+        Kwargs:
+            name: str | None
+                The name of the command (defaults to the function name)
+            description: str
+                The command descriptions (defaults to "")
+            aliases: Iterable[str]
+                The command aliases (defaults to [])
+
+        Returns:
+            yami.MessageCommand
+                The command that was added.
+
+        Raises:
+            yami.CommandNotFound
+                If the command was not found.
+        """
+        try:
+            cmd = self._commands.pop(name)
+        except KeyError:
+            raise exceptions.CommandNotFound(
+                f"Failed to remove command '{name}' from bot - it was not found"
+            ) from None
+        else:
             return cmd
-
-        raise ValueError(f"Failed to remove command '{name}', it was not found")
 
     def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
         """Yields commands attached to the bot.
+
+        Returns:
+            Generator[yami.MessageCommand, ...]
+                A generator over the bot's commands.
+        """
+        yield from self._commands.values()
+
+    def yield_modules(self) -> typing.Generator[commands_.MessageCommand, None, None]:
+        """Yields the modules attached to the bot. This will yield both
+        loaded, and unloaded modules.
 
         Returns:
             Generator[yami.MessageCommand, ...]
@@ -299,6 +418,19 @@ class Bot(hikari.GatewayBot):
 
         return self._commands.get(name)
 
+    def get_module(self, name: str) -> modules_.Module | None:
+        """Gets a module.
+
+        Args:
+            name: str
+                The name of the module to get.
+
+        Returns:
+            yami.Module | None
+                The module, or None if not found.
+        """
+        return self._modules.get(name)
+
     def command(
         self,
         name: str | None = None,
@@ -306,7 +438,25 @@ class Bot(hikari.GatewayBot):
         *,
         aliases: typing.Iterable[str] = [],
     ) -> typing.Callable[..., typing.Any]:
-        """Decorator to add a message command to the bot."""
+        """Decorator to add a message command to the bot.
+
+        Args:
+            name: str
+                The name of the command. Defaults to the function name.
+            description: str
+                The command description. If omitted, the callbacks docstring
+                will be used instead. REMINDER: docstrings are stripped from
+                your programs bytecode when it is run with the `-OO`
+                optimization flag.
+
+        Kwargs:
+            aliases: Iterable[str]
+                A list or tuple of aliases for the command.
+
+        Returns:
+            Callable[..., yami.MessageCommand]
+                The callback, but transformed into a message command.
+        """
         return lambda callback: self.add_command(
             commands_.MessageCommand(
                 callback,
