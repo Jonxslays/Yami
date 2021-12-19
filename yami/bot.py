@@ -111,6 +111,19 @@ class Bot(hikari.GatewayBot):
         """
         return self._modules
 
+    def get_alias_command(self, alias: str) -> commands_.MessageCommand | None:
+        """Helper method to get the command associated with an alias.
+
+        Args:
+            alias: `str`
+                The alias to get the command for.
+
+        Returns:
+            `yami.MessageCommand` | `None`
+                The command, or None if not found.
+        """
+        return self._commands.get(self.aliases.get(alias, alias))
+
     def load_all_modules(self, *paths: str | Path, recursive: bool = True) -> None:
         """Loads all modules from each of the given paths.This method
         looks for all `.py` files that do not begin with an `_`. It is
@@ -199,7 +212,7 @@ class Bot(hikari.GatewayBot):
             `yami.ModuleLoadException`
                 When a module with the same name is already loaded on
                 the bot, or when the named module is not found inside
-                the given path.
+                the given path's source file.
             `yami.ModuleAddException`
                 When there is a failure with one of the commands in
                 the module.
@@ -233,7 +246,8 @@ class Bot(hikari.GatewayBot):
             mod._loaded = True
 
     def unload_module(self, name: str) -> modules_.Module:
-        """Unloads a single module class with the given name.
+        """Unloads a single module class with the given name. It will
+        remain in `Bot.modules`, but just in an unloaded state.
 
         Args:
             name: `str`
@@ -261,6 +275,31 @@ class Bot(hikari.GatewayBot):
         raise exceptions.ModuleUnloadException(
             f"Failed to unload module '{name}' from bot - it was not found"
         )
+
+    def remove_module(self, name: str) -> modules_.Module:
+        """Removes a single module class with the given name. It will
+        no longer be accessible via `Bot.modules`.
+
+        Args:
+            name: `str`
+                The name of the module class to remove. (case sensitive)
+
+        Returns:
+            `yami.Module`
+                The module that was removed.
+
+        Raises:
+            `yami.ModuleRemoveException`
+                When no module with this name was found.
+        """
+        try:
+            self.unload_module(name)
+        except exceptions.ModuleUnloadException:
+            raise exceptions.ModuleRemoveException(
+                f"Failed to remove module '{name}' from bot - it was not found"
+            ) from None
+
+        return self._modules.pop(name)
 
     def _add_module(self, module: modules_.Module) -> None:
         """Adds a `yami.Module` to the bot.
@@ -291,38 +330,6 @@ class Bot(hikari.GatewayBot):
                 )
 
         self._modules[module.name] = module
-
-    def _remove_module(self, name: str) -> modules_.Module:
-        """Removes a module from the bot.
-
-        Args:
-            name: str
-                The name of the module to remove.
-
-        Returns:
-            yami.Module
-                The module that was remove.
-
-        Raises:
-            `yami.ModuleRemoveException`
-                When no module with this name is found on the bot.
-        """
-        try:
-            module = self._modules.pop(name)
-        except KeyError:
-            raise exceptions.ModuleRemoveException(
-                f"Failed to remove module '{name}' from bot - it was not found"
-            ) from None
-        else:
-            for cmd in module.commands:
-                try:
-                    self.remove_command(cmd)
-                except exceptions.CommandNotFound:
-                    # Allow failures to pass silently, as were removing
-                    # this module no matter what.
-                    continue
-
-            return module
 
     def add_command(
         self,
