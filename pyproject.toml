@@ -51,6 +51,7 @@ pytest-testdox = "~=3.0.0"
 
 [tool.black]
 line-length = 99
+extend-exclude = "this.py"
 
 [tool.isort]
 profile = "black"

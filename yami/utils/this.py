@@ -15,3 +15,29 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from __future__ import annotations
+
+
+__zen__ = """ - Txu Zud ev Yqcy -
+
+Txuhu yi bywxj qdt tqha yd qbb ev ki.
+Cxqddub oekh uduhwo, rkybt iecujxydw qcqpydw.
+
+Bu mxe oek mqdj je ru, qdt te mxqj oek mqdj je te.
+Hqlu vkd mxud oek sqd, qdt sho mxud oek ckij.
+
+Sevjmqhu yi q fkppbu, ieblu yj eh ru tuvuqjut.
+Mqydjqyd oekh secfeikhu, bewys eluhsecui qbb.
+
+Scybu cehu, qdt weet bksa.
+"""
+
+
+def __zen() -> str:
+    return "".join(
+        chr((ord(c) - (a := ord("a")) + 69 * -100 // 420 + 1) % 26 + a)
+        if "a" <= c <= "z" else c
+        for c in __zen__
+    )
+
+
+print(__zen())
