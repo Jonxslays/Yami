@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-
 __zen__ = """ - Txu Zud ev Yqcy -
 
 Txuhu yi bywxj qdt tqha yd qbb ev ki.
