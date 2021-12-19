@@ -17,8 +17,11 @@
 from __future__ import annotations
 
 import builtins
+import importlib
 import inspect
+import os
 import typing
+from pathlib import Path
 
 import hikari
 
@@ -103,22 +106,47 @@ class Bot(hikari.GatewayBot):
 
     @property
     def modules(self) -> dict[str, modules_.Module]:
-        """A dictionary of name, Module pairs that are synced to the
+        """A dictionary of name, `Module` pairs that are synced to the
         bot.
         """
         return self._modules
 
-    def sync_module(self, module: modules_.Module) -> None:
-        """Syncs a module with the bot.
+    def load_modules(self, *paths: str | Path, recursive: bool = True) -> None:
+        """Loads all modules from each of the given relative filepaths.
+        This method looks for all `.py` files that do not begin with an
+        `_`. It is recursive by default.
 
         Args:
-            module: yami.Module
-                The module to sync with the bot.
+            *paths: `str` | `pathlib.Path`
+                One or multiple paths to load modules from.
+        """
+        for p in paths:
+            if not isinstance(p, Path):
+                p = Path(os.path.relpath(p))
+
+            for file in filter(
+                lambda m: not m.stem.startswith("_"),
+                (p.rglob("*.py") if recursive else p.glob("*.py")),
+            ):
+                container = importlib.import_module(str(file).replace(".py", "").replace("/", "."))
+
+                for mod in filter(
+                    lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
+                    container.__dict__.values(),
+                ):
+                    self.add_module(mod(self))
+
+    def add_module(self, module: modules_.Module) -> None:
+        """Adds a `yami.Module` to the bot.
+
+        Args:
+            module: `yami.Module`
+                The module to add to the bot.
 
         Raises:
-            ValueError
-                When a module with the same name is already synced with
-                the bot.
+            `ValueError`
+                When a module with the same name is already added to the
+                bot.
         """
         if module.name in self._modules:
             raise ValueError(
@@ -131,26 +159,27 @@ class Bot(hikari.GatewayBot):
                 self.add_command(cmd)
             except exceptions.YamiException:
                 self._commands = cmd_buf
-                raise exceptions.ModuleSyncFailure(
-                    f"Failed to sync module {module} due to command '{cmd.name}'"
+                raise exceptions.ModuleLoadException(
+                    f"Failed to load module {module} due to command '{cmd.name}'"
                 )
 
         self._modules[module.name] = module
+        module._loaded = True
 
-    def desync_module(self, name: str) -> modules_.Module:
-        """Desyncs a module from the bot.
+    def remove_module(self, name: str) -> modules_.Module:
+        """Removes a module from the bot.
 
         Args:
             name: str
-                The name of the module to desync.
+                The name of the module to remove.
 
         Returns:
             yami.Module
-                The module that was desynced.
+                The module that was remove.
 
         Raises:
             ValueError
-                When no module with this name is synced to the bot.
+                When no module with this name is found on the bot.
         """
         if name in self._modules:
             module = self._modules.get(name)
@@ -161,11 +190,14 @@ class Bot(hikari.GatewayBot):
                 try:
                     self.remove_command(cmd_name)
                 except exceptions.YamiException:
-                    raise exceptions.ModuleSyncFailure(
-                        f"Error with desync module {module} due to command '{cmd_name}'"
+                    raise exceptions.ModuleLoadException(
+                        f"Error with unloading module {module} due to command '{cmd_name}'"
                     )
 
-            return self._modules.pop(name)
+            removed = self._modules.pop(name)
+            removed._loaded = False
+            return removed
+
         raise ValueError(f"Failed to remove module '{name}', it was not found")
 
     def add_command(
@@ -306,8 +338,9 @@ class Bot(hikari.GatewayBot):
             raise exceptions.CommandNotFound(f"No command found with name '{name}'")
 
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
+        ctx = context.MessageContext(self, event.message, cmd, p)
         converted: list[typing.Any] = []
-        offset = 1
+        offset = 2 if cmd.module else 1
 
         for i, arg in enumerate(parsed):
             a = annots[i + offset].annotation
@@ -331,11 +364,7 @@ class Bot(hikari.GatewayBot):
                     f"Invalid arg '{arg}' for {t} in '{cmd.name}' at position {i + 1}"
                 ) from None
 
-        ctx = context.MessageContext(self, event.message, cmd, p)
-
         if m := cmd.module:
-            print("Its a moduel cmd")
             await cmd.callback(m, ctx, *converted)
         else:
-            print("no module mcd")
             await cmd.callback(ctx, *converted)

@@ -31,7 +31,7 @@ __all__ = [
     "utils",
     "ModuleException",
     "ModuleAlreadyDetached",
-    "ModuleSyncFailure",
+    "ModuleLoadException",
     "command",
 ]
 

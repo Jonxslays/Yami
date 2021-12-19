@@ -24,7 +24,7 @@ __all__ = [
     "DuplicateCommand",
     "ModuleException",
     "ModuleAlreadyDetached",
-    "ModuleSyncFailure",
+    "ModuleLoadException",
 ]
 
 
@@ -32,23 +32,27 @@ class YamiException(Exception):
     """Base exception all Yami exceptions inherit from."""
 
 
-class CommandNotFound(YamiException):
+class CommandException(YamiException):
+    """Raised when an execption relating to a command occurs."""
+
+
+class CommandNotFound(CommandException):
     """Raised when a command is invoked with a valid prefix, but no
     command with that name is found.
     """
 
 
-class AsyncRequired(YamiException):
+class AsyncRequired(CommandException):
     """Raised when a synchronous command is added to the bot via the
     yami.legacy decorator.
     """
 
 
-class BadArgument(YamiException):
+class BadArgument(CommandException):
     """Raised what a bad argument is passed to a message command."""
 
 
-class DuplicateCommand(YamiException):
+class DuplicateCommand(CommandException):
     """Raised when a command is added that shares a name or aliases with
     an existing command.
     """
@@ -64,7 +68,7 @@ class ModuleAlreadyDetached(ModuleException):
     """
 
 
-class ModuleSyncFailure(ModuleException):
-    """Raised when a module fails to sync, usually due to some command
+class ModuleLoadException(ModuleException):
+    """Raised when a module fails to load usually due to some command
     issue.
     """
