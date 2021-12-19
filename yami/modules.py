@@ -17,7 +17,6 @@
 from __future__ import annotations
 
 import inspect
-import typing
 from dataclasses import dataclass
 
 from yami import bot as bot_
@@ -75,22 +74,6 @@ class Module:
         m = cls()
         m._bot = bot
         bot.sync_module(m)
-
-    @classmethod
-    def command(
-        cls,
-        name: str | None = None,
-        description: str = "",
-        *,
-        aliases: typing.Iterable[str] = [],
-    ) -> typing.Callable[..., commands_.MessageCommand]:
-        """Decorator to add commands to the bot inside of modules."""
-        return lambda callback: commands_.MessageCommand(
-            callback,
-            name or callback.__name__,
-            description,
-            aliases,
-        )
 
     def add_command(self, command: commands_.MessageCommand) -> None:
         if command.name in self._commands:

@@ -49,5 +49,3 @@ from yami.exceptions import *
 from yami.modules import *
 
 from . import utils
-
-command = Module.command

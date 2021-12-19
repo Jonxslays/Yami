@@ -19,13 +19,11 @@ from __future__ import annotations
 import asyncio
 import typing
 
-from yami import exceptions
-
-if typing.TYPE_CHECKING:
-    from yami import modules
+from yami import exceptions, modules
 
 __all__ = [
     "MessageCommand",
+    "command",
 ]
 
 
@@ -120,3 +118,18 @@ class MessageCommand:
                 The callback function registered to the command.
         """
         return self._callback
+
+
+def command(
+    name: str | None = None,
+    description: str = "",
+    *,
+    aliases: typing.Iterable[str] = [],
+) -> typing.Callable[..., MessageCommand]:
+    """Decorator to add commands to the bot inside of modules."""
+    return lambda callback: MessageCommand(
+        callback,
+        name or callback.__name__,
+        description,
+        aliases,
+    )
