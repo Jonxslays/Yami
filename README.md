@@ -95,6 +95,7 @@ if __name__ == "__main__":
 - [ ] Utils
 - [ ] Proper command arg type parsing
 - [ ] QOL methods
+- [ ] Logging
 
 </details>
 </div>
