@@ -370,17 +370,10 @@ class Bot(hikari.GatewayBot):
                     f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
                 )
 
-            if command.name in self._commands:
+            if command.name in self._commands or any(a in self._aliases for a in command.aliases):
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command.name}' to bot - name already in use",
+                    f"Failed to add command '{command.name}' to bot - name/alias already in use",
                 )
-
-            for a in command.aliases:
-                if a in self._aliases:
-                    raise exceptions.DuplicateCommand(
-                        f"Failed to add command '{command.name}' to bot "
-                        f"- alias '{a}' already in use",
-                    )
 
             self._aliases.update(dict((a, command.name) for a in command.aliases))
             self._commands[command.name] = command
@@ -426,7 +419,7 @@ class Bot(hikari.GatewayBot):
         """Yields commands attached to the bot.
 
         Returns:
-            Generator[yami.MessageCommand, ...]
+            `Generator[yami.MessageCommand, ...]`
                 A generator over the bot's commands.
         """
         yield from self._commands.values()
@@ -436,7 +429,8 @@ class Bot(hikari.GatewayBot):
         loaded, and unloaded modules.
 
         Returns:
-            Generator[yami.MessageCommand, ...]
+            `Generator[yami.MessageCommand, ...]`
+                A generator over the bot's commands.
         """
         yield from self._modules.values()
 
@@ -444,16 +438,16 @@ class Bot(hikari.GatewayBot):
         """Gets a command.
 
         Args:
-            name: str
+            name: `str`
                 The name of the command to get.
 
         Kwargs:
-            alias: bool
+            alias: `bool`
                 Whether or not to search aliases as well as names.
                 Defaults to False.
 
         Returns:
-            yami.MessageCommand | None
+            `yami.MessageCommand | None`
                 The command, or None if not found.
         """
         if alias:
@@ -465,11 +459,11 @@ class Bot(hikari.GatewayBot):
         """Gets a module.
 
         Args:
-            name: str
+            name: `str`
                 The name of the module to get.
 
         Returns:
-            yami.Module | None
+           `yami.Module` | `None`
                 The module, or None if not found.
         """
         return self._modules.get(name)
@@ -484,20 +478,20 @@ class Bot(hikari.GatewayBot):
         """Decorator to add a message command to the bot.
 
         Args:
-            name: str
+            name: `str`
                 The name of the command. Defaults to the function name.
-            description: str
+            description: `str`
                 The command description. If omitted, the callbacks
                 docstring will be used instead. REMINDER: docstrings are
                 stripped from your programs bytecode when it is run with
                 the `-OO` optimization flag.
 
         Kwargs:
-            aliases: Iterable[str]
+            aliases: `Iterable[str]`
                 A list or tuple of aliases for the command.
 
         Returns:
-            Callable[..., yami.MessageCommand]
+            `Callable[..., yami.MessageCommand]`
                 The callback, but transformed into a message command.
         """
         return lambda callback: self.add_command(
@@ -524,6 +518,7 @@ class Bot(hikari.GatewayBot):
         name = parsed.pop(0)[len(p) :]
 
         # TODO: Fire a CommandInvokeEvent here once we make it
+        # TODO: This is a mess, add a helper class or module
 
         if name in self._aliases:
             cmd = self._commands[self._aliases[name]]
