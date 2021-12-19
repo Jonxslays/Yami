@@ -128,7 +128,9 @@ class Bot(hikari.GatewayBot):
                 lambda m: not m.stem.startswith("_"),
                 (p.rglob("*.py") if recursive else p.glob("*.py")),
             ):
-                container = importlib.import_module(str(file).replace(".py", "").replace("/", "."))
+                container = importlib.import_module(
+                    str(file).replace(".py", "").replace(os.sep, ".")
+                )
 
                 for mod in filter(
                     lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
