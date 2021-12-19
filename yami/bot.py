@@ -24,6 +24,7 @@ import hikari
 
 from yami import commands as commands_
 from yami import context, exceptions
+from yami import modules as modules_
 
 __all__ = ["Bot"]
 
@@ -63,6 +64,7 @@ class Bot(hikari.GatewayBot):
         "_owner_ids",
         "_commands",
         "_aliases",
+        "_modules",
     )
 
     def __init__(
@@ -81,6 +83,7 @@ class Bot(hikari.GatewayBot):
         self._case_insensitive = case_insensitive
         self._commands: dict[str, commands_.MessageCommand] = {}
         self._owner_ids = owner_ids
+        self._modules: dict[str, modules_.Module] = {}
 
         self.subscribe(hikari.MessageCreateEvent, self._listen)
 
@@ -97,6 +100,73 @@ class Bot(hikari.GatewayBot):
         MessageCommand's name.
         """
         return self._aliases
+
+    @property
+    def modules(self) -> dict[str, modules_.Module]:
+        """A dictionary of name, Module pairs that are synced to the
+        bot.
+        """
+        return self._modules
+
+    def sync_module(self, module: modules_.Module) -> None:
+        """Syncs a module with the bot.
+
+        Args:
+            module: yami.Module
+                The module to sync with the bot.
+
+        Raises:
+            ValueError
+                When a module with the same name is already synced with
+                the bot.
+        """
+        if module.name in self._modules:
+            raise ValueError(
+                f"Failed to add module, a module with name '{module.name}' already exists"
+            )
+
+        cmd_buf = self._commands.copy()
+        for cmd in module.commands.values():
+            try:
+                self.add_command(cmd)
+            except exceptions.YamiException:
+                self._commands = cmd_buf
+                raise exceptions.ModuleSyncFailure(
+                    f"Failed to sync module {module} due to command '{cmd.name}'"
+                )
+
+        self._modules[module.name] = module
+
+    def desync_module(self, name: str) -> modules_.Module:
+        """Desyncs a module from the bot.
+
+        Args:
+            name: str
+                The name of the module to desync.
+
+        Returns:
+            yami.Module
+                The module that was desynced.
+
+        Raises:
+            ValueError
+                When no module with this name is synced to the bot.
+        """
+        if name in self._modules:
+            module = self._modules.get(name)
+            assert module is not None
+            commands = module.commands.copy()
+
+            for cmd_name in commands:
+                try:
+                    self.remove_command(cmd_name)
+                except exceptions.YamiException:
+                    raise exceptions.ModuleSyncFailure(
+                        f"Error with desync module {module} due to command '{cmd_name}'"
+                    )
+
+            return self._modules.pop(name)
+        raise ValueError(f"Failed to remove module '{name}', it was not found")
 
     def add_command(
         self,
@@ -156,6 +226,15 @@ class Bot(hikari.GatewayBot):
         name = name or command.__name__
         cmd = commands_.MessageCommand(command, name, description, aliases)
         return self.add_command(cmd)
+
+    def remove_command(self, name: str) -> commands_.MessageCommand:
+        if cmd := self._commands.pop(name):
+            if mod := cmd.module:
+                mod.remove_command(cmd.name)
+
+            return cmd
+
+        raise ValueError(f"Failed to remove command '{name}', it was not found")
 
     def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
         """Yields commands attached to the bot.
@@ -228,9 +307,10 @@ class Bot(hikari.GatewayBot):
 
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
         converted: list[typing.Any] = []
+        offset = 1
 
         for i, arg in enumerate(parsed):
-            a = annots[i + 1].annotation
+            a = annots[i + offset].annotation
             t = getattr(builtins, a, str) if isinstance(a, str) else a
 
             if t is bool:
@@ -240,7 +320,7 @@ class Bot(hikari.GatewayBot):
                     converted.append(False)
                 else:
                     raise exceptions.BadArgument(
-                        f"Invalid arg '{arg}' for {bool} in " f"'{cmd.name}' at position {i + 1}"
+                        f"Invalid arg '{arg}' for {bool} in '{cmd.name}' at position {i + offset}"
                     ) from None
                 continue
 
@@ -252,4 +332,10 @@ class Bot(hikari.GatewayBot):
                 ) from None
 
         ctx = context.MessageContext(self, event.message, cmd, p)
-        await cmd.callback(ctx, *converted)
+
+        if m := cmd.module:
+            print("Its a moduel cmd")
+            await cmd.callback(m, ctx, *converted)
+        else:
+            print("no module mcd")
+            await cmd.callback(ctx, *converted)

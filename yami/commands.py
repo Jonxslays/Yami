@@ -21,9 +21,11 @@ import typing
 
 from yami import exceptions
 
+if typing.TYPE_CHECKING:
+    from yami import modules
+
 __all__ = [
     "MessageCommand",
-    "command",
 ]
 
 
@@ -46,6 +48,7 @@ class MessageCommand:
         "_callback",
         "_name",
         "_description",
+        "_module",
     )
 
     def __init__(
@@ -54,11 +57,13 @@ class MessageCommand:
         name: str,
         description: str = "",
         aliases: typing.Iterable[str] = [],
+        module: modules.Module | None = None,
     ) -> None:
         self._aliases = aliases
         self._callback = callback
         self._description = description
         self._name = name
+        self._module = module
 
         if not asyncio.iscoroutinefunction(callback):
             raise exceptions.AsyncRequired(
@@ -87,6 +92,16 @@ class MessageCommand:
         return self._name
 
     @property
+    def module(self) -> modules.Module | None:
+        """The module this command originates from, if any.
+
+        Returns:
+            yami.Module | None
+                The module, or None if the command is standalone.
+        """
+        return self._module
+
+    @property
     def description(self) -> str:
         """The commands description.
 
@@ -105,18 +120,3 @@ class MessageCommand:
                 The callback function registered to the command.
         """
         return self._callback
-
-
-def command(
-    name: str | None = None,
-    description: str = "",
-    *,
-    aliases: typing.Iterable[str] = [],
-) -> typing.Callable[..., MessageCommand]:
-    """Decorator to add commands to the bot inside of modules."""
-    return lambda callback: MessageCommand(
-        callback,
-        name or callback.__name__,
-        description,
-        aliases,
-    )

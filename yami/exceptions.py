@@ -22,6 +22,9 @@ __all__ = [
     "AsyncRequired",
     "BadArgument",
     "DuplicateCommand",
+    "ModuleException",
+    "ModuleAlreadyDetached",
+    "ModuleSyncFailure",
 ]
 
 
@@ -48,4 +51,20 @@ class BadArgument(YamiException):
 class DuplicateCommand(YamiException):
     """Raised when a command is added that shares a name or aliases with
     an existing command.
+    """
+
+
+class ModuleException(YamiException):
+    """Raised when an error associated with a module occurs."""
+
+
+class ModuleAlreadyDetached(ModuleException):
+    """Raised when an attempt is made to detach a module, but the module
+    is not attached to any bot.
+    """
+
+
+class ModuleSyncFailure(ModuleException):
+    """Raised when a module fails to sync, usually due to some command
+    issue.
     """
