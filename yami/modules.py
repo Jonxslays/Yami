@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import inspect
+import typing
 from dataclasses import dataclass
 
 from yami import bot as bot_
@@ -71,6 +72,15 @@ class Module:
     def is_loaded(self) -> bool:
         """Whether or not this module is currently loaded."""
         return self._loaded
+
+    def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
+        """Yields commands attached to the module.
+
+        Returns:
+            Generator[yami.MessageCommand, ...]
+                A generator over the modules's commands.
+        """
+        yield from self._commands.values()
 
     def add_command(self, command: commands_.MessageCommand) -> None:
         """Adds a command to the module.

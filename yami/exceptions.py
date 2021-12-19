@@ -25,6 +25,8 @@ __all__ = [
     "ModuleException",
     "ModuleRemoveException",
     "ModuleAddException",
+    "ModuleLoadException",
+    "ModuleUnloadException",
 ]
 
 
@@ -63,6 +65,14 @@ class ModuleException(YamiException):
 
 
 class ModuleRemoveException(ModuleException):
+    """Raised when a module fails to be removed from the bot."""
+
+
+class ModuleUnloadException(ModuleException):
+    """Raised when a module fails to be removed from the bot."""
+
+
+class ModuleLoadException(ModuleException):
     """Raised when a module fails to be removed from the bot."""
 
 
