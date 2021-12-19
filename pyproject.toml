@@ -69,6 +69,7 @@ include = ["yami"]
 ignore = ["tests"]
 typeCheckingMode = "strict"
 reportImportCycles = false
+reportPrivateUsage = "information"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
