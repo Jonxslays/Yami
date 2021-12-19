@@ -33,7 +33,7 @@ class YamiException(Exception):
 
 
 class CommandException(YamiException):
-    """Raised when an execption relating to a command occurs."""
+    """Raised when an exception relating to a command occurs."""
 
 
 class CommandNotFound(CommandException):

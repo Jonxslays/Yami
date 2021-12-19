@@ -29,7 +29,7 @@ __all__ = [
 
 
 class MessageContext:
-    """The context surround a message commands invokation.
+    """The context surround a message commands invocation.
 
     Args:
         bot: yami.Bot
