@@ -132,11 +132,6 @@ def test_yield_commands(model: yami.Bot) -> None:
         next(gen)
 
 
-def test_sync_callback_fails(model: yami.Bot) -> None:
-    with pytest.raises(yami.AsyncRequired):
-        model.add_command(mock.Mock(), name="bad")
-
-
 def test_get_command_with_alias_flag(model: yami.Bot) -> None:
     model.add_command(mock.AsyncMock(), name="hi", aliases=["bye"])
     cmd = model.get_command("bye", alias=True)

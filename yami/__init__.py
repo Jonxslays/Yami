@@ -23,7 +23,6 @@ __all__ = [
     "MessageCommand",
     "YamiException",
     "CommandNotFound",
-    "AsyncRequired",
     "command",
     "BadArgument",
     "DuplicateCommand",
@@ -37,6 +36,10 @@ __all__ = [
     "ModuleUnloadException",
     "CheckException",
     "is_owner",
+    "CheckRemovalFailed",
+    "BadCheckPlacement",
+    "CheckFailed",
+    "CheckAddFailed",
 ]
 
 __version__ = "0.3.0"

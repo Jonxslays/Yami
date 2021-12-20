@@ -16,25 +16,60 @@
 
 from __future__ import annotations
 
-import functools
-from typing import Any, Callable
+import abc
 
-from yami import context, exceptions
+from yami import commands, context, exceptions
 
-__all__ = ["is_owner"]
+__all__ = ["is_owner", "Check"]
 
 
-def is_owner(cb: Callable[..., Any]) -> Callable[..., Any]:
-    """MessageCommand decorator that registers a check to the command
-    invocations. Must be placed below the command decorator.
-    """
+class Check(abc.ABC):
+    """Base class all Yami checks inherit from."""
 
-    @functools.wraps(cb)
-    async def _check(ctx: context.MessageContext, *args: Any, **kwargs: Any) -> Any:
+    __slots__ = ()
+
+    def __init__(self, obj: commands.MessageCommand | None = None) -> None:
+        if obj is not None:
+            self._bind(obj)
+
+    def __call__(self, obj: commands.MessageCommand | None = None) -> None:
+        if obj is not None:
+            self._bind(obj)
+
+    def _bind(self, obj: commands.MessageCommand) -> None:
+        try:
+            obj.add_check(self)
+        except AttributeError:
+            raise exceptions.BadCheckPlacement(
+                f"'{obj.__name__}' is not a MessageCommand - "  # type: ignore
+                "move this decorator above the command decorator"
+            )
+
+    @classmethod
+    def get_name(cls) -> str:
+        return cls.__name__
+
+    @abc.abstractmethod
+    def execute(self, ctx: context.MessageContext) -> None:
+        """Executes the check.
+
+        Args:
+            ctx: yami.MessageContext
+                The context to execute the check against.
+
+        Raises:
+            `yami.CheckFailed`
+                When the check fails.
+        """
+
+
+class is_owner(Check):
+    """Checks whether the author of a command is the bots owner."""
+
+    __slots__ = ()
+
+    def execute(self, ctx: context.MessageContext) -> None:
         if ctx.author.id not in ctx.bot.owner_ids:
             raise exceptions.CheckException(
                 f"Command '{ctx.command.name}' failed - you are not the owner of this application."
             )
-        return await cb(ctx, *args, **kwargs)
-
-    return _check

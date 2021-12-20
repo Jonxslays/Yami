@@ -19,7 +19,6 @@ from __future__ import annotations
 __all__ = [
     "YamiException",
     "CommandNotFound",
-    "AsyncRequired",
     "BadArgument",
     "DuplicateCommand",
     "ModuleException",
@@ -28,6 +27,10 @@ __all__ = [
     "ModuleLoadException",
     "ModuleUnloadException",
     "CheckException",
+    "BadCheckPlacement",
+    "CheckRemovalFailed",
+    "CheckFailed",
+    "CheckAddFailed",
 ]
 
 
@@ -42,12 +45,6 @@ class CommandException(YamiException):
 class CommandNotFound(CommandException):
     """Raised when a command is invoked, or attempted to be accessed but
     no command with that name is found.
-    """
-
-
-class AsyncRequired(CommandException):
-    """Raised when a synchronous command is added to the bot via the
-    yami.legacy decorator.
     """
 
 
@@ -82,4 +79,22 @@ class ModuleAddException(ModuleException):
 
 
 class CheckException(CommandException):
-    """Raised when a check is failed."""
+    """Raised when an exception relating to a check occurs."""
+
+
+class BadCheckPlacement(CheckException):
+    """Raised when a check decorator is placed below the command
+    decorator.
+    """
+
+
+class CheckRemovalFailed(CheckException):
+    """Raised when an invalid type is passed to remove_check."""
+
+
+class CheckAddFailed(CheckException):
+    """Raised when an invalid type is passed to add_check."""
+
+
+class CheckFailed(CheckException):
+    """Raised when a check is failed during command invocation."""

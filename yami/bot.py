@@ -433,7 +433,7 @@ class Bot(hikari.GatewayBot):
 
         Returns:
             `Generator[yami.MessageCommand, ...]`
-                A generator over the bot's commands.
+                A generator over the bots commands.
         """
         yield from self._commands.values()
 
@@ -443,7 +443,7 @@ class Bot(hikari.GatewayBot):
 
         Returns:
             `Generator[yami.MessageCommand, ...]`
-                A generator over the bot's commands.
+                A generator over the bots modules.
         """
         yield from self._modules.values()
 
@@ -542,6 +542,10 @@ class Bot(hikari.GatewayBot):
 
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
         ctx = context.MessageContext(self, event.message, cmd, p)
+
+        for check in cmd.yield_checks():
+            check.execute(ctx)
+
         converted: list[typing.Any] = []
         offset = 2 if cmd.module else 1
 
