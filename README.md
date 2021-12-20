@@ -77,6 +77,7 @@ if __name__ == "__main__":
 - [x] Message Context
 - [x] Modules
 - [x] Exceptions (WIP)
+- [x] Checks
 
 </details>
 </div>
@@ -86,7 +87,6 @@ if __name__ == "__main__":
 <details>
 <summary> :x: Incomplete</summary>
 
-- [ ] Checks
 - [ ] Events
 - [ ] Hooks?
 - [ ] Slash Commands

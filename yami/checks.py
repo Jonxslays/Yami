@@ -41,8 +41,8 @@ class Check(abc.ABC):
             obj.add_check(self)
         except AttributeError:
             raise exceptions.BadCheckPlacement(
-                f"'{obj.__name__}' is not a MessageCommand - "  # type: ignore
-                "move this decorator above the command decorator"
+                f"'{getattr(obj, 'name', str(obj))}' is not a MessageCommand - "
+                "move this decorator above the command decorator or close the parentheses"
             ) from None
 
     def _raise(self, ctx: context.MessageContext, msg: str) -> None:
