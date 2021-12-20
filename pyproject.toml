@@ -64,6 +64,7 @@ strict = true
 
 [tool.mypy]
 strict = true
+warn_unused_ignores = false
 
 [tool.pyright]
 include = ["yami"]
@@ -71,6 +72,7 @@ ignore = ["tests"]
 typeCheckingMode = "strict"
 reportImportCycles = false
 reportPrivateUsage = "information"
+reportUnnecessaryIsInstance = false
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
