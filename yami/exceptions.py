@@ -27,6 +27,7 @@ __all__ = [
     "ModuleAddException",
     "ModuleLoadException",
     "ModuleUnloadException",
+    "CheckException",
 ]
 
 
@@ -78,3 +79,7 @@ class ModuleLoadException(ModuleException):
 
 class ModuleAddException(ModuleException):
     """Raised when a module fails to be added to the bot."""
+
+
+class CheckException(CommandException):
+    """Raised when a check is failed."""
