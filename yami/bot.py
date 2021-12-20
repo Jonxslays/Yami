@@ -117,7 +117,7 @@ class Bot(hikari.GatewayBot):
         return self._owner_ids
 
     async def _setup_callback(self, event: hikari.StartedEvent) -> None:
-        """Callback to guarantee the owner id's are known at runtime."""
+        """Callback to guarantee the owner ids are known at runtime."""
         if not self._owner_ids:
             app = await self.rest.fetch_application()
             self._owner_ids = (app.owner.id,)
@@ -547,8 +547,11 @@ class Bot(hikari.GatewayBot):
 
         for i, arg in enumerate(parsed):
             a = annots[i + offset].annotation
-            t = getattr(builtins, a, str) if isinstance(a, str) else a
+            if a is inspect.Signature.empty:
+                converted.append(arg)
+                continue
 
+            t = getattr(builtins, a, str) if isinstance(a, str) else a
             if t is bool:
                 if arg == "True":
                     converted.append(True)
