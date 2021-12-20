@@ -451,7 +451,7 @@ class Bot(hikari.GatewayBot):
                 The name or alias of the command to get.
 
         Returns:
-            `yami.MessageCommand | None`
+            `yami.MessageCommand` | `None`
                 The command, or None if not found.
         """
         return self._commands.get(self._aliases.get(name, name))
@@ -550,17 +550,21 @@ class Bot(hikari.GatewayBot):
                 elif arg == "False":
                     converted.append(False)
                 else:
-                    raise exceptions.BadArgument(
+                    e = exceptions.BadArgument(
                         f"Invalid arg '{arg}' for {bool} in '{cmd.name}' at position {i + offset}"
                     )
+                    ctx.exceptions.append(e)
+                    raise e
                 continue
 
             try:
                 converted.append(t(arg)) if type(t) in (type, str) else converted.append(arg)
             except (TypeError, ValueError):
-                raise exceptions.BadArgument(
+                e = exceptions.BadArgument(
                     f"Invalid arg '{arg}' for {t} in '{cmd.name}' at position {i + 1}"
-                ) from None
+                )
+                ctx.exceptions.append(e)
+                raise e from None
 
         if m := cmd.module:
             await cmd.callback(m, ctx, *converted)

@@ -20,7 +20,7 @@ import abc
 
 from yami import commands, context, exceptions
 
-__all__ = ["is_owner", "Check"]
+__all__ = ["is_owner", "Check", "is_in_guild"]
 
 
 class Check(abc.ABC):
@@ -45,6 +45,14 @@ class Check(abc.ABC):
                 "move this decorator above the command decorator"
             ) from None
 
+    def _raise(self, ctx: context.MessageContext, msg: str) -> None:
+        """Raised a CheckFailed exception for a command name and with
+        the given message
+        """
+        e = exceptions.CheckFailed(f"Command '{ctx.command.name}' failed - {msg}")
+        ctx.exceptions.append(e)
+        raise e
+
     @classmethod
     def get_name(cls) -> str:
         return cls.__name__
@@ -64,12 +72,27 @@ class Check(abc.ABC):
 
 
 class is_owner(Check):
-    """Checks whether the author of a command is the bots owner."""
+    """Fails if the author of the command is not the bots owner.
+
+    Who is the bots owner:
+    - Any user with an id matching one of the ids passed into the bots
+    constructor for the kwarg `owner_ids`.
+    - The application owner fetched from discord if no `owner_ids` were
+    passed to the constructor.
+    """
 
     __slots__ = ()
 
     def execute(self, ctx: context.MessageContext) -> None:
         if ctx.author.id not in ctx.bot.owner_ids:
-            raise exceptions.CheckException(
-                f"Command '{ctx.command.name}' failed - you are not the owner of this application."
-            )
+            self._raise(ctx, "you are not the owner of this application")
+
+
+class is_in_guild(Check):
+    """Fails if the command was not run in a guild."""
+
+    __slots__ = ()
+
+    def execute(self, ctx: context.MessageContext) -> None:
+        if not ctx.guild_id:
+            self._raise(ctx, "this command can only be run in a guild")

@@ -40,6 +40,7 @@ __all__ = [
     "BadCheckPlacement",
     "CheckFailed",
     "CheckAddFailed",
+    "is_in_guild",
 ]
 
 __version__ = "0.3.0"

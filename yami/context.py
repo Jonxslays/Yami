@@ -21,7 +21,7 @@ import typing
 import hikari
 
 from yami import bot as bot_
-from yami import commands
+from yami import commands, exceptions
 
 __all__ = [
     "MessageContext",
@@ -42,7 +42,7 @@ class MessageContext:
             The prefix the context with created with.
     """
 
-    __slots__: typing.Sequence[str] = ("_message", "_command", "_bot", "_prefix")
+    __slots__: typing.Sequence[str] = ("_message", "_command", "_bot", "_prefix", "_exceptions")
 
     def __init__(
         self,
@@ -55,6 +55,7 @@ class MessageContext:
         self._command = command
         self._bot = bot
         self._prefix = prefix
+        self._exceptions: list[exceptions.YamiException] = []
 
     @property
     def bot(self) -> bot_.Bot:
@@ -68,8 +69,17 @@ class MessageContext:
 
     @property
     def guild_id(self) -> typing.Optional[hikari.Snowflake]:
-        """The guild id associated with the context."""
+        """The guild id associated with the context, or None if this
+        context was a DMChannel.
+        """
         return self._message.guild_id
+
+    @property
+    def exceptions(self) -> list[exceptions.YamiException]:
+        """Any exceptions that were generated when this context was
+        created, including failed check exceptions.
+        """
+        return self._exceptions
 
     @property
     def channel_id(self) -> hikari.Snowflake:
