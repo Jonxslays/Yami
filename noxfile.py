@@ -110,15 +110,11 @@ def licensing(session: nox.Session) -> None:
 
     for path in files:
         with open(path) as f:
-            for i, line in enumerate(f):
-                if i == 0:
-                    continue
+            desc = f.readline()
+            copy = f.readline()
 
-                if i > 1:
-                    break
-
-                if not line.startswith("# Copyright (C)"):
-                    missing.append(path)
+            if "# Yami -" not in desc or "# Copyright (C)" not in copy:
+                missing.append(path)
 
     if missing:
         session.error(
