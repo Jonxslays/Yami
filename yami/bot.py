@@ -76,7 +76,7 @@ class Bot(hikari.GatewayBot):
         prefix: str | typing.Sequence[str],
         *,
         case_insensitive: bool = True,
-        owner_ids: typing.Sequence[int] | None = None,
+        owner_ids: typing.Sequence[int] = (),
         **kwargs: typing.Any,
     ) -> None:
         super().__init__(token, **kwargs)
@@ -85,10 +85,11 @@ class Bot(hikari.GatewayBot):
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
         self._commands: dict[str, commands_.MessageCommand] = {}
-        self._owner_ids = owner_ids
         self._modules: dict[str, modules_.Module] = {}
+        self._owner_ids = tuple(owner_ids)
 
         self.subscribe(hikari.MessageCreateEvent, self._listen)
+        self.subscribe(hikari.StartedEvent, self._setup_callback)
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
@@ -110,6 +111,18 @@ class Bot(hikari.GatewayBot):
         bot.
         """
         return self._modules
+
+    @property
+    def owner_ids(self) -> typing.Sequence[int]:
+        return self._owner_ids
+
+    async def _setup_callback(self, event: hikari.StartedEvent) -> None:
+        """Callback to guarantee the owner id's are known at runtime."""
+        if not self._owner_ids:
+            app = await self.rest.fetch_application()
+            self._owner_ids = (app.owner.id,)
+
+        self.unsubscribe(hikari.StartedEvent, self._setup_callback)
 
     def get_alias_command(self, alias: str) -> commands_.MessageCommand | None:
         """Helper method to get the command associated with an alias.
@@ -233,7 +246,7 @@ class Bot(hikari.GatewayBot):
             container.__dict__.values(),
         ):
             try:
-                if mod.loaded:
+                if mod.is_loaded:
                     raise exceptions.ModuleLoadException(
                         f"Cannot load '{mod.name}' - it is already loaded"
                     )
