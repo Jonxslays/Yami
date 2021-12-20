@@ -36,7 +36,7 @@ class Bot(hikari.GatewayBot):
     """A subclass of `hikari.GatewayBot` that provides an interface
     for handling commands.
 
-    This is the class you will instantiate, to utilize command features
+    This is the class you will instantiate to utilize command features
     on top of the `hikari.GatewayBot` superclass.
 
     NOTE: This class is slotted, if you want to set your own custom
@@ -93,9 +93,7 @@ class Bot(hikari.GatewayBot):
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
-        """A dictionary of name, MessageCommand pairs associated with
-        the bot.
-        """
+        """A dictionary of name, MessageCommand pairs bound to the bot."""
         return self._commands
 
     @property
@@ -107,35 +105,31 @@ class Bot(hikari.GatewayBot):
 
     @property
     def modules(self) -> dict[str, modules_.Module]:
-        """A dictionary of name, `Module` pairs that are synced to the
-        bot.
+        """A dictionary of name, `Module` pairs that are added to the
+        bot, this includes unloaded modules.
         """
         return self._modules
 
     @property
     def owner_ids(self) -> typing.Sequence[int]:
+        """A sequence of integers representing the Snowflakes of the
+        bots owners.
+        """
         return self._owner_ids
 
-    async def _setup_callback(self, event: hikari.StartedEvent) -> None:
+    async def _setup_callback(self, _: hikari.StartedEvent) -> None:
         """Callback to guarantee the owner ids are known at runtime."""
         if not self._owner_ids:
-            app = await self.rest.fetch_application()
-            self._owner_ids = (app.owner.id,)
+            try:
+                app = await self.rest.fetch_application()
+            except hikari.HikariError:
+                raise exceptions.YamiException(
+                    "Application failed to setup - owner ids is unknown"
+                )
+            else:
+                self._owner_ids = (app.owner.id,)
 
         self.unsubscribe(hikari.StartedEvent, self._setup_callback)
-
-    def get_alias_command(self, alias: str) -> commands_.MessageCommand | None:
-        """Helper method to get the command associated with an alias.
-
-        Args:
-            alias: `str`
-                The alias to get the command for.
-
-        Returns:
-            `yami.MessageCommand` | `None`
-                The command, or None if not found.
-        """
-        return self._commands.get(self.aliases.get(alias, alias))
 
     def load_all_modules(self, *paths: str | Path, recursive: bool = True) -> None:
         """Loads all modules from each of the given paths.This method
@@ -162,25 +156,16 @@ class Bot(hikari.GatewayBot):
             if not isinstance(p, Path):
                 p = Path(os.path.relpath(p))
 
-            mod_filter = (
-                filter(
-                    lambda m: not m.stem.startswith("_"),
-                    (p.rglob("*.py") if recursive else p.glob("*.py")),
-                )
-                if p.is_dir()
-                else (p,)
-            )
-
-            for file in mod_filter:
+            for file in p.rglob("[!_]*.py") if recursive else p.glob("[!_]*.py"):
                 self._load_all_modules(file, mod_state)
 
     def _load_all_modules(self, path: Path, mod_state: dict[str, modules_.Module]) -> None:
         """Load a given module onto the bot.
 
         Args:
-            path: Path
+            path: `Path`
                 The path to load the modules from.
-            mod_state: dict[str, modules_.Module]
+            mod_state: `dict[str, modules_.Module]`
                 The state to revert to if there is an error while
                 loading this module.
 
@@ -194,7 +179,7 @@ class Bot(hikari.GatewayBot):
             container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
         except ModuleNotFoundError as e:
             self._modules = mod_state
-            raise exceptions.ModuleLoadException(f"Failed to load module - {e}") from None
+            raise exceptions.ModuleLoadException(f"Failed to load module - {e}")
 
         for mod in filter(
             lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
@@ -204,7 +189,7 @@ class Bot(hikari.GatewayBot):
                 self._add_module(mod(self))
             except exceptions.ModuleAddException as e:
                 self._modules = mod_state
-                raise e from None
+                raise e
             else:
                 mod._loaded = True
 
@@ -239,7 +224,7 @@ class Bot(hikari.GatewayBot):
             container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
         except ModuleNotFoundError as e:
             self._modules = mod_state
-            raise exceptions.ModuleLoadException(f"Failed to import '{name}' - {e}") from None
+            raise exceptions.ModuleLoadException(f"Failed to import '{name}' - {e}")
 
         for mod in filter(
             lambda m: inspect.isclass(m) and issubclass(m, modules_.Module) and m.__name__ == name,
@@ -254,13 +239,14 @@ class Bot(hikari.GatewayBot):
 
             except (exceptions.ModuleAddException, exceptions.ModuleLoadException) as e:
                 self._modules = mod_state
-                raise e from None
+                raise e
 
             mod._loaded = True
 
     def unload_module(self, name: str) -> modules_.Module:
         """Unloads a single module class with the given name. It will
-        remain in `Bot.modules`, but just in an unloaded state.
+        remain in `Bot.modules`, but just in an unloaded state and its
+        commands will no longer be executable until it is loaded again.
 
         Args:
             name: `str`
@@ -310,7 +296,7 @@ class Bot(hikari.GatewayBot):
         except exceptions.ModuleUnloadException:
             raise exceptions.ModuleRemoveException(
                 f"Failed to remove module '{name}' from bot - it was not found"
-            ) from None
+            )
 
         return self._modules.pop(name)
 
@@ -355,38 +341,45 @@ class Bot(hikari.GatewayBot):
         """Adds a command to the bot.
 
         Args:
-            command: Callable[..., Any] | yami.MessageCommand
+            command: `Callable[..., Any]` | `yami.MessageCommand`
                 The command to add.
 
         Kwargs:
-            name: str | None
+            name: `str` | `None`
                 The name of the command (defaults to the function name)
-            description: str
+            description: `str`
                 The command descriptions (defaults to "")
-            aliases: Iterable[str]
+            aliases: `Iterable[str]`
                 The command aliases (defaults to [])
 
         Returns:
-            yami.MessageCommand
+            `yami.MessageCommand`
                 The command that was added.
 
         Raises:
-            yami.DuplicateCommand
+            `yami.DuplicateCommand`
                 If the command shares a name or alias with an existing
                 command.
-            yami.BadArgument
+            `yami.BadArgument`
                 If aliases is not a list or a tuple.
         """
         if isinstance(command, commands_.MessageCommand):
-            if type(command.aliases) not in (list, tuple):
+            if not isinstance(command.aliases, (list, tuple)):
                 raise exceptions.BadArgument(
                     f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
                 )
 
-            if command.name in self._commands or any(a in self._aliases for a in command.aliases):
+            if command.name in self._commands:
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command.name}' to bot - name/alias already in use",
+                    f"Failed to add command '{command.name}' to bot - name already in use",
                 )
+
+            for a in command.aliases:
+                if a in self._aliases:
+                    raise exceptions.DuplicateCommand(
+                        f"Failed to add command '{command.name}' to bot "
+                        f"- alias '{a}' already in use",
+                    )
 
             self._aliases.update(dict((a, command.name) for a in command.aliases))
             self._commands[command.name] = command
@@ -397,7 +390,7 @@ class Bot(hikari.GatewayBot):
         return self.add_command(cmd)
 
     def remove_command(self, name: str) -> commands_.MessageCommand:
-        """Removes a command from the bot.
+        """Removes a command from the bot, and its module if it has one.
 
         Args:
             command: `Callable[..., Any]` | `yami.MessageCommand`
@@ -426,10 +419,11 @@ class Bot(hikari.GatewayBot):
                 f"Failed to remove command '{name}' from bot - it was not found"
             ) from None
         else:
-            return cmd
+            return cmd.module.remove_command(name) if cmd.module else cmd
 
     def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
-        """Yields commands attached to the bot.
+        """Yields commands attached to the bot, including all commands
+        bound to modules that are loaded.
 
         Returns:
             `Generator[yami.MessageCommand, ...]`
@@ -447,26 +441,18 @@ class Bot(hikari.GatewayBot):
         """
         yield from self._modules.values()
 
-    def get_command(self, name: str, *, alias: bool = False) -> commands_.MessageCommand | None:
+    def get_command(self, name: str) -> commands_.MessageCommand | None:
         """Gets a command.
 
         Args:
             name: `str`
-                The name of the command to get.
-
-        Kwargs:
-            alias: `bool`
-                Whether or not to search aliases as well as names.
-                Defaults to False.
+                The name or alias of the command to get.
 
         Returns:
             `yami.MessageCommand | None`
                 The command, or None if not found.
         """
-        if alias:
-            name = self._aliases.get(name, name)
-
-        return self._commands.get(name)
+        return self._commands.get(self._aliases.get(name, name))
 
     def get_module(self, name: str) -> modules_.Module | None:
         """Gets a module.
@@ -564,7 +550,7 @@ class Bot(hikari.GatewayBot):
                 else:
                     raise exceptions.BadArgument(
                         f"Invalid arg '{arg}' for {bool} in '{cmd.name}' at position {i + offset}"
-                    ) from None
+                    )
                 continue
 
             try:

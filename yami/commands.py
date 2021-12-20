@@ -54,13 +54,7 @@ class MessageCommand:
 
     @property
     def aliases(self) -> typing.Iterable[str]:
-        """The aliases for the command.
-
-        Returns:
-            Iterable[str]
-                The aliases for the command or an empty list if there
-                are none.
-        """
+        """The aliases for the command."""
         return self._aliases
 
     @property

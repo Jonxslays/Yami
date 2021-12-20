@@ -132,9 +132,9 @@ def test_yield_commands(model: yami.Bot) -> None:
         next(gen)
 
 
-def test_get_command_with_alias_flag(model: yami.Bot) -> None:
+def test_get_command(model: yami.Bot) -> None:
     model.add_command(mock.AsyncMock(), name="hi", aliases=["bye"])
-    cmd = model.get_command("bye", alias=True)
+    cmd = model.get_command("bye")
 
     assert isinstance(cmd, yami.MessageCommand)
     assert cmd.name == "hi"
