@@ -68,7 +68,17 @@ class MessageContext:
         return self._message.author
 
     @property
-    def guild_id(self) -> typing.Optional[hikari.Snowflake]:
+    def cache(self) -> hikari.api.Cache:
+        """Shortcut to the bots cache."""
+        return self._bot.cache
+
+    @property
+    def rest(self) -> hikari.api.RESTClient:
+        """Shortcut to the bots rest client."""
+        return self._bot.rest
+
+    @property
+    def guild_id(self) -> hikari.Snowflake | None:
         """The guild id associated with the context, or None if this
         context was a DMChannel.
         """
@@ -126,7 +136,29 @@ class MessageContext:
         """
         return await self._message.respond(*args, **kwargs)
 
-    async def getch_guild(self) -> typing.Optional[hikari.Guild]:
+    async def getch_member(self) -> hikari.Member | None:
+        """Get or fetch the `hikari.Member` object associated with the
+        context. This method calls to the cache first, and falls back to
+        rest if not found.
+
+        **WARNING**:
+            This method can utilize both cache, and rest. For more fine
+            grained control consider using cache or rest yourself
+            explicitly.
+
+        Returns:
+            `hikari.Member` | `None`
+                The member object associated with the context, or
+                None if the context is a DMChannel.
+        """
+        if not self._message.guild_id:
+            return None
+
+        return self._bot.cache.get_member(
+            self._message.guild_id, self._message.author
+        ) or await self._bot.rest.fetch_member(self._message.guild_id, self._message.author)
+
+    async def getch_guild(self) -> hikari.Guild | None:
         """Get or fetch the `hikari.Guild` object associated with the
         context. This method calls to the cache first, and falls back to
         rest if not found.
@@ -137,7 +169,7 @@ class MessageContext:
             explicitly.
 
         Returns:
-            Optional[hikari.Guild]
+            `hikari.Guild` | `None`
                 The guild object associated with the context, or
                 None if the context is a DMChannel.
         """
@@ -154,8 +186,8 @@ class MessageContext:
         falls back to rest if not found.
 
         This method can return one of any:
-            DMChannel, GroupDMChannel, GuildTextChannel,
-            GuildVoiceChannel, GuildStoreChannel, GuildNewsChannel.
+            `DMChannel`, `GroupDMChannel`, `GuildTextChannel`,
+            `GuildVoiceChannel`, `GuildStoreChannel`, `GuildNewsChanne`.
 
         **WARNING**:
             This method can utilize both cache, and rest. For more fine
@@ -163,7 +195,7 @@ class MessageContext:
             explicitly.
 
         Returns:
-            hikari.PartialChannel
+            `hikari.PartialChannel`
                 The channel object associated with the context.
         """
         return self._bot.cache.get_guild_channel(
