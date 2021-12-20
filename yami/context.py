@@ -42,7 +42,9 @@ class MessageContext:
             The prefix the context with created with.
     """
 
-    __slots__: typing.Sequence[str] = ("_message", "_command", "_bot", "_prefix", "_exceptions")
+    __slots__: typing.Sequence[str] = (
+        "_message", "_command", "_bot", "_prefix", "_exceptions", "_shared"
+    )
 
     def __init__(
         self,
@@ -56,6 +58,7 @@ class MessageContext:
         self._bot = bot
         self._prefix = prefix
         self._exceptions: list[exceptions.YamiException] = []
+        self._shared: dict[str, typing.Any] = {}
 
     @property
     def bot(self) -> bot_.Bot:
@@ -122,6 +125,14 @@ class MessageContext:
     def prefix(self) -> str:
         """The prefix used to create this context."""
         return self._prefix
+
+    @property
+    def shared(self) -> dict[str, typing.Any]:
+        """A dictionary of name, value pairs that are variables that
+        were shared between checks for this context. These shared
+        variables prevent duplicate http requests.
+        """
+        return self._shared
 
     async def respond(self, *args: typing.Any, **kwargs: typing.Any) -> hikari.Message:
         """Respond to the message that created this context.

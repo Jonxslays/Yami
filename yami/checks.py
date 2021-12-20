@@ -128,11 +128,16 @@ class has_role(Check):
         if not ctx.guild_id:
             self._raise(ctx, f"this command was run in DM but requires the '{self._name}' role")
         else:
-            member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
-            roles = await member.fetch_roles()
+            if member_roles := ctx.shared.get("member_roles"):
+                pass
+            elif member := ctx.shared.get("member"):
+                member_roles = await member.fetch_roles()
+            else:
+                member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+                member_roles = await member.fetch_roles()
 
-            if not any(self._name == r.name for r in roles):
-                return self._raise(ctx, f"author does not have the required role: '{self._name}'")
+            if not any(self._name == r.name for r in member_roles):
+                self._raise(ctx, f"author does not have the required role: '{self._name}'")
 
 
 class has_any_role(Check):
@@ -153,17 +158,22 @@ class has_any_role(Check):
         self._names = names
 
     async def execute(self, ctx: context.MessageContext) -> None:
-        names = ", ".join(f"'{name}'" for name in self._names)
+        role_names = ", ".join(f"'{name}'" for name in self._names)
 
         if not ctx.guild_id:
             self._raise(
                 ctx,
-                f"this command was run in DM but requires one of the following roles: {names}",
+                f"this command was run in DM but requires one of the following roles: {role_names}",
             )
 
         else:
-            member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
-            roles = await member.fetch_roles()
+            if member_roles := ctx.shared.get("member_roles"):
+                pass
+            elif member := ctx.shared.get("member"):
+                member_roles = await member.fetch_roles()
+            else:
+                member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+                member_roles = await member.fetch_roles()
 
-            if not any(n == r.name for n in self._names for r in roles):
-                self._raise(ctx, f"author does not have any of the required roles: {names}")
+            if not any(n == r.name for n in self._names for r in member_roles):
+                self._raise(ctx, f"author does not have any of the required roles: {role_names}")
