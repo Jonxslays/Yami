@@ -43,7 +43,7 @@ class Check(abc.ABC):
             raise exceptions.BadCheckPlacement(
                 f"'{obj.__name__}' is not a MessageCommand - "  # type: ignore
                 "move this decorator above the command decorator"
-            )
+            ) from None
 
     @classmethod
     def get_name(cls) -> str:
