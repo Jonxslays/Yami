@@ -41,6 +41,9 @@ __all__ = [
     "CheckFailed",
     "CheckAddFailed",
     "is_in_guild",
+    "is_in_dm",
+    "has_role",
+    "has_any_role",
 ]
 
 __version__ = "0.3.0"

@@ -31,7 +31,7 @@ Scybu cehu, qdt weet bksa.
 """
 
 
-def __zen() -> str:
+def _zen() -> str:
     return "".join(
         chr((ord(c) - (a := ord("a")) + 69 * -100 // 420 + 1) % 26 + a)
         if "a" <= c <= "z" else c
@@ -39,4 +39,4 @@ def __zen() -> str:
     )
 
 
-print(__zen())
+print(_zen())

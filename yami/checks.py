@@ -20,7 +20,7 @@ import abc
 
 from yami import commands, context, exceptions
 
-__all__ = ["is_owner", "Check", "is_in_guild"]
+__all__ = ["is_owner", "Check", "is_in_guild", "is_in_dm", "has_role", "has_any_role"]
 
 
 class Check(abc.ABC):
@@ -58,7 +58,7 @@ class Check(abc.ABC):
         return cls.__name__
 
     @abc.abstractmethod
-    def execute(self, ctx: context.MessageContext) -> None:
+    async def execute(self, ctx: context.MessageContext) -> None:
         """Executes the check.
 
         Args:
@@ -83,7 +83,7 @@ class is_owner(Check):
 
     __slots__ = ()
 
-    def execute(self, ctx: context.MessageContext) -> None:
+    async def execute(self, ctx: context.MessageContext) -> None:
         if ctx.author.id not in ctx.bot.owner_ids:
             self._raise(ctx, "you are not the owner of this application")
 
@@ -93,6 +93,77 @@ class is_in_guild(Check):
 
     __slots__ = ()
 
-    def execute(self, ctx: context.MessageContext) -> None:
+    async def execute(self, ctx: context.MessageContext) -> None:
         if not ctx.guild_id:
             self._raise(ctx, "this command can only be run in a guild")
+
+
+class is_in_dm(Check):
+    """Fails if the command was not run in a DM."""
+
+    __slots__ = ()
+
+    async def execute(self, ctx: context.MessageContext) -> None:
+        if ctx.guild_id:
+            self._raise(ctx, "this command can only be run in a DM")
+
+
+class has_role(Check):
+    """Fails if the author does not have a role with the given name.
+
+    This is inherently an `is_in_guild` check as well, because a user
+    cannot have a role outside of a guild.
+
+    Args:
+        name: `str`
+            The names of the role the user must have.
+    """
+
+    __slots__ = ("_name",)
+
+    def __init__(self, name: str) -> None:
+        self._name = name
+
+    async def execute(self, ctx: context.MessageContext) -> None:
+        if not ctx.guild_id:
+            self._raise(ctx, f"this command was run in DM but requires the '{self._name}' role")
+        else:
+            member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+            roles = await member.fetch_roles()
+
+            if not any(self._name == r.name for r in roles):
+                return self._raise(ctx, f"author does not have the required role: '{self._name}'")
+
+
+class has_any_role(Check):
+    """Fails if the author does not have a role with same name as one of
+    the roles passed as arguments to this check.
+
+    This is inherently an `is_in_guild` check as well, because a user
+    cannot have a role outside of a guild.
+
+    Args:
+        *names: `str`
+            The names of the roles the user must have at least one of.
+    """
+
+    __slots__ = ("_names",)
+
+    def __init__(self, *names: str) -> None:
+        self._names = names
+
+    async def execute(self, ctx: context.MessageContext) -> None:
+        names = ", ".join(f"'{name}'" for name in self._names)
+
+        if not ctx.guild_id:
+            self._raise(
+                ctx,
+                f"this command was run in DM but requires one of the following roles: {names}",
+            )
+
+        else:
+            member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+            roles = await member.fetch_roles()
+
+            if not any(n == r.name for n in self._names for r in roles):
+                self._raise(ctx, f"author does not have any of the required roles: {names}")

@@ -532,7 +532,7 @@ class Bot(hikari.GatewayBot):
         ctx = context.MessageContext(self, event.message, cmd, p)
 
         for check in cmd.yield_checks():
-            check.execute(ctx)
+            await check.execute(ctx)
 
         converted: list[typing.Any] = []
         offset = 2 if cmd.module else 1

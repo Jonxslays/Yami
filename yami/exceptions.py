@@ -18,6 +18,7 @@ from __future__ import annotations
 
 __all__ = [
     "YamiException",
+    "CommandException",
     "CommandNotFound",
     "BadArgument",
     "DuplicateCommand",
