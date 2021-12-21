@@ -40,10 +40,11 @@ __all__ = [
 class Check(abc.ABC):
     """Base class all Yami checks inherit from."""
 
-    __slots__ = ()
+    __slots__ = ("_obj",)
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         if args or kwargs:
+            print(args, kwargs)
             raise exceptions.BadCheck(
                 f"Unclosed parentheses on {self}, or an unexpected argument was passed"
             )
@@ -70,7 +71,7 @@ class Check(abc.ABC):
         """Raised a `CheckFailed` exception for a command name and with
         the given message
         """
-        e = exceptions.CheckFailed(f"Command '{ctx.command.name}' failed - {msg}")
+        e = exceptions.CheckFailed(f"{ctx.command} failed - {msg}")
         ctx.exceptions.append(e)
         raise e
 
@@ -318,7 +319,7 @@ class has_perms(Check):
                 if not flag:
                     continue
 
-                if not hasattr(hikari.Permissions, perm := perm.upper()):
+                if not hasattr(hikari.Permissions, perm.upper()):
                     return self._raise(ctx, f"command requires an invalid perm: '{perm}'")
 
                 self._perms.append(self._get_perm(ctx, perm.upper()))
@@ -369,23 +370,36 @@ class custom_check(Check):
 
     __slots__ = ("_check", "_message")
 
-    def __init__(self, check: CustomCheckSigT, *, message: str = "") -> None:
+    def __init__(self, check: CustomCheckSigT | Check, *, message: str = "") -> None:
         self._check = check
         self._message = message
 
     async def execute(self, ctx: context.MessageContext) -> None:
         message = self._message or "a custom check was failed"
 
-        try:
-            if inspect.iscoroutinefunction(self._check):
-                result = await self._check(ctx)
-            else:
-                result = self._check(ctx)
-        except Exception:
-            return self._raise(ctx, message)
+        if isinstance(self._check, Check):
+            return await self._check.execute(ctx)
 
-        if result is False:
-            self._raise(ctx, message)
+        if inspect.isclass(self._check):
+            if issubclass(self._check, Check):
+                return await self._check().execute(ctx)  # type: ignore
+
+        else:
+            try:
+                if inspect.iscoroutinefunction(self._check):
+                    result = await self._check(ctx)
+                else:
+                    result = self._check(ctx)
+
+            except Exception:
+                return self._raise(ctx, message)
+
+            if result is False:
+                return self._raise(ctx, message)
+
+            return None
+
+        raise exceptions.BadCheck(f"{self} for {ctx.command} is of the wrong type")
 
 
 class is_the_cutest(Check):
