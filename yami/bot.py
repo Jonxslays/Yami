@@ -55,9 +55,12 @@ class Bot(hikari.GatewayBot):
         case_insensitive: bool
             Whether or not to ignore case when handling message command
             invocations. Defaults to True.
-        owner_ids: Optional[Sequence[int]]
+        owner_ids: Sequence[int]
             A sequence of integers representing the Snowflakes of the
-            bots owners.
+            bots owners. Defaults to an empty tuple.
+        allow_extra_args: bool
+            Whether or not the bot should allow extra args in command
+            invocations. Defaults to `False`.
         **kwargs: The remaining kwargs for hikari.GatewayBot.
     """
 
@@ -68,6 +71,7 @@ class Bot(hikari.GatewayBot):
         "_commands",
         "_aliases",
         "_modules",
+        "_allow_extra_args",
     )
 
     def __init__(
@@ -77,6 +81,7 @@ class Bot(hikari.GatewayBot):
         *,
         case_insensitive: bool = True,
         owner_ids: typing.Sequence[int] = (),
+        allow_extra_args: bool = False,
         **kwargs: typing.Any,
     ) -> None:
         super().__init__(token, **kwargs)
@@ -84,6 +89,7 @@ class Bot(hikari.GatewayBot):
         self._prefix: typing.Sequence[str] = (prefix,) if isinstance(prefix, str) else prefix
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
+        self._allow_extra_args = allow_extra_args
         self._commands: dict[str, commands_.MessageCommand] = {}
         self._modules: dict[str, modules_.Module] = {}
         self._owner_ids = tuple(owner_ids)
@@ -118,6 +124,13 @@ class Bot(hikari.GatewayBot):
         bots owners.
         """
         return self._owner_ids
+
+    @property
+    def allow_extra_args(self) -> bool:
+        """If `True` do not error when extra args are passed to a
+        command. Defaults to `False`.
+        """
+        return self._allow_extra_args
 
     async def _setup_callback(self, _: hikari.StartedEvent) -> None:
         """Callback to guarantee the owner ids are known at runtime."""
@@ -518,6 +531,9 @@ class Bot(hikari.GatewayBot):
         parsed = content.split()
         name = parsed.pop(0)[len(p) :]
 
+        if not name:
+            return None
+
         # TODO: Fire a CommandInvokeEvent here once we make it
         # TODO: This is a mess, add a helper class or module
 
@@ -538,7 +554,17 @@ class Bot(hikari.GatewayBot):
         offset = 2 if cmd.module else 1
 
         for i, arg in enumerate(parsed):
-            a = annots[i + offset].annotation
+            try:
+                a = annots[i + offset].annotation
+            except IndexError:
+                if self._allow_extra_args:
+                    break
+
+                raise exceptions.TooManyArgs(
+                    f"Too many arguments for {ctx.command} - "
+                    f"expected {len(annots) - offset} but got {len(parsed)}"
+                )
+
             if a is inspect.Signature.empty:
                 converted.append(arg)
                 continue

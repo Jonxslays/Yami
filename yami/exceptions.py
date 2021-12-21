@@ -33,6 +33,7 @@ __all__ = [
     "CheckFailed",
     "CheckAddFailed",
     "ListenerException",
+    "TooManyArgs",
 ]
 
 
@@ -48,6 +49,10 @@ class CommandNotFound(CommandException):
     """Raised when a command is invoked, or attempted to be accessed but
     no command with that name is found.
     """
+
+
+class TooManyArgs(CommandException):
+    """Raised when too many arguments are passed to a command."""
 
 
 class BadArgument(CommandException):
