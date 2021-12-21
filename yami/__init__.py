@@ -45,6 +45,7 @@ __all__ = [
     "has_role",
     "has_any_role",
     "has_perms",
+    "custom_check",
 ]
 
 __version__ = "0.3.0"

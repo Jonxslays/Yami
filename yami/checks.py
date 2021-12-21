@@ -17,13 +17,23 @@
 from __future__ import annotations
 
 import abc
-import typing
+import inspect
+from typing import Any, cast, Callable, Coroutine, Sequence
 
 import hikari
 
 from yami import commands, context, exceptions
 
-__all__ = ["is_owner", "Check", "is_in_guild", "is_in_dm", "has_role", "has_any_role", "has_perms"]
+__all__ = [
+    "is_owner",
+    "Check",
+    "is_in_guild",
+    "is_in_dm",
+    "has_role",
+    "has_any_role",
+    "has_perms",
+    "custom_check",
+]
 
 
 class Check(abc.ABC):
@@ -50,18 +60,18 @@ class Check(abc.ABC):
             ) from None
 
     def _raise(self, ctx: context.MessageContext, msg: str) -> None:
-        """Raised a CheckFailed exception for a command name and with
+        """Raised a `CheckFailed` exception for a command name and with
         the given message
         """
         e = exceptions.CheckFailed(f"Command '{ctx.command.name}' failed - {msg}")
         ctx.exceptions.append(e)
         raise e
 
-    def _get_shared(self, ctx: context.MessageContext, key: typing.Any) -> typing.Any:
+    def _get_shared(self, ctx: context.MessageContext, key: Any) -> Any:
         """Attempts to get a value from the contexts shared property."""
         return ctx.shared.get(key)
 
-    def _set_shared(self, ctx: context.MessageContext, key: typing.Any, val: typing.Any) -> None:
+    def _set_shared(self, ctx: context.MessageContext, key: Any, val: Any) -> None:
         """Sets a value in the contexts shared property."""
         ctx.shared[key] = val
 
@@ -74,7 +84,7 @@ class Check(abc.ABC):
         """Executes the check.
 
         Args:
-            ctx: yami.MessageContext
+            ctx: `yami.MessageContext`
                 The context to execute the check against.
 
         Raises:
@@ -137,7 +147,7 @@ class has_role(Check):
     def __init__(self, role: str | int) -> None:
         self._role = role
 
-    def _run_check(self, ctx: context.MessageContext, roles: typing.Sequence[hikari.Role]) -> None:
+    def _run_check(self, ctx: context.MessageContext, roles: Sequence[hikari.Role]) -> None:
         if not any(self._role == r.name or self._role == r.id for r in roles):
             self._raise(ctx, f"author does not have the required role: '{self._role}'")
 
@@ -185,7 +195,7 @@ class has_any_role(Check):
     def _run_check(
         self,
         ctx: context.MessageContext,
-        roles: typing.Sequence[hikari.Role],
+        roles: Sequence[hikari.Role],
         roles_repr: str | int,
     ) -> None:
         if not any(n == r.name or n == r.id for n in self._roles for r in roles):
@@ -245,7 +255,7 @@ class has_perms(Check):
             self._raise(ctx, f"'{perm}' is not a valid permission")
             raise
         else:
-            return typing.cast(hikari.Permissions, p)
+            return cast(hikari.Permissions, p)
 
     async def _run_check(
         self,
@@ -255,11 +265,11 @@ class has_perms(Check):
         missing_perms: list[hikari.Permissions] = []
 
         if not (
-            channel := typing.cast(
+            channel := cast(
                 hikari.GuildTextChannel, self._get_shared(ctx, hikari.GuildTextChannel)
             )
         ):
-            channel = typing.cast(
+            channel = cast(
                 hikari.GuildTextChannel, await ctx.rest.fetch_channel(ctx.channel_id)
             )
 
@@ -290,7 +300,7 @@ class has_perms(Check):
         return [*role.permissions]
 
     def _get_perms_for_roles(
-        self, roles: typing.Sequence[hikari.Role]
+        self, roles: Sequence[hikari.Role]
     ) -> list[hikari.Permissions]:
         buffer: list[hikari.Permissions] = []
 
@@ -338,3 +348,46 @@ class has_perms(Check):
         self._set_shared(ctx, hikari.Role, member_roles)
 
         await self._run_check(ctx, role_perms)
+
+
+class custom_check(Check):
+    """A custom check. The check should return a Truthy value (True)
+    if it passes, and a Falsy value (False) if it fails. Keep in mind
+    if you return a string or any other value that bool() would cause
+    to be `True`, the check will pass.
+
+    Args:
+        check: `Callable[[yami.MessageContext], bool]`
+            The callback function that should be used for the check.
+
+            It should accept one argument of type `yami.MessageContext` and
+            return a `bool`.
+
+            This can be an async, or sync function.
+
+    Kwargs:
+        message: `str`
+            The optional message to use in the `CheckFailed` exception.
+            The default message is "a custom check was failed".
+    """
+
+    __slots__ = ("_check", "_message")
+
+    def __init__(
+        self,
+        check: Callable[[context.MessageContext], bool | Coroutine[Any, Any, bool]],
+        *,
+        message: str = "",
+    ) -> None:
+        self._check = check
+        self._message = message
+
+    async def execute(self, ctx: context.MessageContext) -> None:
+        if inspect.iscoroutinefunction(self._check):
+            result = await cast(Coroutine[Any, Any, bool], self._check(ctx))
+        else:
+            result = self._check(ctx)
+
+        if not result:
+            message = self._message or "a custom check was failed"
+            self._raise(ctx, message)
