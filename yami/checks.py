@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import abc
 import inspect
-from typing import Any, Awaitable, Callable, Sequence, cast
+from typing import Any, Callable, Sequence, cast
 
 import hikari
 
@@ -35,8 +35,6 @@ __all__ = [
     "custom_check",
     "is_the_cutest",
 ]
-
-CustomCheckSigT = Callable[[context.MessageContext], Any | Awaitable[Any]]
 
 
 class Check(abc.ABC):
@@ -346,6 +344,9 @@ class has_perms(Check):
         await self._run_check(ctx, role_perms)
 
 
+CustomCheckSigT = Callable[[context.MessageContext], Any]
+
+
 class custom_check(Check):
     """A custom check. If the check returns `False` or raises an
     `Exception` the check will fail. If the check returns `True` or any
@@ -377,7 +378,7 @@ class custom_check(Check):
 
         try:
             if inspect.iscoroutinefunction(self._check):
-                result = await cast(Awaitable[Any], self._check(ctx))
+                result = await self._check(ctx)
             else:
                 result = self._check(ctx)
         except Exception:

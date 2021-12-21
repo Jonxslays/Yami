@@ -74,29 +74,6 @@ class Module:
         """Whether or not this module is currently loaded."""
         return self._loaded
 
-    # @property
-    # def listeners(self) -> dict[hikari.Event, Callable[..., Coroutine[Any, Any, None]]]:
-    #     """A dictionary of event type, callback pairs that are bound
-    #     to this module.
-    #     """
-    #     return self._listeners
-
-    # @staticmethod
-    # def listen(event: Type[hikari.Event] | None = None) -> Callable[..., None]:
-
-    #     def wrapper(callback: Callable[..., Coroutine[Any, Any, None]]) -> None:
-    #         if event is None:
-    #             annotation = tuple(inspect.signature(callback).parameters.values())
-    #             # print(annotation)
-    #             # if not issubclass(annotation, hikari.Event):
-    #             #     raise exceptions.ListenerException(
-    #             #         f"'{annotation}' is not a valid type to listen for"
-    #             #     )
-
-    #         #     return self._bot.subscribe(annotation, callback)
-    #         # return self._bot.subscribe(event, callback)
-    #     return wrapper
-
     def yield_commands(self) -> Generator[commands_.MessageCommand, None, None]:
         """Yields commands attached to the module.
 
