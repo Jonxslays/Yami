@@ -17,10 +17,13 @@
 from __future__ import annotations
 
 import abc
+import typing
+
+import hikari
 
 from yami import commands, context, exceptions
 
-__all__ = ["is_owner", "Check", "is_in_guild", "is_in_dm", "has_role", "has_any_role"]
+__all__ = ["is_owner", "Check", "is_in_guild", "is_in_dm", "has_role", "has_any_role", "has_perms"]
 
 
 class Check(abc.ABC):
@@ -37,6 +40,7 @@ class Check(abc.ABC):
             self._bind(obj)
 
     def _bind(self, obj: commands.MessageCommand) -> None:
+        """Binds the check to the command object."""
         try:
             obj.add_check(self)
         except AttributeError:
@@ -52,6 +56,14 @@ class Check(abc.ABC):
         e = exceptions.CheckFailed(f"Command '{ctx.command.name}' failed - {msg}")
         ctx.exceptions.append(e)
         raise e
+
+    def _get_shared(self, ctx: context.MessageContext, key: typing.Any) -> typing.Any:
+        """Attempts to get a value from the contexts shared property."""
+        return ctx.shared.get(key)
+
+    def _set_shared(self, ctx: context.MessageContext, key: typing.Any, val: typing.Any) -> None:
+        """Sets a value in the contexts shared property."""
+        ctx.shared[key] = val
 
     @classmethod
     def get_name(cls) -> str:
@@ -116,29 +128,40 @@ class has_role(Check):
     cannot have a role outside of a guild.
 
     Args:
-        name: `str` | `int`
+        role: `str` | `int`
             The name or id of the role the user must have.
     """
 
-    __slots__ = ("_name",)
+    __slots__ = ("_role",)
 
-    def __init__(self, name: str | int) -> None:
-        self._name = name
+    def __init__(self, role: str | int) -> None:
+        self._role = role
+
+    def _run_check(self, ctx: context.MessageContext, roles: typing.Sequence[hikari.Role]) -> None:
+        if not any(self._role == r.name or self._role == r.id for r in roles):
+            self._raise(ctx, f"author does not have the required role: '{self._role}'")
 
     async def execute(self, ctx: context.MessageContext) -> None:
         if not ctx.guild_id:
-            self._raise(ctx, f"this command was run in DM but requires the '{self._name}' role")
-        else:
-            if member_roles := ctx.shared.get("member_roles"):
-                pass
-            elif member := ctx.shared.get("member"):
-                member_roles = await member.fetch_roles()
-            else:
-                member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
-                member_roles = await member.fetch_roles()
+            return self._raise(
+                ctx, f"this command was run in DM but requires the '{self._role}' role"
+            )
 
-            if not any(self._name == r.name or self._name == r.id for r in member_roles):
-                self._raise(ctx, f"author does not have the required role: '{self._name}'")
+        else:
+            if member_roles := self._get_shared(ctx, hikari.Role):
+                return self._run_check(ctx, member_roles)
+
+            if member := self._get_shared(ctx, hikari.Member):
+                member_roles = await member.fetch_roles()
+                self._set_shared(ctx, hikari.Role, member_roles)
+                return self._run_check(ctx, member_roles)
+
+        member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+        member_roles = await member.fetch_roles()
+
+        self._set_shared(ctx, hikari.Member, member)
+        self._set_shared(ctx, hikari.Role, member_roles)
+        self._run_check(ctx, member_roles)
 
 
 class has_any_role(Check):
@@ -149,33 +172,169 @@ class has_any_role(Check):
     cannot have a role outside of a guild.
 
     Args:
-        *names: `str` | `int`
+        *roles: `str` | `int`
             The names or ids of the roles the user must have at least
             one of.
     """
 
-    __slots__ = ("_names",)
+    __slots__ = ("_roles",)
 
-    def __init__(self, *names: str | int) -> None:
-        self._names = names
+    def __init__(self, *roles: str | int) -> None:
+        self._roles = roles
+
+    def _run_check(
+        self,
+        ctx: context.MessageContext,
+        roles: typing.Sequence[hikari.Role],
+        roles_repr: str | int,
+    ) -> None:
+        if not any(n == r.name or n == r.id for n in self._roles for r in roles):
+            self._raise(ctx, f"author does not have any of the required roles: {roles_repr}")
 
     async def execute(self, ctx: context.MessageContext) -> None:
-        role_names = ", ".join(f"'{name}'" for name in self._names)
+        roles_repr = ", ".join(f"'{role}'" for role in self._roles)
 
         if not ctx.guild_id:
-            self._raise(
+            return self._raise(
                 ctx,
-                f"this command was run in DM but requires one of the following roles: {role_names}",
+                "this command was run in DM but requires "
+                f"one of the following roles: {roles_repr}",
             )
 
         else:
-            if member_roles := ctx.shared.get("member_roles"):
-                pass
-            elif member := ctx.shared.get("member"):
-                member_roles = await member.fetch_roles()
-            else:
-                member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
-                member_roles = await member.fetch_roles()
+            if member_roles := self._get_shared(ctx, hikari.Role):
+                return self._run_check(ctx, member_roles, roles_repr)
 
-            if not any(n == r.name or n == r.id for n in self._names for r in member_roles):
-                self._raise(ctx, f"author does not have any of the required roles: {role_names}")
+            if member := self._get_shared(ctx, hikari.Member):
+                member_roles = await member.fetch_roles()
+                self._set_shared(ctx, hikari.Role, member_roles)
+
+                return self._run_check(ctx, member_roles, roles_repr)
+
+        member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+        member_roles = await member.fetch_roles()
+
+        self._set_shared(ctx, hikari.Member, member)
+        self._set_shared(ctx, hikari.Role, member_roles)
+        self._run_check(ctx, member_roles, roles_repr)
+
+
+class has_perms(Check):
+    """Fails if the author does not have all of the specified
+    permissions.
+
+    This is inherently an `is_in_guild` check as well, because a user
+    cannot have permissions outside of a guild.
+
+    Args:
+        **perms: `bool`
+            Keyword arguments for each of the available hikari
+            Permissions.
+    """
+
+    __slots__ = ("_perms", "_raw_perms")
+
+    def __init__(self, **perms: bool) -> None:
+        self._raw_perms = perms
+        self._perms: list[hikari.Permissions] = []
+
+    def _get_perm(self, ctx: context.MessageContext, perm: str) -> hikari.Permissions:
+        try:
+            p = getattr(hikari.Permissions, perm)
+        except AttributeError:
+            self._raise(ctx, f"'{perm}' is not a valid permission")
+            raise
+        else:
+            return typing.cast(hikari.Permissions, p)
+
+    async def _run_check(
+        self,
+        ctx: context.MessageContext,
+        perms: list[hikari.Permissions],
+    ) -> None:
+        missing_perms: list[hikari.Permissions] = []
+
+        if not (
+            channel := typing.cast(
+                hikari.GuildTextChannel, self._get_shared(ctx, hikari.GuildTextChannel)
+            )
+        ):
+            channel = typing.cast(
+                hikari.GuildTextChannel, await ctx.rest.fetch_channel(ctx.channel_id)
+            )
+
+            self._set_shared(ctx, hikari.GuildTextChannel, channel)
+
+        for perm in self._perms:
+            for p in channel.permission_overwrites.values():
+                if perm in p.deny and perm not in missing_perms:
+                    missing_perms.append(perm)
+
+                perms.extend(a for a in p.allow if a not in perms)
+
+            if perm not in perms and perm not in missing_perms:
+                missing_perms.append(perm)
+
+        if not missing_perms:
+            if all(p in perms for p in self._perms) or hikari.Permissions.ADMINISTRATOR in perms:
+                return None
+
+        perm_repr = ", ".join(str(p).replace("_", " ") for p in missing_perms)
+        self._raise(
+            ctx,
+            "this command requires the the following "
+            f"permissions which were missing: {perm_repr}",
+        )
+
+    def _get_perms_for_role(self, role: hikari.Role) -> list[hikari.Permissions]:
+        return [*role.permissions]
+
+    def _get_perms_for_roles(
+        self, roles: typing.Sequence[hikari.Role]
+    ) -> list[hikari.Permissions]:
+        buffer: list[hikari.Permissions] = []
+
+        for role in roles:
+            buffer.extend(p for p in self._get_perms_for_role(role) if p not in buffer)
+
+        return buffer
+
+    async def execute(self, ctx: context.MessageContext) -> None:
+        perm_repr = ", ".join(f"'{perm.upper()}'" for perm in self._raw_perms)
+
+        if not ctx.guild_id:
+            return self._raise(
+                ctx,
+                f"this command was run in DM but requires the following guild perms: {perm_repr}",
+            )
+
+        else:
+            for perm, flag in self._raw_perms.items():
+                if not flag:
+                    continue
+
+                if not hasattr(hikari.Permissions, perm := perm.upper()):
+                    return self._raise(ctx, f"command requires an invalid perm: '{perm}'")
+
+                self._perms.append(self._get_perm(ctx, perm.upper()))
+
+            if member_roles := self._get_shared(ctx, hikari.Role):
+                role_perms = self._get_perms_for_roles(member_roles)
+
+                return await self._run_check(ctx, role_perms)
+
+            if member := self._get_shared(ctx, hikari.Member):
+                member_roles = await member.fetch_roles()
+                role_perms = self._get_perms_for_roles(member_roles)
+                self._set_shared(ctx, hikari.Role, member_roles)
+
+                return await self._run_check(ctx, role_perms)
+
+        member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
+        member_roles = await member.fetch_roles()
+        role_perms = self._get_perms_for_roles(member_roles)
+
+        self._set_shared(ctx, hikari.Member, member)
+        self._set_shared(ctx, hikari.Role, member_roles)
+
+        await self._run_check(ctx, role_perms)

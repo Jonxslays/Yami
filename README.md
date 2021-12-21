@@ -42,20 +42,20 @@ pip install git+https://github.com/Jonxslays/Yami.git
 ```py
 from os import environ
 
-from yami import Bot, MessageContext
+import yami
 
 
 bot = Bot(environ["TOKEN"], prefix="$")
 
 
-@bot.command("add", "Add 2 numbers together, and squares them maybe", aliases=["sum"])
-async def add_cmd(ctx: MessageContext, num1: int, num2: int, square: bool = False) -> None:
+@yami.is_in_guild()
+@bot.command("add", "Add 2 numbers together", aliases=["sum"])
+async def add_cmd(ctx: MessageContext, num1: int, num2: int) -> None:
     # Basic builtin python types are converted for you using their type
     # hints (int, float, bool). More advanced conversions like
     # dict[str, str] are not supported and the argument will be passed
     # as a string. More types coming soon™.
-    num = num1 + num2
-    await ctx.respond(f"The result is {num ** 2 if square else num}")
+    await ctx.respond(f"The sum is {num1 + num2}")
 
 
 if __name__ == "__main__":

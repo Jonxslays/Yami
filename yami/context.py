@@ -43,7 +43,12 @@ class MessageContext:
     """
 
     __slots__: typing.Sequence[str] = (
-        "_message", "_command", "_bot", "_prefix", "_exceptions", "_shared"
+        "_message",
+        "_command",
+        "_bot",
+        "_prefix",
+        "_exceptions",
+        "_shared",
     )
 
     def __init__(
@@ -58,7 +63,7 @@ class MessageContext:
         self._bot = bot
         self._prefix = prefix
         self._exceptions: list[exceptions.YamiException] = []
-        self._shared: dict[str, typing.Any] = {}
+        self._shared: dict[typing.Any, typing.Any] = {}
 
     @property
     def bot(self) -> bot_.Bot:
@@ -127,8 +132,8 @@ class MessageContext:
         return self._prefix
 
     @property
-    def shared(self) -> dict[str, typing.Any]:
-        """A dictionary of name, value pairs that are variables that
+    def shared(self) -> dict[typing.Any, typing.Any]:
+        """A dictionary of key, value pairs that are variables that
         were shared between checks for this context. These shared
         variables prevent duplicate http requests.
         """
