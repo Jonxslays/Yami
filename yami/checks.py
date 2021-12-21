@@ -36,29 +36,37 @@ __all__ = [
     "is_the_cutest",
 ]
 
+CustomCheckSigT = Callable[[context.MessageContext], Any | Awaitable[Any]]
+
 
 class Check(abc.ABC):
     """Base class all Yami checks inherit from."""
 
     __slots__ = ()
 
-    def __init__(self, obj: commands.MessageCommand | None = None) -> None:
-        if obj is not None:
-            self._bind(obj)
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        if args or kwargs:
+            raise exceptions.BadCheck(
+                f"Unclosed parentheses on {self}, or an unexpected argument was passed"
+            )
 
-    def __call__(self, obj: commands.MessageCommand | None = None) -> None:
-        if obj is not None:
-            self._bind(obj)
+    def __call__(self, obj: commands.MessageCommand) -> commands.MessageCommand:
+        return self._bind(obj)
 
-    def _bind(self, obj: commands.MessageCommand) -> None:
+    def __repr__(self) -> str:
+        return f"Check('{self.__class__.__name__}')"
+
+    def _bind(self, obj: commands.MessageCommand) -> commands.MessageCommand:
         """Binds the check to the command object."""
         try:
             obj.add_check(self)
         except AttributeError:
-            raise exceptions.BadCheckPlacement(
-                f"'{getattr(obj, 'name', str(obj))}' is not a MessageCommand - "
-                "move this decorator above the command decorator or close the parentheses"
-            ) from None
+            raise exceptions.BadCheck(
+                f"'{obj}' is not a MessageCommand - "
+                "move this decorator above the command decorator"
+            )
+
+        return obj
 
     def _raise(self, ctx: context.MessageContext, msg: str) -> None:
         """Raised a `CheckFailed` exception for a command name and with
@@ -67,14 +75,6 @@ class Check(abc.ABC):
         e = exceptions.CheckFailed(f"Command '{ctx.command.name}' failed - {msg}")
         ctx.exceptions.append(e)
         raise e
-
-    def _get_shared(self, ctx: context.MessageContext, key: Any) -> Any:
-        """Attempts to get a value from the contexts shared property."""
-        return ctx.shared.get(key)
-
-    def _set_shared(self, ctx: context.MessageContext, key: Any, val: Any) -> None:
-        """Sets a value in the contexts shared property."""
-        ctx.shared[key] = val
 
     @classmethod
     def get_name(cls) -> str:
@@ -159,19 +159,20 @@ class has_role(Check):
             )
 
         else:
-            if member_roles := self._get_shared(ctx, hikari.Role):
-                return self._run_check(ctx, member_roles)
+            if ctx.shared.has("member_roles"):
+                return self._run_check(ctx, ctx.shared.member_roles)
 
-            if member := self._get_shared(ctx, hikari.Member):
-                member_roles = await member.fetch_roles()
-                self._set_shared(ctx, hikari.Role, member_roles)
+            if ctx.shared.has("member"):
+                member_roles = await ctx.shared.member.fetch_roles()
+                ctx.shared.member_roles = member_roles
                 return self._run_check(ctx, member_roles)
 
         member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
         member_roles = await member.fetch_roles()
 
-        self._set_shared(ctx, hikari.Member, member)
-        self._set_shared(ctx, hikari.Role, member_roles)
+        ctx.shared.member = member
+        ctx.shared.member_roles = member_roles
+
         self._run_check(ctx, member_roles)
 
 
@@ -213,20 +214,21 @@ class has_any_role(Check):
             )
 
         else:
-            if member_roles := self._get_shared(ctx, hikari.Role):
-                return self._run_check(ctx, member_roles, roles_repr)
+            if ctx.shared.has("member_roles"):
+                return self._run_check(ctx, ctx.shared.member_roles, roles_repr)
 
-            if member := self._get_shared(ctx, hikari.Member):
-                member_roles = await member.fetch_roles()
-                self._set_shared(ctx, hikari.Role, member_roles)
+            if ctx.shared.has("member"):
+                member_roles = await ctx.shared.member.fetch_roles()
+                ctx.shared.member_roles = member_roles
 
                 return self._run_check(ctx, member_roles, roles_repr)
 
         member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
         member_roles = await member.fetch_roles()
 
-        self._set_shared(ctx, hikari.Member, member)
-        self._set_shared(ctx, hikari.Role, member_roles)
+        ctx.shared.member = member
+        ctx.shared.member_roles = member_roles
+
         self._run_check(ctx, member_roles, roles_repr)
 
 
@@ -265,14 +267,12 @@ class has_perms(Check):
     ) -> None:
         missing_perms: list[hikari.Permissions] = []
 
-        if not (
-            channel := cast(
-                hikari.GuildTextChannel, self._get_shared(ctx, hikari.GuildTextChannel)
-            )
-        ):
-            channel = cast(hikari.GuildTextChannel, await ctx.rest.fetch_channel(ctx.channel_id))
-
-            self._set_shared(ctx, hikari.GuildTextChannel, channel)
+        if not ctx.shared.has("channel"):
+            channel = await ctx.rest.fetch_channel(ctx.channel_id)
+            ctx.shared.channel = channel
+        else:
+            channel = ctx.shared.channel
+        assert isinstance(channel, hikari.GuildTextChannel)
 
         for perm in self._perms:
             for p in channel.permission_overwrites.values():
@@ -288,7 +288,7 @@ class has_perms(Check):
             if all(p in perms for p in self._perms) or hikari.Permissions.ADMINISTRATOR in perms:
                 return None
 
-        perm_repr = ", ".join(str(p).replace("_", " ") for p in missing_perms)
+        perm_repr = ", ".join(f"'{p}'" for p in missing_perms)
         self._raise(
             ctx,
             "this command requires the the following "
@@ -307,7 +307,7 @@ class has_perms(Check):
         return buffer
 
     async def execute(self, ctx: context.MessageContext) -> None:
-        perm_repr = ", ".join(f"'{perm.upper()}'" for perm in self._raw_perms)
+        perm_repr = ", ".join(f"'{p}'" for p in self._raw_perms)
 
         if not ctx.guild_id:
             return self._raise(
@@ -325,36 +325,34 @@ class has_perms(Check):
 
                 self._perms.append(self._get_perm(ctx, perm.upper()))
 
-            if member_roles := self._get_shared(ctx, hikari.Role):
-                role_perms = self._get_perms_for_roles(member_roles)
+            if ctx.shared.has("member_roles"):
+                role_perms = self._get_perms_for_roles(ctx.shared.member_roles)
 
                 return await self._run_check(ctx, role_perms)
 
-            if member := self._get_shared(ctx, hikari.Member):
-                member_roles = await member.fetch_roles()
+            if ctx.shared.has("member"):
+                member_roles = await ctx.shared.member.fetch_roles()
                 role_perms = self._get_perms_for_roles(member_roles)
-                self._set_shared(ctx, hikari.Role, member_roles)
+                ctx.shared.member_roles = member_roles
 
                 return await self._run_check(ctx, role_perms)
 
         member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
         member_roles = await member.fetch_roles()
+        ctx.shared.member = member
+        ctx.shared.member_roles = member_roles
+
         role_perms = self._get_perms_for_roles(member_roles)
-
-        self._set_shared(ctx, hikari.Member, member)
-        self._set_shared(ctx, hikari.Role, member_roles)
-
         await self._run_check(ctx, role_perms)
 
 
 class custom_check(Check):
-    """A custom check. The check should return a Truthy value (True)
-    if it passes, and a Falsy value (False) if it fails. Keep in mind
-    if you return a string or any other value that bool() would cause
-    to be `True`, the check will pass.
+    """A custom check. If the check returns `False` or raises an
+    `Exception` the check will fail. If the check returns `True` or any
+    other value without raising an error, it will pass.
 
     Args:
-        check: `Callable[[yami.MessageContext], bool]`
+        check: `Callable[[yami.MessageContext], Any]`
             The callback function that should be used for the check.
 
             It should accept one argument of type `yami.MessageContext`
@@ -370,23 +368,22 @@ class custom_check(Check):
 
     __slots__ = ("_check", "_message")
 
-    def __init__(
-        self,
-        check: Callable[[context.MessageContext], bool | Awaitable[bool]],
-        *,
-        message: str = "",
-    ) -> None:
+    def __init__(self, check: CustomCheckSigT, *, message: str = "") -> None:
         self._check = check
         self._message = message
 
     async def execute(self, ctx: context.MessageContext) -> None:
-        if inspect.iscoroutinefunction(self._check):
-            result = await cast(Awaitable[bool], self._check(ctx))
-        else:
-            result = cast(bool, self._check(ctx))
+        message = self._message or "a custom check was failed"
 
-        if not result:
-            message = self._message or "a custom check was failed"
+        try:
+            if inspect.iscoroutinefunction(self._check):
+                result = await cast(Awaitable[Any], self._check(ctx))
+            else:
+                result = self._check(ctx)
+        except Exception:
+            return self._raise(ctx, message)
+
+        if result is False:
             self._raise(ctx, message)
 
 
@@ -400,7 +397,3 @@ class is_the_cutest(Check):
     async def execute(self, ctx: context.MessageContext) -> None:
         if ctx.author.id != self._cutie_id:
             self._raise(ctx, "you are not the cutest")
-
-
-
-

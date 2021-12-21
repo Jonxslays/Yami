@@ -23,10 +23,11 @@ __all__ = ["Shared", "SharedNone", "YamiNoneType"]
 
 class YamiNoneType(type):
     """Metaclass for `SharedNone`."""
-    def __repr__(cls) -> str:
+
+    def __repr__(self) -> str:
         return "SharedNone"
 
-    def __bool__(cls) -> bool:
+    def __bool__(self) -> bool:
         return False
 
 
@@ -40,12 +41,14 @@ class SharedNone(object, metaclass=YamiNoneType):
     - To check if a value returned by Shared was SharedNone use
     `shared.obj is SharedNone`.
     """
+
     def __init__(self) -> None:
         raise TypeError(f"{self.__class__.__name__} can not be instantiated.")
 
 
 class SharedMeta(type):
     """Metaclass for `Shared`."""
+
     def __repr__(cls) -> str:
         return f"Shared"
 
@@ -60,6 +63,7 @@ class Shared(object, metaclass=SharedMeta):
      - Keep in mind this object is only Shared during the current
      context's lifetime, and is discarded afterwards.
     """
+
     def __getattr__(self, name: str) -> Any:
         try:
             return super().__getattribute__(name)

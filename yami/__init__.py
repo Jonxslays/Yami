@@ -37,7 +37,7 @@ __all__ = [
     "CheckException",
     "is_owner",
     "CheckRemovalFailed",
-    "BadCheckPlacement",
+    "BadCheck",
     "CheckFailed",
     "CheckAddFailed",
     "is_in_guild",
@@ -47,6 +47,10 @@ __all__ = [
     "has_perms",
     "custom_check",
     "is_the_cutest",
+    "ListenerException",
+    "Shared",
+    "SharedNone",
+    "YamiNoneType",
 ]
 
 __version__ = "0.3.0"
@@ -63,5 +67,6 @@ from yami.context import *
 from yami.events import *
 from yami.exceptions import *
 from yami.modules import *
+from yami.utils import *
 
 from . import utils

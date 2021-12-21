@@ -21,7 +21,7 @@ import typing
 import hikari
 
 from yami import bot as bot_
-from yami import commands, exceptions
+from yami import commands, exceptions, utils
 
 __all__ = [
     "MessageContext",
@@ -63,7 +63,7 @@ class MessageContext:
         self._bot = bot
         self._prefix = prefix
         self._exceptions: list[exceptions.YamiException] = []
-        self._shared: dict[typing.Any, typing.Any] = {}
+        self._shared = utils.Shared()
 
     @property
     def bot(self) -> bot_.Bot:
@@ -132,10 +132,10 @@ class MessageContext:
         return self._prefix
 
     @property
-    def shared(self) -> dict[typing.Any, typing.Any]:
-        """A dictionary of key, value pairs that are variables that
-        were shared between checks for this context. These shared
-        variables prevent duplicate http requests.
+    def shared(self) -> utils.Shared:
+        """A SharedData object that holds cached information about the
+        context that was obtained while checks were run for this
+        context.
         """
         return self._shared
 

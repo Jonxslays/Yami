@@ -52,6 +52,9 @@ class MessageCommand:
         self._module: modules.Module | None = None
         self._checks: dict[str, checks_.Check] = {}
 
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}('{self._name}')"
+
     @property
     def aliases(self) -> typing.Iterable[str]:
         """The aliases for the command."""
@@ -91,11 +94,12 @@ class MessageCommand:
             check: `yami.Check`
                 The check to add.
         """
-        if isinstance(check, checks_.Check):
-            self._checks[check.get_name()] = check
-        elif isinstance(check, abc.ABCMeta):
-            self._checks[check.get_name()] = check()  # type: ignore
-        else:
+        try:
+            if isinstance(check, checks_.Check):
+                self._checks[check.get_name()] = check
+            else:
+                self._checks[check.get_name()] = check()
+        except Exception:
             raise exceptions.CheckAddFailed(
                 f"Cannot add {check} to '{self.name}' - it is not a Check"
             )

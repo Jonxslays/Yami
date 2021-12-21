@@ -17,8 +17,9 @@
 from __future__ import annotations
 
 import inspect
-import typing
-from dataclasses import dataclass
+from typing import Any, Callable, Coroutine, Generator
+
+import hikari
 
 from yami import bot as bot_
 from yami import commands as commands_
@@ -27,7 +28,6 @@ from yami import exceptions
 __all__ = ["Module"]
 
 
-@dataclass
 class Module:
     """A collection of commands and functions that typically share a
     need for the same data, or are related in some way.
@@ -41,6 +41,7 @@ class Module:
         self._name = self.__class__.__name__
         self._description = self.__doc__ or ""
         self._commands: dict[str, commands_.MessageCommand] = {}
+        self._listeners: dict[hikari.Event, Callable[..., Coroutine[Any, Any, None]]] = {}
 
         for cmd in inspect.getmembers(self, lambda m: isinstance(m, commands_.MessageCommand)):
             cmd[1]._module = self
@@ -73,11 +74,34 @@ class Module:
         """Whether or not this module is currently loaded."""
         return self._loaded
 
-    def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
+    # @property
+    # def listeners(self) -> dict[hikari.Event, Callable[..., Coroutine[Any, Any, None]]]:
+    #     """A dictionary of event type, callback pairs that are bound
+    #     to this module.
+    #     """
+    #     return self._listeners
+
+    # @staticmethod
+    # def listen(event: Type[hikari.Event] | None = None) -> Callable[..., None]:
+
+    #     def wrapper(callback: Callable[..., Coroutine[Any, Any, None]]) -> None:
+    #         if event is None:
+    #             annotation = tuple(inspect.signature(callback).parameters.values())
+    #             # print(annotation)
+    #             # if not issubclass(annotation, hikari.Event):
+    #             #     raise exceptions.ListenerException(
+    #             #         f"'{annotation}' is not a valid type to listen for"
+    #             #     )
+
+    #         #     return self._bot.subscribe(annotation, callback)
+    #         # return self._bot.subscribe(event, callback)
+    #     return wrapper
+
+    def yield_commands(self) -> Generator[commands_.MessageCommand, None, None]:
         """Yields commands attached to the module.
 
         Returns:
-            Generator[yami.MessageCommand, ...]
+            `Generator[yami.MessageCommand, ...]`
                 A generator over the modules's commands.
         """
         yield from self._commands.values()
@@ -86,11 +110,11 @@ class Module:
         """Adds a command to the module.
 
         Args:
-            command: yami.MessageCommand
+            command: `yami.MessageCommand`
                 The command to add.
 
         Raises:
-            yami.DuplicateCommand:
+            `yami.DuplicateCommand`
                 When a command with this name already exists.
         """
         if command.name in self._commands:
@@ -107,7 +131,7 @@ class Module:
         """Removes a command from the module.
 
         Args:
-            name: str
+            name: `str`
                 The name of the command to remove. (case sensitive)
 
         Raises:
@@ -129,7 +153,7 @@ class Module:
         """Sets the modules description.
 
         Args:
-            description: str
+            description: `str`
                 The new description to set.
         """
         self._description = description

@@ -28,10 +28,11 @@ __all__ = [
     "ModuleLoadException",
     "ModuleUnloadException",
     "CheckException",
-    "BadCheckPlacement",
+    "BadCheck",
     "CheckRemovalFailed",
     "CheckFailed",
     "CheckAddFailed",
+    "ListenerException",
 ]
 
 
@@ -83,9 +84,9 @@ class CheckException(CommandException):
     """Raised when an exception relating to a check occurs."""
 
 
-class BadCheckPlacement(CheckException):
+class BadCheck(CheckException):
     """Raised when a check decorator is placed below the command
-    decorator.
+    decorator, or otherwise used incorrectly.
     """
 
 
@@ -99,3 +100,7 @@ class CheckAddFailed(CheckException):
 
 class CheckFailed(CheckException):
     """Raised when a check is failed during command invocation."""
+
+
+class ListenerException(YamiException):
+    """Raised when an exception occurs relating to a module listener."""
