@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import abc
 import inspect
-from typing import Any, cast, Callable, Coroutine, Sequence
+from typing import Any, Awaitable, Callable, Sequence, cast
 
 import hikari
 
@@ -269,9 +269,7 @@ class has_perms(Check):
                 hikari.GuildTextChannel, self._get_shared(ctx, hikari.GuildTextChannel)
             )
         ):
-            channel = cast(
-                hikari.GuildTextChannel, await ctx.rest.fetch_channel(ctx.channel_id)
-            )
+            channel = cast(hikari.GuildTextChannel, await ctx.rest.fetch_channel(ctx.channel_id))
 
             self._set_shared(ctx, hikari.GuildTextChannel, channel)
 
@@ -299,9 +297,7 @@ class has_perms(Check):
     def _get_perms_for_role(self, role: hikari.Role) -> list[hikari.Permissions]:
         return [*role.permissions]
 
-    def _get_perms_for_roles(
-        self, roles: Sequence[hikari.Role]
-    ) -> list[hikari.Permissions]:
+    def _get_perms_for_roles(self, roles: Sequence[hikari.Role]) -> list[hikari.Permissions]:
         buffer: list[hikari.Permissions] = []
 
         for role in roles:
@@ -360,8 +356,8 @@ class custom_check(Check):
         check: `Callable[[yami.MessageContext], bool]`
             The callback function that should be used for the check.
 
-            It should accept one argument of type `yami.MessageContext` and
-            return a `bool`.
+            It should accept one argument of type `yami.MessageContext`
+            and return a `bool`.
 
             This can be an async, or sync function.
 
@@ -375,7 +371,7 @@ class custom_check(Check):
 
     def __init__(
         self,
-        check: Callable[[context.MessageContext], bool | Coroutine[Any, Any, bool]],
+        check: Callable[[context.MessageContext], bool | Awaitable[bool]],
         *,
         message: str = "",
     ) -> None:
@@ -384,9 +380,9 @@ class custom_check(Check):
 
     async def execute(self, ctx: context.MessageContext) -> None:
         if inspect.iscoroutinefunction(self._check):
-            result = await cast(Coroutine[Any, Any, bool], self._check(ctx))
+            result = await cast(Awaitable[bool], self._check(ctx))
         else:
-            result = self._check(ctx)
+            result = cast(bool, self._check(ctx))
 
         if not result:
             message = self._message or "a custom check was failed"
