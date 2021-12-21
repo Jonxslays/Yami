@@ -58,6 +58,7 @@ from yami.bot import *
 from yami.checks import *
 from yami.commands import *
 from yami.context import *
+from yami.events import *
 from yami.exceptions import *
 from yami.modules import *
 
