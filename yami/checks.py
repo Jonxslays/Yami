@@ -109,19 +109,20 @@ class is_in_dm(Check):
 
 
 class has_role(Check):
-    """Fails if the author does not have a role with the given name.
+    """Fails if the author does not have a role with the given name or
+    id.
 
     This is inherently an `is_in_guild` check as well, because a user
     cannot have a role outside of a guild.
 
     Args:
-        name: `str`
-            The names of the role the user must have.
+        name: `str` | `int`
+            The name or id of the role the user must have.
     """
 
     __slots__ = ("_name",)
 
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str | int) -> None:
         self._name = name
 
     async def execute(self, ctx: context.MessageContext) -> None:
@@ -136,25 +137,26 @@ class has_role(Check):
                 member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
                 member_roles = await member.fetch_roles()
 
-            if not any(self._name == r.name for r in member_roles):
+            if not any(self._name == r.name or self._name == r.id for r in member_roles):
                 self._raise(ctx, f"author does not have the required role: '{self._name}'")
 
 
 class has_any_role(Check):
-    """Fails if the author does not have a role with same name as one of
-    the roles passed as arguments to this check.
+    """Fails if the author does not have any of the role names or ids
+    passed to this check.
 
     This is inherently an `is_in_guild` check as well, because a user
     cannot have a role outside of a guild.
 
     Args:
-        *names: `str`
-            The names of the roles the user must have at least one of.
+        *names: `str` | `int`
+            The names or ids of the roles the user must have at least
+            one of.
     """
 
     __slots__ = ("_names",)
 
-    def __init__(self, *names: str) -> None:
+    def __init__(self, *names: str | int) -> None:
         self._names = names
 
     async def execute(self, ctx: context.MessageContext) -> None:
@@ -175,5 +177,5 @@ class has_any_role(Check):
                 member = await ctx.rest.fetch_member(ctx.guild_id, ctx.author)
                 member_roles = await member.fetch_roles()
 
-            if not any(n == r.name for n in self._names for r in member_roles):
+            if not any(n == r.name or n == r.id for n in self._names for r in member_roles):
                 self._raise(ctx, f"author does not have any of the required roles: {role_names}")
