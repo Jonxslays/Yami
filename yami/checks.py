@@ -29,7 +29,7 @@ __all__ = [
     "Check",
     "is_in_guild",
     "is_in_dm",
-    "has_role",
+    "has_roles",
     "has_any_role",
     "has_perms",
     "custom_check",
@@ -130,31 +130,40 @@ class is_in_dm(Check):
             self._raise(ctx, "this command can only be run in a DM")
 
 
-class has_role(Check):
-    """Fails if the author does not have a role with the given name or
-    id.
+class has_roles(Check):
+    """Fails if the author does not have all of the roles passed to this
+    check decorator.
 
     This is inherently an `is_in_guild` check as well, because a user
     cannot have a role outside of a guild.
 
     Args:
-        role: `str` | `int`
-            The name or id of the role the user must have.
+        *roles: `str` | `int`
+            The name or id of the role or roles the user must have.
     """
 
-    __slots__ = ("_role",)
+    __slots__ = ("_roles",)
 
-    def __init__(self, role: str | int) -> None:
-        self._role = role
+    def __init__(self, *roles: str | int) -> None:
+        self._roles = roles
 
     def _run_check(self, ctx: context.MessageContext, roles: Sequence[hikari.Role]) -> None:
-        if not any(self._role == r.name or self._role == r.id for r in roles):
-            self._raise(ctx, f"author does not have the required role: '{self._role}'")
+        missing_roles: list[str | int] = []
+
+        for role in self._roles:
+            if not any(role == r.name or role == r.id for r in roles):
+                missing_roles.append(role)
+
+        if missing_roles:
+            missing_repr = ", ".join(f"'{m}'" for m in missing_roles)
+            self._raise(ctx, f"author does not have the required roles: {missing_repr}")
 
     async def execute(self, ctx: context.MessageContext) -> None:
+        roles_repr = ", ".join(f"'{r}'" for r in self._roles)
+
         if not ctx.guild_id:
             return self._raise(
-                ctx, f"this command was run in DM but requires the '{self._role}' role"
+                ctx, f"this command was run in DM but requires these roles: {roles_repr}"
             )
 
         else:
@@ -233,7 +242,7 @@ class has_any_role(Check):
 
 class has_perms(Check):
     """Fails if the author does not have all of the specified
-    permissions.
+    permissions. This accumulates all permissions the user has.
 
     This is inherently an `is_in_guild` check as well, because a user
     cannot have permissions outside of a guild.
@@ -241,7 +250,7 @@ class has_perms(Check):
     Args:
         **perms: `bool`
             Keyword arguments for each of the available hikari
-            Permissions.
+            [perms](https://www.hikari-py.dev/hikari/permissions.html).
     """
 
     __slots__ = ("_perms", "_raw_perms")

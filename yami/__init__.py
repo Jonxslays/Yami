@@ -42,7 +42,7 @@ __all__ = [
     "CheckAddFailed",
     "is_in_guild",
     "is_in_dm",
-    "has_role",
+    "has_roles",
     "has_any_role",
     "has_perms",
     "custom_check",
