@@ -33,6 +33,7 @@ __all__ = [
     "has_any_role",
     "has_perms",
     "custom_check",
+    "is_the_cutest",
 ]
 
 
@@ -387,3 +388,19 @@ class custom_check(Check):
         if not result:
             message = self._message or "a custom check was failed"
             self._raise(ctx, message)
+
+
+class is_the_cutest(Check):
+    """Fails if you aren't Jaxtar."""
+
+    __slots__ = ()
+
+    _cutie_id = 135372594953060352
+
+    async def execute(self, ctx: context.MessageContext) -> None:
+        if ctx.author.id != self._cutie_id:
+            self._raise(ctx, "you are not the cutest")
+
+
+
+
