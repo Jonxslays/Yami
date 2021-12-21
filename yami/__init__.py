@@ -27,7 +27,6 @@ __all__ = [
     "BadArgument",
     "DuplicateCommand",
     "Module",
-    "utils",
     "ModuleException",
     "ModuleRemoveException",
     "ModuleAddException",
@@ -51,6 +50,7 @@ __all__ = [
     "Shared",
     "SharedNone",
     "YamiNoneType",
+    "TooManyArgs",
 ]
 
 __version__ = "0.3.0"
@@ -68,5 +68,3 @@ from yami.events import *
 from yami.exceptions import *
 from yami.modules import *
 from yami.utils import *
-
-from . import utils
