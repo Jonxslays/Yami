@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import importlib
 import inspect
+import logging
 import os
 import typing
 from pathlib import Path
@@ -30,6 +31,8 @@ from yami import context, exceptions
 from yami import modules as modules_
 
 __all__ = ["Bot"]
+
+_log = logging.getLogger(__name__)
 
 
 class Bot(hikari.GatewayBot):
@@ -94,12 +97,17 @@ class Bot(hikari.GatewayBot):
         self._modules: dict[str, modules_.Module] = {}
         self._owner_ids = tuple(owner_ids)
 
+        _log.debug(f"Initializing {self}")
+
         self.subscribe(hikari.MessageCreateEvent, self._listen)
         self.subscribe(hikari.StartedEvent, self._setup_callback)
 
         for cmd in inspect.getmembers(self, lambda m: isinstance(m, commands_.MessageCommand)):
             cmd[1].was_globally_added = True
             self.add_command(cmd[1])
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
@@ -149,6 +157,7 @@ class Bot(hikari.GatewayBot):
                 self._owner_ids = (app.owner.id,)
 
         self.unsubscribe(hikari.StartedEvent, self._setup_callback)
+        _log.info(f"{self} is now ready to receive commands")
 
     def load_all_modules(self, *paths: str | Path, recursive: bool = True) -> None:
         """Loads all modules from each of the given paths.This method
@@ -169,6 +178,7 @@ class Bot(hikari.GatewayBot):
                 bot, or there is a failure with one of the commands in
                 the module.
         """
+        _log.debug(f"Loading all modules")
         mod_state = self._modules.copy()
 
         for p in paths:
@@ -194,23 +204,36 @@ class Bot(hikari.GatewayBot):
                 bot, or there is a failure with one of the commands in
                 the module.
         """
+        _log.debug(f"Importing all modules from {path}")
+
         try:
             container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
         except ModuleNotFoundError as e:
             self._modules = mod_state
             raise exceptions.ModuleLoadException(f"Failed to load module - {e}")
 
-        for mod in filter(
-            lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
-            container.__dict__.values(),
-        ):
+        to_load = [
+            *filter(
+                lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
+                container.__dict__.values(),
+            )
+        ]
+
+        if not to_load:
+            return _log.debug("No modules found, continuing")
+
+        for mod in to_load:
+            _log.debug(f"Loading module {mod.__name__}()")
+            mod = mod(self)
+
             try:
-                self._add_module(mod(self))
+                self._add_module(mod)
             except exceptions.ModuleAddException as e:
                 self._modules = mod_state
                 raise e
             else:
                 mod.is_loaded = True
+                _log.debug(f"Loaded module {mod}")
 
     def load_module(self, name: str, path: str | Path) -> None:
         """Loads a single module class from the path specified.
@@ -234,6 +257,7 @@ class Bot(hikari.GatewayBot):
                 When there is a failure with one of the commands in
                 the module.
         """
+        _log.debug(f"Loading module '{name}' from {path}")
         mod_state = self._modules.copy()
 
         if not isinstance(path, Path):
@@ -263,6 +287,7 @@ class Bot(hikari.GatewayBot):
                 raise e
 
             mod.is_loaded = True
+            _log.debug(f"Successfully loaded {mod}")
 
     def unload_module(self, name: str) -> modules_.Module:
         """Unloads a single module class with the given name. It will
@@ -281,6 +306,8 @@ class Bot(hikari.GatewayBot):
             `yami.ModuleUnloadException`
                 When no module with this name was found.
         """
+        _log.debug(f"Unloading module '{name}'")
+
         if mod := self._modules.get(name):
             mod.is_loaded = False
 
@@ -289,7 +316,10 @@ class Bot(hikari.GatewayBot):
                     self.remove_command(cmd)
                 except exceptions.CommandNotFound:
                     # We are unloading the module regardless
+                    _log.warning(f"Error removing {cmd} from {self}, continuing")
                     continue
+
+            _log.debug(f"Unloaded module {mod}")
             return mod
 
         raise exceptions.ModuleUnloadException(
@@ -312,6 +342,8 @@ class Bot(hikari.GatewayBot):
             `yami.ModuleRemoveException`
                 When no module with this name was found.
         """
+        _log.debug(f"Removing module '{name}'")
+
         try:
             self.unload_module(name)
         except exceptions.ModuleUnloadException:
@@ -319,7 +351,9 @@ class Bot(hikari.GatewayBot):
                 f"Failed to remove module '{name}' from bot - it was not found"
             )
 
-        return self._modules.pop(name)
+        mod = self._modules.pop(name)
+        _log.debug(f"Removed module {mod}")
+        return mod
 
     def _add_module(self, module: modules_.Module) -> None:
         """Adds a `yami.Module` to the bot.
@@ -336,7 +370,7 @@ class Bot(hikari.GatewayBot):
         """
         if module.name in self._modules and module.is_loaded:
             raise exceptions.ModuleAddException(
-                f"Failed to add module'{module.name}' to bot - it is already added and loaded"
+                f"Failed to add module {module} to bot - it is already added and loaded"
             )
 
         cmd_state = self._commands.copy()
@@ -345,9 +379,7 @@ class Bot(hikari.GatewayBot):
                 self.add_command(cmd)
             except exceptions.YamiException:
                 self._commands = cmd_state
-                raise exceptions.ModuleAddException(
-                    f"Failed to add {module} to bot due to command '{cmd.name}'"
-                )
+                raise exceptions.ModuleAddException(f"Failed to add {module} to bot due to {cmd}")
 
         self._modules[module.name] = module
 
@@ -357,8 +389,8 @@ class Bot(hikari.GatewayBot):
         *,
         name: str | None = None,
         description: str = "",
-        aliases: typing.Iterable[str] = [],
-        raise_conversion: bool = False
+        aliases: list[str] | tuple[str, ...] = [],
+        raise_conversion: bool = False,
     ) -> commands_.MessageCommand:
         """Adds a command to the bot.
 
@@ -386,6 +418,9 @@ class Bot(hikari.GatewayBot):
                 If aliases is not a list or a tuple.
         """
         if isinstance(command, commands_.MessageCommand):
+            if not command.module:
+                _log.debug(f"Adding {command} to {self}")
+
             if not isinstance(command.aliases, (list, tuple)):
                 raise exceptions.BadArgument(
                     f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
@@ -393,15 +428,14 @@ class Bot(hikari.GatewayBot):
 
             if command.name in self._commands:
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command.name}' to bot - name already in use",
+                    f"Failed to add command '{command}' to bot - name already in use",
                 )
 
-            for a in command.aliases:
-                if a in self._aliases:
-                    raise exceptions.DuplicateCommand(
-                        f"Failed to add command '{command.name}' to bot "
-                        f"- alias '{a}' already in use",
-                    )
+            for alias in filter(lambda a: a in self._aliases, command.aliases):
+                raise exceptions.DuplicateCommand(
+                    f"Failed to add command '{command}' to bot "
+                    f"- alias '{alias}' already in use",
+                )
 
             self._aliases.update(dict((a, command.name) for a in command.aliases))
             self._commands[command.name] = command
@@ -446,7 +480,11 @@ class Bot(hikari.GatewayBot):
                 f"Failed to remove command '{name}' from bot - it was not found"
             ) from None
         else:
-            return cmd.module.remove_command(name) if cmd.module else cmd
+            if cmd.module and cmd.module.is_loaded:
+                return cmd.module.remove_command(name)
+
+        _log.debug(f"Removed {cmd} from {self}")
+        return cmd
 
     def yield_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
         """Yields commands attached to the bot, including all commands
@@ -563,17 +601,17 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name '{name}'")
 
+        _log.debug(f"Attempting to invoke {cmd}...")
+
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
         annots = annots[2:] if cmd.module or cmd.was_globally_added else annots[1:]
         ctx = context.MessageContext(self, event.message, cmd, p)
 
-        len_annots = len(annots)
-        len_parsed = len(parsed)
+        len_annots, len_parsed = len(annots), len(parsed)
 
         if len_parsed > len_annots and not self._allow_extra_args:
             raise exceptions.TooManyArgs(
-                f"Too many args for {ctx.command} - expected "
-                f"{len_annots} but got {len_parsed}"
+                f"Too many args for {ctx.command} - expected " f"{len_annots} but got {len_parsed}"
             )
 
         if len_annots > len_parsed:
@@ -584,7 +622,7 @@ class Bot(hikari.GatewayBot):
             )
 
         for param, value in zip(annots, parsed):
-            print("converting", value, "to", param)
+            print("converting", value, "from", str, "to", param.annotation)
             a = args_.MessageArg(param, value)
             print(a)
 
@@ -596,11 +634,7 @@ class Bot(hikari.GatewayBot):
         for check in cmd.yield_checks():
             await check.execute(ctx)
 
-        vals = ctx.into_arg_values()
-
-        print([*vals])
-
         if m := cmd.module:
-            await cmd.callback(m, ctx, *ctx.into_arg_values())
+            await cmd.callback(m, ctx, *ctx.yield_arg_values())
         else:
-            await cmd.callback(ctx, *ctx.into_arg_values())
+            await cmd.callback(ctx, *ctx.yield_arg_values())

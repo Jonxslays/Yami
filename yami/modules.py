@@ -17,6 +17,7 @@
 from __future__ import annotations
 
 import inspect
+import logging
 from typing import Any, Callable, Coroutine, Generator
 
 import hikari
@@ -26,6 +27,8 @@ from yami import commands as commands_
 from yami import exceptions
 
 __all__ = ["Module"]
+
+_log = logging.getLogger(__name__)
 
 
 class Module:
@@ -54,6 +57,9 @@ class Module:
         for cmd in inspect.getmembers(self, lambda m: isinstance(m, commands_.MessageCommand)):
             cmd[1]._module = self
             self.add_command(cmd[1])
+
+    def __repr__(self) -> str:
+        return f"{self.__class__.__name__}()"
 
     @property
     def name(self) -> str:
@@ -110,6 +116,8 @@ class Module:
             `yami.DuplicateCommand`
                 When a command with this name already exists.
         """
+        _log.debug(f"Adding {command} to {self}")
+
         if command.name in self._commands:
             raise exceptions.DuplicateCommand(
                 f"Failed to add command to '{self._name}' - name '{command.name}' already in use"
@@ -133,11 +141,12 @@ class Module:
         """
         if name not in self.commands:
             raise exceptions.CommandNotFound(
-                f"Failed to remove command from '{self._name}' - name '{name}' not found"
+                f"Failed to remove command from '{self}' - name '{name}' not found"
             )
 
-        if self._is_loaded:
-            if name in self._bot.commands:
-                self._bot.remove_command(name)
+        if self._is_loaded and name in self._bot.commands:
+            self._bot.remove_command(name)
 
-        return self._commands.pop(name)
+        cmd = self._commands.pop(name)
+        _log.debug(f"Removed {cmd} from {self}")
+        return cmd

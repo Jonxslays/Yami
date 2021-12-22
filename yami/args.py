@@ -18,7 +18,8 @@
 from __future__ import annotations
 
 import inspect
-from typing import Any, TYPE_CHECKING
+import logging
+from typing import TYPE_CHECKING, Any
 
 import hikari
 
@@ -30,15 +31,27 @@ if TYPE_CHECKING:
 __all__ = ["MessageArg"]
 
 
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.DEBUG)
+
 _builtin_convertible: tuple[type, ...] = (int, bool, complex, float, bytes)
 _hikari_convertible: tuple[Any, ...] = (
-    hikari.User, hikari.Member, hikari.PartialChannel,
-    hikari.GroupDMChannel, hikari.GuildTextChannel, hikari.GuildVoiceChannel,
-    hikari.GuildStoreChannel, hikari.GuildNewsChannel, hikari.GuildChannel,
-    hikari.TextableChannel, hikari.Message, hikari.Role, hikari.CustomEmoji,
-    hikari.KnownCustomEmoji, hikari.Emoji
+    hikari.User,
+    hikari.Member,
+    hikari.PartialChannel,
+    hikari.GroupDMChannel,
+    hikari.GuildTextChannel,
+    hikari.GuildVoiceChannel,
+    hikari.GuildStoreChannel,
+    hikari.GuildNewsChannel,
+    hikari.GuildChannel,
+    hikari.TextableChannel,
+    hikari.Message,
+    hikari.Role,
+    hikari.CustomEmoji,
+    hikari.KnownCustomEmoji,
+    hikari.Emoji,
 )
-
 _convertible = (_builtin_convertible, _hikari_convertible)
 
 
@@ -95,15 +108,27 @@ class MessageArg:
         )
 
     async def convert(self, ctx: context.MessageContext) -> None:
-        print("Converting")
-        print(type(self._annotation))
+        _log.debug(f"Attempting conversion of message arg {str} to {self._annotation}")
+
         if self._annotation in _builtin_convertible:
-            print("the annotation in builtins")
             return await self._convert_builtin(ctx)
 
         return ctx.args.append(self)
 
     async def _convert_builtin(self, ctx: context.MessageContext) -> None:
+        if self._annotation is bool:
+            lower = self._value.lower()
+
+            if lower == "true":
+                self._value = True
+            elif lower == "false":
+                self._value = False
+            else:
+                return self._raise(ctx)
+
+            self._is_converted = True
+            return ctx.args.append(self)
+
         try:
             self._value = self._annotation(self._value)
         except (ValueError, TypeError):

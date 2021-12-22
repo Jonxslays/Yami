@@ -36,7 +36,16 @@ class MessageCommand:
     - The `yami.Bot.command` decorator outside a `yami.Module`.
     """
 
-    __slots__ = ("_aliases", "_callback", "_name", "_description", "_module", "_checks", "_was_globally_added", "_raise_conversion")
+    __slots__ = (
+        "_aliases",
+        "_callback",
+        "_name",
+        "_description",
+        "_module",
+        "_checks",
+        "_was_globally_added",
+        "_raise_conversion",
+    )
 
     def __init__(
         self,

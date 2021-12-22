@@ -161,7 +161,7 @@ class MessageContext:
         """
         return self._shared
 
-    def into_arg_values(self) -> typing.Generator[None, None, typing.Any]:
+    def yield_arg_values(self) -> typing.Generator[None, None, typing.Any]:
         """Returns a generator over the argument values for this
         context."""
         yield from (v.value for v in self._args)

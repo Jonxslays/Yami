@@ -71,7 +71,9 @@ def test_bot_instantiation(model: yami.Bot) -> None:
 @pytest.mark.asyncio()
 async def test_add_message_command_object(model: yami.Bot) -> None:
     async_callback = mock.AsyncMock(return_value="Howdy")
-    cmd = yami.MessageCommand(async_callback, name="owo-cmd", description="", aliases=(), raise_conversion=False)
+    cmd = yami.MessageCommand(
+        async_callback, name="owo-cmd", description="", aliases=(), raise_conversion=False
+    )
     model.add_command(cmd)
 
     assert model.commands == {"owo-cmd": cmd}
