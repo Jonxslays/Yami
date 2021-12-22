@@ -206,7 +206,7 @@ class Bot(hikari.GatewayBot):
                 self._modules = mod_state
                 raise e
             else:
-                mod._loaded = True
+                mod.is_loaded = True
 
     def load_module(self, name: str, path: str | Path) -> None:
         """Loads a single module class from the path specified.
@@ -245,18 +245,20 @@ class Bot(hikari.GatewayBot):
             lambda m: inspect.isclass(m) and issubclass(m, modules_.Module) and m.__name__ == name,
             container.__dict__.values(),
         ):
+            mod = mod(self)
+
             try:
                 if mod.is_loaded:
                     raise exceptions.ModuleLoadException(
                         f"Cannot load '{mod.name}' - it is already loaded"
                     )
-                self._add_module(mod(self))
+                self._add_module(mod)
 
             except (exceptions.ModuleAddException, exceptions.ModuleLoadException) as e:
                 self._modules = mod_state
                 raise e
 
-            mod._loaded = True
+            mod.is_loaded = True
 
     def unload_module(self, name: str) -> modules_.Module:
         """Unloads a single module class with the given name. It will
@@ -276,14 +278,14 @@ class Bot(hikari.GatewayBot):
                 When no module with this name was found.
         """
         if mod := self._modules.get(name):
+            mod.is_loaded = False
+
             for cmd in mod.commands:
                 try:
                     self.remove_command(cmd)
                 except exceptions.CommandNotFound:
                     # We are unloading the module regardless
                     continue
-
-            mod._loaded = False
             return mod
 
         raise exceptions.ModuleUnloadException(
@@ -528,8 +530,11 @@ class Bot(hikari.GatewayBot):
 
     async def _invoke(self, p: str, event: hikari.MessageCreateEvent, content: str) -> None:
         """Attempts to invoke a command."""
+        # print("*******************")
         parsed = content.split()
+        # print(f"Parsed: {parsed}")
         name = parsed.pop(0)[len(p) :]
+        # print(f"Name: {name}")
 
         if not name:
             return None
@@ -544,8 +549,11 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name '{name}'")
 
+        # print(f"Processing command: {cmd}")
+
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
-        ctx = context.MessageContext(self, event.message, cmd, p)
+        # print(f"Annotations: {annots}")
+        ctx = context.MessageContext(self, event.message, cmd, p, raw_args=annots)
 
         for check in cmd.yield_checks():
             await check.execute(ctx)
