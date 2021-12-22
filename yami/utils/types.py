@@ -54,14 +54,22 @@ class SharedMeta(type):
 
 
 class Shared(object, metaclass=SharedMeta):
-    """Represents data that is shared between checks for a given
-    context.
+    """Represents data container for shared storage.
 
-    This prevents duplicate API requests to discord. Feel free
-    to examine this in your own contexts, and even store things here.
+    An instance of `Shared` is stored on each context, and on the bot.
 
-     - Keep in mind this object is only Shared during the current
-     context's lifetime, and is discarded afterwards.
+    Feel free to examine this in your own contexts, and even store
+    things in one on your bot. You can instantiate a `Shared` anywhere
+    you want, in fact.
+
+    You can dynamically add attributes to the shared object.
+
+    ```py
+    s = yami.Shared()
+    s.hello = "hello"
+    s.hello # returns "hello"
+    s.doesnt_exist # returns yami.SharedNone
+    ```
     """
 
     def __getattr__(self, name: str) -> Any:

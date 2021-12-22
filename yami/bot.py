@@ -27,7 +27,7 @@ import hikari
 
 from yami import args as args_
 from yami import commands as commands_
-from yami import context, exceptions
+from yami import context, exceptions, utils
 from yami import modules as modules_
 
 __all__ = ["Bot"]
@@ -43,27 +43,32 @@ class Bot(hikari.GatewayBot):
     on top of the `hikari.GatewayBot` superclass.
 
     NOTE: This class is slotted, if you want to set your own custom
-    properties you will need to subclass it. Remember to add `__slots__`
-    to your subclass so you can take advantage of the performance
-    increase!
+    properties you have 2 choices:
+    - Pass `shared=True` to the bot constructor, enabling the shared
+    property on the bot. This will create an instance of `yami.Shared`.
+    - Subclass `yami.Bot`. This can lead to issues if you overwrite
+    private or public attributes in your subclass.
 
     Args:
-        token: str
+        token: `str`
             The bot token to sign in with.
-        prefix: Union[str, Sequence[str]]
+        prefix: `str` | `Sequence[str]`
             The prefix, or sequence of prefixes to listen for.
             Planned support for mentions, and functions soon (tm).
 
     Kwargs:
-        case_insensitive: bool
+        case_insensitive: `bool`
             Whether or not to ignore case when handling message command
             invocations. Defaults to True.
-        owner_ids: Sequence[int]
+        owner_ids: `Sequence[int]`
             A sequence of integers representing the Snowflakes of the
             bots owners. Defaults to an empty tuple.
-        allow_extra_args: bool
+        allow_extra_args: `bool`
             Whether or not the bot should allow extra args in command
             invocations. Defaults to `False`.
+        shared: `bool`
+            Whether or not to create a `yami.Shared` instance and store
+            it in the Bot.shared property. Defaults to `False`.
         **kwargs: The remaining kwargs for hikari.GatewayBot.
     """
 
@@ -75,6 +80,7 @@ class Bot(hikari.GatewayBot):
         "_aliases",
         "_modules",
         "_allow_extra_args",
+        "_shared",
     )
 
     def __init__(
@@ -96,6 +102,7 @@ class Bot(hikari.GatewayBot):
         self._commands: dict[str, commands_.MessageCommand] = {}
         self._modules: dict[str, modules_.Module] = {}
         self._owner_ids = tuple(owner_ids)
+        self._shared = utils.Shared()
 
         _log.debug(f"Initializing {self}")
 
@@ -143,6 +150,11 @@ class Bot(hikari.GatewayBot):
         command. Defaults to `False`.
         """
         return self._allow_extra_args
+
+    @property
+    def shared(self) -> utils.Shared:
+        """The `Shared` instance associated with this bot."""
+        return self._shared
 
     async def _setup_callback(self, _: hikari.StartedEvent) -> None:
         """Callback to guarantee the owner ids are known at runtime."""
@@ -537,7 +549,7 @@ class Bot(hikari.GatewayBot):
         name: str | None = None,
         description: str = "",
         *,
-        aliases: typing.Iterable[str] = [],
+        aliases: typing.Sequence[str] = (),
         raise_conversion: bool = False,
     ) -> typing.Callable[..., typing.Any]:
         """Decorator to add a message command to the bot.
@@ -552,7 +564,7 @@ class Bot(hikari.GatewayBot):
                 the `-OO` optimization flag.
 
         Kwargs:
-            aliases: `Iterable[str]`
+            aliases: `Sequence[str]`
                 A list or tuple of aliases for the command.
             raise_conversion: bool
                 Whether or not to raise an error when a type hint
