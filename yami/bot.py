@@ -566,7 +566,7 @@ class Bot(hikari.GatewayBot):
             commands_.MessageCommand(
                 callback,
                 name or callback.__name__,
-                description,
+                description or callback.__doc__,
                 aliases=aliases,
                 raise_conversion=raise_conversion,
             )

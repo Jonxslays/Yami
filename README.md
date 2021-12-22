@@ -40,22 +40,54 @@ pip install git+https://github.com/Jonxslays/Yami.git
 #### Creating a Bot
 
 ```py
-from os import environ
+import asyncio
+import datetime
+import functools
+import os
+import typing
+
+import hikari
 
 import yami
 
 
-bot = Bot(environ["TOKEN"], prefix="$")
+bot = yami.Bot(os.environ["TOKEN"], prefix="$")
 
 
+# This command can only be run in guilds.
 @yami.is_in_guild()
-@bot.command("add", "Add 2 numbers together", aliases=["sum"])
-async def add_cmd(ctx: MessageContext, num1: int, num2: int) -> None:
+@bot.command("add", "Adds 2 numbers", aliases=["sum"])
+async def add_cmd(ctx: yami.MessageContext, num1: int, num2: int) -> None:
     # Basic builtin python types are converted for you using their type
-    # hints (int, float, bool). More advanced conversions like
-    # dict[str, str] are not supported and the argument will be passed
-    # as a string. More types coming soon™.
+    # hints (int, float, bool). More types coming soon™.
     await ctx.respond(f"The sum is {num1 + num2}")
+
+
+@bot.command("fibonacci")
+async def fibonacci(ctx: yami.MessageContext, num: int) -> None:
+    """Calculates the num'th term in the fibonacci sequence."""
+    calc: typing.Callable[[int], int] = functools.lru_cache(
+        lambda num: num if num < 2 else calc(num - 1) + calc(num - 2)
+    )
+
+    # Though we cache the function call, let's simulate thinking.
+    async with ctx.trigger_typing():
+        await asyncio.sleep(1.5)
+
+    # Make a pretty embed.
+    await ctx.respond(
+        hikari.Embed(
+            title=f"Fibonacci calculator",
+            description=f"```{calc(num)}```",
+            color=hikari.Color(0x8AFF8A),
+            timestamp=datetime.datetime.now(tz=datetime.timezone.utc),
+        )
+        .set_footer(f"Term {num}")
+        .set_author(
+            name=(author := ctx.author).username,
+            icon=author.avatar_url or author.default_avatar_url,
+        )
+    )
 
 
 if __name__ == "__main__":
