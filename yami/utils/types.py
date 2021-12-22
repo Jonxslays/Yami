@@ -85,7 +85,7 @@ class Shared(object, metaclass=SharedMeta):
     @property
     def items(self) -> dict[str, Any]:
         """A dictionary of attribute name, value pairs that have been
-        stored inside this Shared instance.
+        stored inside this `Shared` instance.
         """
         return self.__dict__
 
@@ -100,6 +100,6 @@ class Shared(object, metaclass=SharedMeta):
 
         Returns:
             `bool`
-                True if the attribute exists.
+                True if the attribute exists, otherwise `False`.
         """
         return name in self.__dict__
