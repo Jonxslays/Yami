@@ -34,6 +34,8 @@ __all__ = [
     "CheckAddFailed",
     "ListenerException",
     "TooManyArgs",
+    "MissingArgs",
+    "ConversionFailed",
 ]
 
 
@@ -55,8 +57,18 @@ class TooManyArgs(CommandException):
     """Raised when too many arguments are passed to a command."""
 
 
+class MissingArgs(CommandException):
+    """Raised when a command is run, but not all args are supplied."""
+
+
 class BadArgument(CommandException):
     """Raised what a bad argument is passed to a message command."""
+
+
+class ConversionFailed(BadArgument):
+    """Raised when the conversion of an arg to its corresponding type
+    hint fails.
+    """
 
 
 class DuplicateCommand(CommandException):

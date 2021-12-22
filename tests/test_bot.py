@@ -37,24 +37,24 @@ def model() -> yami.Bot:
 
 @pytest.fixture()
 def no_content_m_create_event() -> hikari.MessageCreateEvent:
-    e = mock.Mock(spec=hikari.MessageCreateEvent)
-    e.message = mock.Mock(spec=hikari.Message)
+    e = mock.Mock()
+    e.message = mock.Mock()
     e.message.content = hikari.UNDEFINED
     return e
 
 
 @pytest.fixture()
 def with_content_with_cmd_m_create_event() -> hikari.MessageCreateEvent:
-    e = mock.Mock(spec=hikari.MessageCreateEvent)
-    e.message = mock.Mock(spec=hikari.Message)
+    e = mock.Mock()
+    e.message = mock.Mock()
     e.message.content = "&&echo"
     return e
 
 
 @pytest.fixture()
 def with_content_no_cmd_m_create_event() -> hikari.MessageCreateEvent:
-    e = mock.Mock(spec=hikari.MessageCreateEvent)
-    e.message = mock.Mock(spec=hikari.Message)
+    e = mock.Mock()
+    e.message = mock.Mock()
     e.message.content = "FAKE"
     return e
 
@@ -71,12 +71,13 @@ def test_bot_instantiation(model: yami.Bot) -> None:
 @pytest.mark.asyncio()
 async def test_add_message_command_object(model: yami.Bot) -> None:
     async_callback = mock.AsyncMock(return_value="Howdy")
-    cmd = yami.MessageCommand(async_callback, name="owo-cmd", description="", aliases=())
+    cmd = yami.MessageCommand(async_callback, name="owo-cmd", description="", aliases=(), raise_conversion=False)
     model.add_command(cmd)
 
     assert model.commands == {"owo-cmd": cmd}
     assert await cmd.callback() == "Howdy"
     assert cmd.name == "owo-cmd"
+    assert cmd.raise_conversion is False
     async_callback.assert_awaited_once()
 
 
@@ -220,7 +221,7 @@ async def test_bot__invoke_with_no_aliases(
     model: yami.Bot, with_content_with_cmd_m_create_event: hikari.MessageCreateEvent
 ) -> None:
     content_w_cmd_e = with_content_with_cmd_m_create_event
-    model.add_command(mock.AsyncMock(), name="echo")
+    model.add_command(mock.AsyncMock(spec=yami.MessageCommand), name="echo", aliases=("hi"))
 
     result = await model._invoke("&&", content_w_cmd_e, content_w_cmd_e.message.content)
     assert result is None
@@ -273,14 +274,6 @@ async def test_bot__invoke_with_bool_args(
 
     assert await model.get_command("change").callback(mock.Mock(), True) is True
     assert await model.get_command("change").callback(mock.Mock(), False) is False
-
-    with pytest.raises(yami.BadArgument) as e:
-        await model._invoke("&&", content_w_cmd_e, "&&change what")
-        assert "Invalid arg 'what'" in e
-
-    with pytest.raises(yami.BadArgument) as e:
-        await model._invoke("&&", content_w_cmd_e, "&&change what")
-        assert "Invalid arg 'what'" in e
 
 
 @pytest.mark.asyncio()

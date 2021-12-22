@@ -36,14 +36,16 @@ class MessageCommand:
     - The `yami.Bot.command` decorator outside a `yami.Module`.
     """
 
-    __slots__ = ("_aliases", "_callback", "_name", "_description", "_module", "_checks")
+    __slots__ = ("_aliases", "_callback", "_name", "_description", "_module", "_checks", "_was_globally_added", "_raise_conversion")
 
     def __init__(
         self,
         callback: typing.Callable[..., typing.Any],
         name: str,
         description: str,
+        *,
         aliases: typing.Iterable[str],
+        raise_conversion: bool,
     ) -> None:
         self._aliases = aliases
         self._callback = callback
@@ -51,6 +53,8 @@ class MessageCommand:
         self._name = name
         self._module: modules.Module | None = None
         self._checks: dict[str, checks_.Check] = {}
+        self._was_globally_added = False
+        self._raise_conversion = raise_conversion
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self._name}')"
@@ -86,6 +90,24 @@ class MessageCommand:
     def callback(self) -> typing.Callable[..., typing.Any]:
         """The callback function registered to the command."""
         return self._callback
+
+    @property
+    def raise_conversion(self) -> bool:
+        """Whether or not to raise an error when a type hint conversion
+        for the command arguments fails.
+        """
+        return self._raise_conversion
+
+    @property
+    def was_globally_added(self) -> bool:
+        """`True` if the command was created with the `yami.command`
+        decorator. `False` if `bot.command` was used.
+        """
+        return self._was_globally_added
+
+    @was_globally_added.setter
+    def was_globally_added(self, val: bool) -> None:
+        self._was_globally_added = val
 
     def add_check(self, check: typing.Type[checks_.Check] | checks_.Check) -> None:
         """Adds a check to be run before this command.
@@ -140,6 +162,7 @@ def command(
     description: str = "",
     *,
     aliases: typing.Iterable[str] = [],
+    raise_conversion: bool = False,
 ) -> typing.Callable[..., MessageCommand]:
     """Decorator to add commands to the bot inside of modules. It should
     decorate the callback that should fire when this command is run.
@@ -165,5 +188,6 @@ def command(
         callback,
         name or callback.__name__,
         description or callback.__doc__,
-        aliases,
+        aliases=aliases,
+        raise_conversion=raise_conversion,
     )

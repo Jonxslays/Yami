@@ -44,7 +44,6 @@ class Check(abc.ABC):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         if args or kwargs:
-            print(args, kwargs)
             raise exceptions.BadCheck(
                 f"Unclosed parentheses on {self}, or an unexpected argument was passed"
             )

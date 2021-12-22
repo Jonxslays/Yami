@@ -77,7 +77,7 @@ if __name__ == "__main__":
 - [x] Message Context
 - [x] Modules
 - [x] Exceptions (WIP)
-- [x] Checks
+- [x] Checks (WIP)
 
 </details>
 </div>
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 - [ ] Slash Context
 - [ ] Converters
 - [ ] Utils
-- [ ] Proper command arg type parsing
+- [x] Proper command arg type parsing (WIP but a lot to do)
 - [ ] QOL methods
 - [ ] Logging
 

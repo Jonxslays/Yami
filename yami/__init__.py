@@ -52,6 +52,8 @@ __all__ = [
     "YamiNoneType",
     "TooManyArgs",
     "MessageArg",
+    "MissingArgs",
+    "ConversionFailed",
 ]
 
 __version__ = "0.3.0"

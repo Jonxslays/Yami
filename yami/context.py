@@ -62,8 +62,6 @@ class MessageContext:
         message: hikari.Message,
         command: commands.MessageCommand,
         prefix: str,
-        *,
-        raw_args: tuple[inspect.Parameter, ...] = (),
     ) -> None:
         self._message = message
         self._command = command
@@ -71,8 +69,8 @@ class MessageContext:
         self._prefix = prefix
         self._exceptions: list[exceptions.YamiException] = []
         self._shared = utils.Shared()
-        self._raw_args = raw_args
         self._args: list[args_.MessageArg] = []
+        self._raw_args: tuple[inspect.Parameter, ...] = ()
 
     @property
     def bot(self) -> bot_.Bot:
@@ -103,17 +101,16 @@ class MessageContext:
 
     @property
     def args(self) -> list[args_.MessageArg]:
-        """A list of MessageArguments passed to this context. `self`
-        in Module commands and `MessageContext` args will not be present
-        here.
-
-        See `raw_args` to get the raw parameters for all args."""
+        """A list of converted `MessageArgs` passed to this context.
+        `MessageContext` will not be present here even though it was
+        passed to the command callback.
+        """
         return self._args
 
     @property
     def raw_args(self) -> tuple[inspect.Parameter, ...]:
-        """A tuple container the raw `inspect.Parameters` that were
-        passed to the command. Including self, and this ctx if present.
+        """A tuple containing the raw `inspect.Parameters` that were
+        passed to the command, minus the context.
         """
         return self._raw_args
 
@@ -163,6 +160,11 @@ class MessageContext:
         context.
         """
         return self._shared
+
+    def into_arg_values(self) -> typing.Generator[None, None, typing.Any]:
+        """Returns a generator over the argument values for this
+        context."""
+        yield from (v.value for v in self._args)
 
     async def respond(self, *args: typing.Any, **kwargs: typing.Any) -> hikari.Message:
         """Respond to the message that created this context.

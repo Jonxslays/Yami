@@ -16,7 +16,6 @@
 
 from __future__ import annotations
 
-import builtins
 import importlib
 import inspect
 import os
@@ -25,6 +24,7 @@ from pathlib import Path
 
 import hikari
 
+from yami import args as args_
 from yami import commands as commands_
 from yami import context, exceptions
 from yami import modules as modules_
@@ -96,6 +96,10 @@ class Bot(hikari.GatewayBot):
 
         self.subscribe(hikari.MessageCreateEvent, self._listen)
         self.subscribe(hikari.StartedEvent, self._setup_callback)
+
+        for cmd in inspect.getmembers(self, lambda m: isinstance(m, commands_.MessageCommand)):
+            cmd[1].was_globally_added = True
+            self.add_command(cmd[1])
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
@@ -354,6 +358,7 @@ class Bot(hikari.GatewayBot):
         name: str | None = None,
         description: str = "",
         aliases: typing.Iterable[str] = [],
+        raise_conversion: bool = False
     ) -> commands_.MessageCommand:
         """Adds a command to the bot.
 
@@ -402,8 +407,13 @@ class Bot(hikari.GatewayBot):
             self._commands[command.name] = command
             return command
 
-        name = name or command.__name__
-        cmd = commands_.MessageCommand(command, name, description, aliases)
+        cmd = commands_.MessageCommand(
+            command,
+            name or command.__name__,
+            description,
+            aliases=aliases,
+            raise_conversion=raise_conversion,
+        )
         return self.add_command(cmd)
 
     def remove_command(self, name: str) -> commands_.MessageCommand:
@@ -490,6 +500,7 @@ class Bot(hikari.GatewayBot):
         description: str = "",
         *,
         aliases: typing.Iterable[str] = [],
+        raise_conversion: bool = False,
     ) -> typing.Callable[..., typing.Any]:
         """Decorator to add a message command to the bot.
 
@@ -505,6 +516,9 @@ class Bot(hikari.GatewayBot):
         Kwargs:
             aliases: `Iterable[str]`
                 A list or tuple of aliases for the command.
+            raise_conversion: bool
+                Whether or not to raise an error when a type hint
+                conversion for the command arguments fails.
 
         Returns:
             `Callable[..., yami.MessageCommand]`
@@ -515,7 +529,8 @@ class Bot(hikari.GatewayBot):
                 callback,
                 name or callback.__name__,
                 description,
-                aliases,
+                aliases=aliases,
+                raise_conversion=raise_conversion,
             )
         )
 
@@ -530,13 +545,12 @@ class Bot(hikari.GatewayBot):
 
     async def _invoke(self, p: str, event: hikari.MessageCreateEvent, content: str) -> None:
         """Attempts to invoke a command."""
-        # print("*******************")
         parsed = content.split()
-        # print(f"Parsed: {parsed}")
         name = parsed.pop(0)[len(p) :]
-        # print(f"Name: {name}")
 
         if not name:
+            # Skip this for now - occurs when there is a space between
+            # the prefix and the next word in the message content
             return None
 
         # TODO: Fire a CommandInvokeEvent here once we make it
@@ -549,58 +563,44 @@ class Bot(hikari.GatewayBot):
         else:
             raise exceptions.CommandNotFound(f"No command found with name '{name}'")
 
-        # print(f"Processing command: {cmd}")
-
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
-        # print(f"Annotations: {annots}")
-        ctx = context.MessageContext(self, event.message, cmd, p, raw_args=annots)
+        annots = annots[2:] if cmd.module or cmd.was_globally_added else annots[1:]
+        ctx = context.MessageContext(self, event.message, cmd, p)
+
+        len_annots = len(annots)
+        len_parsed = len(parsed)
+
+        if len_parsed > len_annots and not self._allow_extra_args:
+            raise exceptions.TooManyArgs(
+                f"Too many args for {ctx.command} - expected "
+                f"{len_annots} but got {len_parsed}"
+            )
+
+        if len_annots > len_parsed:
+            print(annots, parsed)
+            raise exceptions.MissingArgs(
+                f"Missing args for {cmd} - expected {len_annots} but got {len_parsed} - missing"
+                f" {', '.join(f'({a})' for a in annots[len_parsed - len_annots :])}"
+            )
+
+        for param, value in zip(annots, parsed):
+            print("converting", value, "to", param)
+            a = args_.MessageArg(param, value)
+            print(a)
+
+            try:
+                await a.convert(ctx)
+            except exceptions.ConversionFailed:
+                raise exceptions.BadArgument("A bad argument was passed")
 
         for check in cmd.yield_checks():
             await check.execute(ctx)
 
-        converted: list[typing.Any] = []
-        offset = 2 if cmd.module else 1
+        vals = ctx.into_arg_values()
 
-        for i, arg in enumerate(parsed):
-            try:
-                a = annots[i + offset].annotation
-            except IndexError:
-                if self._allow_extra_args:
-                    break
-
-                raise exceptions.TooManyArgs(
-                    f"Too many arguments for {ctx.command} - "
-                    f"expected {len(annots) - offset} but got {len(parsed)}"
-                )
-
-            if a is inspect.Signature.empty:
-                converted.append(arg)
-                continue
-
-            t = getattr(builtins, a, str) if isinstance(a, str) else a
-            if t is bool:
-                if arg == "True":
-                    converted.append(True)
-                elif arg == "False":
-                    converted.append(False)
-                else:
-                    e = exceptions.BadArgument(
-                        f"Invalid arg '{arg}' for {bool} in '{cmd.name}' at position {i + offset}"
-                    )
-                    ctx.exceptions.append(e)
-                    raise e
-                continue
-
-            try:
-                converted.append(t(arg)) if type(t) in (type, str) else converted.append(arg)
-            except (TypeError, ValueError):
-                e = exceptions.BadArgument(
-                    f"Invalid arg '{arg}' for {t} in '{cmd.name}' at position {i + 1}"
-                )
-                ctx.exceptions.append(e)
-                raise e from None
+        print([*vals])
 
         if m := cmd.module:
-            await cmd.callback(m, ctx, *converted)
+            await cmd.callback(m, ctx, *ctx.into_arg_values())
         else:
-            await cmd.callback(ctx, *converted)
+            await cmd.callback(ctx, *ctx.into_arg_values())

@@ -35,6 +35,10 @@ class Module:
     - You should subclass `Module` to create your own modules.
     - Modules do not require any special functions in their file.
 
+    If you overwrite the `__init__` method, it should take at least 1
+    argument which is of type `yami.Bot`. Be sure to call
+    `super().__init__(bot)` first thing.
+
     Yami takes care of importing the `Module` for you via the
     `Bot.load_module()` and `Bot.load_all_modules()` methods.
     """
