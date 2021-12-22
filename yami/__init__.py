@@ -51,6 +51,7 @@ __all__ = [
     "SharedNone",
     "YamiNoneType",
     "TooManyArgs",
+    "MessageArg",
 ]
 
 __version__ = "0.3.0"
@@ -60,6 +61,7 @@ __url__ = "https://github.com/Jonxslays/Yami"
 __repository__ = __url__
 __license__ = "GPL-3.0-only"
 
+from yami.args import *
 from yami.bot import *
 from yami.checks import *
 from yami.commands import *

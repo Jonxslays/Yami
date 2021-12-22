@@ -16,10 +16,12 @@
 
 from __future__ import annotations
 
+import inspect
 import typing
 
 import hikari
 
+from yami import args as args_
 from yami import bot as bot_
 from yami import commands, exceptions, utils
 
@@ -32,14 +34,15 @@ class MessageContext:
     """The context surround a message commands invocation.
 
     Args:
-        bot: yami.Bot
+        bot: `yami.Bot`
             The bot instance associated with the context.
-        message: hikari.Message
+        message: `hikari.Message`
             The message associated with the context.
-        command: yami.MessageCommand
+        command: `yami.MessageCommand`
             The command associated with the context.
-        prefix: str
+        prefix: `str`
             The prefix the context with created with.
+        *args: `dict[str. yami.MessageArg]`
     """
 
     __slots__: typing.Sequence[str] = (
@@ -49,6 +52,8 @@ class MessageContext:
         "_prefix",
         "_exceptions",
         "_shared",
+        "_args",
+        "_raw_args",
     )
 
     def __init__(
@@ -57,6 +62,8 @@ class MessageContext:
         message: hikari.Message,
         command: commands.MessageCommand,
         prefix: str,
+        *,
+        raw_args: tuple[inspect.Parameter, ...] = (),
     ) -> None:
         self._message = message
         self._command = command
@@ -64,6 +71,8 @@ class MessageContext:
         self._prefix = prefix
         self._exceptions: list[exceptions.YamiException] = []
         self._shared = utils.Shared()
+        self._raw_args = raw_args
+        self._args: list[args_.MessageArg] = []
 
     @property
     def bot(self) -> bot_.Bot:
@@ -91,6 +100,22 @@ class MessageContext:
         context was a DMChannel.
         """
         return self._message.guild_id
+
+    @property
+    def args(self) -> list[args_.MessageArg]:
+        """A list of MessageArguments passed to this context. `self`
+        in Module commands and `MessageContext` args will not be present
+        here.
+
+        See `raw_args` to get the raw parameters for all args."""
+        return self._args
+
+    @property
+    def raw_args(self) -> tuple[inspect.Parameter, ...]:
+        """A tuple container the raw `inspect.Parameters` that were
+        passed to the command. Including self, and this ctx if present.
+        """
+        return self._raw_args
 
     @property
     def exceptions(self) -> list[exceptions.YamiException]:

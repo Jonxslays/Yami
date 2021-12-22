@@ -32,12 +32,16 @@ class Module:
     """A collection of commands and functions that typically share a
     need for the same data, or are related in some way.
 
-    You should subclass `Module` to create your own modules.
+    - You should subclass `Module` to create your own modules.
+    - Modules do not require any special functions in their file.
+
+    Yami takes care of importing the `Module` for you via the
+    `Bot.load_module()` and `Bot.load_all_modules()` methods.
     """
 
     def __init__(self, bot: bot_.Bot) -> None:
         self._bot = bot
-        self._loaded = False
+        self._is_loaded = False
         self._name = self.__class__.__name__
         self._description = self.__doc__ or ""
         self._commands: dict[str, commands_.MessageCommand] = {}
@@ -69,10 +73,18 @@ class Module:
         """The description of this module."""
         return self._description
 
+    @description.setter
+    def description(self, description: str) -> None:
+        self._description = description
+
     @property
     def is_loaded(self) -> bool:
         """Whether or not this module is currently loaded."""
-        return self._loaded
+        return self._is_loaded
+
+    @is_loaded.setter
+    def is_loaded(self, value: bool) -> None:
+        self._is_loaded = value
 
     def yield_commands(self) -> Generator[commands_.MessageCommand, None, None]:
         """Yields commands attached to the module.
@@ -99,7 +111,7 @@ class Module:
                 f"Failed to add command to '{self._name}' - name '{command.name}' already in use"
             )
 
-        if self._loaded:
+        if self._is_loaded:
             self._bot.add_command(command)
 
         self._commands[command.name] = command
@@ -120,17 +132,8 @@ class Module:
                 f"Failed to remove command from '{self._name}' - name '{name}' not found"
             )
 
-        if self._loaded:
+        if self._is_loaded:
             if name in self._bot.commands:
                 self._bot.remove_command(name)
 
         return self._commands.pop(name)
-
-    def set_description(self, description: str) -> None:
-        """Sets the modules description.
-
-        Args:
-            description: `str`
-                The new description to set.
-        """
-        self._description = description
