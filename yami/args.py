@@ -32,7 +32,7 @@ __all__ = ["MessageArg"]
 
 
 _log = logging.getLogger(__name__)
-_log.setLevel(logging.DEBUG)
+# _log.setLevel(logging.DEBUG)
 
 _builtin_convertible: tuple[type, ...] = (int, bool, complex, float, bytes)
 _hikari_convertible: tuple[Any, ...] = (

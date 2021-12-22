@@ -27,8 +27,9 @@ import hikari
 
 from yami import args as args_
 from yami import commands as commands_
-from yami import context, exceptions, utils
+from yami import context, exceptions
 from yami import modules as modules_
+from yami import utils
 
 __all__ = ["Bot"]
 
@@ -218,34 +219,58 @@ class Bot(hikari.GatewayBot):
         """
         _log.debug(f"Importing all modules from {path}")
 
+        if not (to_load := self._get_modules_from_container(path, mod_state)):
+            return _log.debug("No modules found, continuing")
+
+        for mod in to_load:
+            _log.debug(f"Loading module {mod.__name__}()")
+            self._try_load_module(mod, mod_state)
+
+    def _get_modules_from_container(
+        self, path: Path, mod_state: dict[str, modules_.Module], name: str | None = None
+    ) -> list[typing.Type[modules_.Module]]:
         try:
             container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
         except ModuleNotFoundError as e:
             self._modules = mod_state
             raise exceptions.ModuleLoadException(f"Failed to load module - {e}")
 
-        to_load = [
+        return [
             *filter(
-                lambda m: inspect.isclass(m) and issubclass(m, modules_.Module),
+                lambda m: inspect.isclass(m)
+                and issubclass(m, modules_.Module)
+                and (m.__name__ == name if name else True),
                 container.__dict__.values(),
             )
         ]
 
-        if not to_load:
-            return _log.debug("No modules found, continuing")
+    def _try_load_module(
+        self, mod: typing.Type[modules_.Module], mod_state: dict[str, modules_.Module]
+    ) -> None:
+        try:
+            instantiated = mod(self)
+        except TypeError:
+            self._modules = mod_state
+            raise exceptions.ModuleLoadException(
+                f"Failed to instantiate {mod.__name__}(), "
+                "__init__ should only have one required arg - a yami.Bot instance"
+            )
 
-        for mod in to_load:
-            _log.debug(f"Loading module {mod.__name__}()")
-            mod = mod(self)
-
-            try:
-                self._add_module(mod)
-            except exceptions.ModuleAddException as e:
+        try:
+            if (
+                old := [*filter(lambda m: m.name == instantiated.name, self._modules.values())]
+            ) and old[0].is_loaded:
                 self._modules = mod_state
-                raise e
-            else:
-                mod.is_loaded = True
-                _log.debug(f"Loaded module {mod}")
+                raise exceptions.ModuleLoadException(
+                    f"Cannot load {instantiated} - it is already loaded"
+                )
+            self._add_module(instantiated)
+        except exceptions.ModuleAddException as e:
+            self._modules = mod_state
+            raise e
+        else:
+            setattr(mod, "_is_loaded", True)
+            _log.debug(f"Loaded module {instantiated}")
 
     def load_module(self, name: str, path: str | Path) -> None:
         """Loads a single module class from the path specified.
@@ -275,31 +300,8 @@ class Bot(hikari.GatewayBot):
         if not isinstance(path, Path):
             path = Path(os.path.relpath(path))
 
-        try:
-            container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
-        except ModuleNotFoundError as e:
-            self._modules = mod_state
-            raise exceptions.ModuleLoadException(f"Failed to import '{name}' - {e}")
-
-        for mod in filter(
-            lambda m: inspect.isclass(m) and issubclass(m, modules_.Module) and m.__name__ == name,
-            container.__dict__.values(),
-        ):
-            mod = mod(self)
-
-            try:
-                if mod.is_loaded:
-                    raise exceptions.ModuleLoadException(
-                        f"Cannot load '{mod.name}' - it is already loaded"
-                    )
-                self._add_module(mod)
-
-            except (exceptions.ModuleAddException, exceptions.ModuleLoadException) as e:
-                self._modules = mod_state
-                raise e
-
-            mod.is_loaded = True
-            _log.debug(f"Successfully loaded {mod}")
+        for mod in self._get_modules_from_container(path, mod_state, name):
+            self._try_load_module(mod, mod_state)
 
     def unload_module(self, name: str) -> modules_.Module:
         """Unloads a single module class with the given name. It will

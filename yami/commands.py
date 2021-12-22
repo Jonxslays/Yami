@@ -177,20 +177,20 @@ def command(
     decorate the callback that should fire when this command is run.
 
     Args:
-        name: str
+        name: `str`
             The name of the command. Defaults to the function name.
-        description: str
+        description: `str`
             The command description. If omitted, the callbacks docstring
             will be used instead. REMINDER: docstrings are stripped from
             your programs bytecode when it is run with the `-OO`
             optimization flag.
 
     Kwargs:
-        aliases: Iterable[str]
+        aliases: `Iterable[str]`
             A list or tuple of aliases for the command.
 
     Returns:
-        Callable[..., yami.MessageCommand]
+        `Callable[..., yami.MessageCommand]`
             The callback, but transformed into a message command.
     """
     return lambda callback: MessageCommand(

@@ -28,9 +28,7 @@ from yami import commands, exceptions, utils
 if typing.TYPE_CHECKING:
     from hikari.api import special_endpoints
 
-__all__ = [
-    "MessageContext",
-]
+__all__ = ["MessageContext"]
 
 
 class MessageContext:
