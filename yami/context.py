@@ -25,6 +25,9 @@ from yami import args as args_
 from yami import bot as bot_
 from yami import commands, exceptions, utils
 
+if typing.TYPE_CHECKING:
+    from hikari.api import special_endpoints
+
 __all__ = [
     "MessageContext",
 ]
@@ -160,6 +163,12 @@ class MessageContext:
         context.
         """
         return self._shared
+
+    def trigger_typing(self) -> special_endpoints.TypingIndicator:
+        """Shortcut method for `ctx.bot.rest.trigger_typing` in the
+        current channel.
+        """
+        return self._bot.rest.trigger_typing(self._message.channel_id)
 
     def yield_arg_values(self) -> typing.Generator[None, None, typing.Any]:
         """Returns a generator over the argument values for this
