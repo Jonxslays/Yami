@@ -56,7 +56,8 @@ class Module:
 
         for cmd in inspect.getmembers(self, lambda m: isinstance(m, commands_.MessageCommand)):
             cmd[1]._module = self
-            self.add_command(cmd[1])
+            if not cmd[1].is_subcommand:
+                self.add_command(cmd[1])
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}()"

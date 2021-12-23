@@ -34,6 +34,7 @@ from yami import utils
 __all__ = ["Bot"]
 
 _log = logging.getLogger(__name__)
+# _log.setLevel(logging.DEBUG)
 
 
 class Bot(hikari.GatewayBot):
@@ -70,6 +71,9 @@ class Bot(hikari.GatewayBot):
         shared: `bool`
             Whether or not to create a `yami.Shared` instance and store
             it in the Bot.shared property. Defaults to `False`.
+        raise_cmd_not_found: `bool`
+            Whether or not to raise the `CommandNotFound` error.
+            Defaults to `False`.
         **kwargs: The remaining kwargs for hikari.GatewayBot.
     """
 
@@ -82,6 +86,7 @@ class Bot(hikari.GatewayBot):
         "_modules",
         "_allow_extra_args",
         "_shared",
+        "_raise_cmd_not_found",
     )
 
     def __init__(
@@ -92,6 +97,7 @@ class Bot(hikari.GatewayBot):
         case_insensitive: bool = True,
         owner_ids: typing.Sequence[int] = (),
         allow_extra_args: bool = False,
+        raise_cmd_not_found: bool = False,
         **kwargs: typing.Any,
     ) -> None:
         super().__init__(token, **kwargs)
@@ -100,6 +106,7 @@ class Bot(hikari.GatewayBot):
         self._aliases: dict[str, str] = {}
         self._case_insensitive = case_insensitive
         self._allow_extra_args = allow_extra_args
+        self._raise_cmd_not_found = raise_cmd_not_found
         self._commands: dict[str, commands_.MessageCommand] = {}
         self._modules: dict[str, modules_.Module] = {}
         self._owner_ids = tuple(owner_ids)
@@ -112,7 +119,8 @@ class Bot(hikari.GatewayBot):
 
         for cmd in inspect.getmembers(self, lambda m: isinstance(m, commands_.MessageCommand)):
             cmd[1].was_globally_added = True
-            self.add_command(cmd[1])
+            if not cmd[1].is_subcommand:
+                self.add_command(cmd[1])
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}()"
@@ -156,6 +164,13 @@ class Bot(hikari.GatewayBot):
     def shared(self) -> utils.Shared:
         """The `Shared` instance associated with this bot."""
         return self._shared
+
+    @property
+    def raise_cmd_not_found(self) -> bool:
+        """Returns `True` if this bot will raise a `CommandNotFound`
+        exception when a prefix is used, but no command was found.
+        """
+        return self._raise_cmd_not_found
 
     async def _setup_callback(self, _: hikari.StartedEvent) -> None:
         """Callback to guarantee the owner ids are known at runtime."""
@@ -416,9 +431,9 @@ class Bot(hikari.GatewayBot):
             name: `str` | `None`
                 The name of the command (defaults to the function name)
             description: `str`
-                The command descriptions (defaults to "")
+                The commands description (defaults to "")
             aliases: `Iterable[str]`
-                The command aliases (defaults to [])
+                The commands aliases (defaults to [])
 
         Returns:
             `yami.MessageCommand`
@@ -428,7 +443,7 @@ class Bot(hikari.GatewayBot):
             `yami.DuplicateCommand`
                 If the command shares a name or alias with an existing
                 command.
-            `yami.BadArgument`
+            `TypeError`
                 If aliases is not a list or a tuple.
         """
         if isinstance(command, commands_.MessageCommand):
@@ -436,19 +451,18 @@ class Bot(hikari.GatewayBot):
                 _log.debug(f"Adding {command} to {self}")
 
             if not isinstance(command.aliases, (list, tuple)):
-                raise exceptions.BadArgument(
+                raise TypeError(
                     f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
                 )
 
             if command.name in self._commands:
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command}' to bot - name already in use",
+                    f"Failed to add command {command} to bot - name already in use"
                 )
 
             for alias in filter(lambda a: a in self._aliases, command.aliases):
                 raise exceptions.DuplicateCommand(
-                    f"Failed to add command '{command}' to bot "
-                    f"- alias '{alias}' already in use",
+                    f"Failed to add command {command} to bot " f"- alias {alias!r} already in use"
                 )
 
             self._aliases.update(dict((a, command.name) for a in command.aliases))
@@ -538,7 +552,7 @@ class Bot(hikari.GatewayBot):
 
         Returns:
             `yami.MessageCommand` | `None`
-                The command, or None if not found.
+                The command, or `None` if not found.
         """
         return self._commands.get(self._aliases.get(name, name))
 
@@ -551,7 +565,7 @@ class Bot(hikari.GatewayBot):
 
         Returns:
            `yami.Module` | `None`
-                The module, or None if not found.
+                The module, or` None` if not found.
         """
         return self._modules.get(name)
 
@@ -562,8 +576,11 @@ class Bot(hikari.GatewayBot):
         *,
         aliases: typing.Sequence[str] = (),
         raise_conversion: bool = False,
+        invoke_with: bool = False,
     ) -> typing.Callable[..., typing.Any]:
-        """Decorator to add a message command to the bot.
+        """Decorator to add a message command to the bot. This should
+        be places immediately above the command callback. Any checks
+        should be placed above this decorator.
 
         Args:
             name: `str`
@@ -589,14 +606,17 @@ class Bot(hikari.GatewayBot):
             commands_.MessageCommand(
                 callback,
                 name or callback.__name__,
-                description or callback.__doc__,
+                description or callback.__doc__ or "",
                 aliases=aliases,
                 raise_conversion=raise_conversion,
+                invoke_with=invoke_with,
             )
         )
 
     async def _listen(self, e: hikari.MessageCreateEvent) -> None:
-        """Listens for messages."""
+        """Listens for messages and invokes if they begin with one of
+        the bots prefixes.
+        """
         if not e.message.content:
             return
 
@@ -604,15 +624,29 @@ class Bot(hikari.GatewayBot):
             if e.message.content.startswith(p):
                 return await self._invoke(p, e, e.message.content)
 
+    def _parse_for_subcommands(
+        self,
+        cmd: commands_.MessageCommand,
+        parsed: list[str],
+        subcommands: list[commands_.MessageCommand] = [],
+    ) -> list[commands_.MessageCommand]:
+        """Recursively parses for subcommands."""
+        if parsed and parsed[0] in cmd.subcommands:
+            sub = cmd.subcommands[parsed.pop(0)]
+            subcommands.append(sub)
+            subcommands = self._parse_for_subcommands(sub, parsed, subcommands)
+
+        return subcommands
+
     async def _invoke(self, p: str, event: hikari.MessageCreateEvent, content: str) -> None:
         """Attempts to invoke a command."""
+
+        # Get the prefix and the name of the command
         parsed = content.split()
         name = parsed.pop(0)[len(p) :]
-
-        if not name:
-            # Skip this for now - occurs when there is a space between
-            # the prefix and the next word in the message content
-            return None
+        if name == "":
+            # If there is whitespace between the prefix and the command.
+            name = parsed.pop(0)
 
         # TODO: Fire a CommandInvokeEvent here once we make it
         # TODO: This is a mess, add a helper class or module
@@ -621,49 +655,67 @@ class Bot(hikari.GatewayBot):
             cmd = self._commands[self._aliases[name]]
         elif name in self._commands:
             cmd = self._commands[name]
-        else:
+        elif self._raise_cmd_not_found:
             raise exceptions.CommandNotFound(f"No command found with name '{name}'")
+        else:
+            return None
 
-        _log.debug(f"Attempting to invoke {cmd}...")
+        ctx = context.MessageContext(self, event.message, cmd, p)
+        all_invoked = (cmd, *self._parse_for_subcommands(cmd, parsed))
 
+        for i, c in enumerate(all_invoked):
+            for check in c.yield_checks():
+                await check.execute(ctx)
+
+            for arg in self._get_args(c, parsed):
+                await arg.convert(ctx)
+
+            if c.is_subcommand:
+                ctx._invoked_subcommands.append(c)
+
+            await self._invoke_callback(ctx, c)
+
+            if i + 1 < len(all_invoked):
+                ctx.args.clear()
+
+    def _get_args(
+        self,
+        cmd: commands_.MessageCommand,
+        parsed: list[str],
+    ) -> list[args_.MessageArg]:
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
         annots = annots[2:] if cmd.module or cmd.was_globally_added else annots[1:]
-        ctx = context.MessageContext(self, event.message, cmd, p)
-        len_annots, len_parsed = len(annots), len(parsed)
+        annots_l = len(annots)
+        parsed_l = len(parsed)
 
-        if len_parsed > len_annots:
+        if annots_l < parsed_l:
             if not self._allow_extra_args:
                 raise exceptions.TooManyArgs(
-                    f"Too many args for {ctx.command} - expected "
-                    f"{len_annots} but got {len_parsed}"
+                    f"{cmd} received too many args - expected {annots_l} but got {parsed_l}"
                 )
-            else:
-                # Hack so that the user doesnt lose the remaining args
-                # when they do allow extra command args. It just puts
-                # the remaining args onto the last arg. This breaks ints
-                # and other type conversions but works well for strings.
-                # TODO: Find a better solution.
-                recycle = " ".join(parsed.pop(-1) for _ in range(len_parsed - len_annots + 1))
-                parsed.append(recycle)
 
-        if len_annots > len_parsed:
+        if parsed_l < annots_l:
             raise exceptions.MissingArgs(
-                f"Missing args for {cmd} - expected {len_annots} but got {len_parsed} - missing"
-                f" {', '.join(f'({a})' for a in annots[len_parsed - len_annots :])}"
+                f"{cmd} is missing arguments - expected {annots_l} but got {parsed_l}"
             )
 
-        for param, value in zip(annots, parsed):
-            a = args_.MessageArg(param, value)
+        args: list[args_.MessageArg] = []
+        args.extend(args_.MessageArg(a, p) for a, p in zip(annots, parsed))
 
-            try:
-                await a.convert(ctx)
-            except exceptions.ConversionFailed:
-                raise exceptions.BadArgument("A bad argument was passed")
+        return args
 
+    async def _execute_checks(
+        self, ctx: context.MessageContext, cmd: commands_.MessageCommand
+    ) -> None:
         for check in cmd.yield_checks():
             await check.execute(ctx)
 
+    async def _invoke_callback(
+        self, ctx: context.MessageContext, cmd: commands_.MessageCommand
+    ) -> None:
         if m := cmd.module:
             await cmd.callback(m, ctx, *ctx.yield_arg_values())
+        elif cmd.was_globally_added:
+            await cmd.callback(self, ctx, *ctx.yield_arg_values())
         else:
             await cmd.callback(ctx, *ctx.yield_arg_values())

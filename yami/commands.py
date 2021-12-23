@@ -45,6 +45,9 @@ class MessageCommand:
         "_checks",
         "_was_globally_added",
         "_raise_conversion",
+        "_subcommands",
+        "_parent",
+        "_invoke_with",
     )
 
     def __init__(
@@ -55,15 +58,20 @@ class MessageCommand:
         *,
         aliases: typing.Iterable[str],
         raise_conversion: bool,
+        parent: MessageCommand | None = None,
+        invoke_with: bool = False,
     ) -> None:
+        self._name = name
         self._aliases = aliases
         self._callback = callback
         self._description = description
-        self._name = name
+        self._invoke_with = invoke_with
+        self._parent = parent
+        self._raise_conversion = raise_conversion
         self._module: modules.Module | None = None
         self._checks: dict[str, checks_.Check] = {}
+        self._subcommands: dict[str, MessageCommand] = {}
         self._was_globally_added = False
-        self._raise_conversion = raise_conversion
 
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}('{self._name}')"
@@ -118,24 +126,63 @@ class MessageCommand:
     def was_globally_added(self, val: bool) -> None:
         self._was_globally_added = val
 
-    def add_check(self, check: typing.Type[checks_.Check] | checks_.Check) -> None:
+    @property
+    def subcommands(self) -> dict[str, MessageCommand]:
+        """A dictionary containing name, MessageCommand pairs that are
+        registered to this command.
+        """
+        return self._subcommands
+
+    @property
+    def is_subcommand(self) -> bool:
+        """Whether or not this command is a subcommand."""
+        return self._parent is not None
+
+    @property
+    def parent(self) -> MessageCommand | None:
+        """The parent of this command, or `None` if this command is not
+        a subcommand.
+        """
+        return self._parent
+
+    @property
+    def invoke_with(self) -> bool:
+        """Whether or not to invoke this command if one of it's
+        subcommands are invoked.
+        """
+        return self._invoke_with
+
+    def add_check(self, check: typing.Type[checks_.Check] | checks_.Check) -> checks_.Check:
         """Adds a check to be run before this command.
 
         Args:
             check: `yami.Check`
                 The check to add.
+
+        Returns:
+            `yami.Check`
+                The check that was added.
+
+        Raises:
+            `yami.CheckAddFailed`
+                If the check is not a `Check` object.
         """
         try:
             if isinstance(check, checks_.Check):
-                self._checks[check.get_name()] = check
+                value = check
             else:
-                self._checks[check.get_name()] = check()
+                value = check()
         except Exception:
             raise exceptions.CheckAddFailed(
                 f"Cannot add {check} to '{self.name}' - it is not a Check"
             )
 
-    def remove_check(self, check: typing.Type[checks_.Check] | checks_.Check) -> None:
+        self._checks[value.get_name()] = value
+        return value
+
+    def remove_check(
+        self, check: typing.Type[checks_.Check] | checks_.Check
+    ) -> checks_.Check | None:
         """Removes a check from this command. If this check is not
         bound to this command, it will do nothing.
 
@@ -154,7 +201,76 @@ class MessageCommand:
             )
 
         if (name := check.get_name()) in self._checks:
-            self._checks.pop(name)
+            return self._checks.pop(name)
+
+        return None
+
+    def add_subcommand(
+        self,
+        command: typing.Callable[..., typing.Any] | MessageCommand,
+        *,
+        name: str | None = None,
+        description: str = "",
+        aliases: list[str] | tuple[str, ...] = [],
+        raise_conversion: bool = False,
+    ) -> MessageCommand:
+        """Adds a subcommand to the command.
+
+        Args:
+            command: `Callable[..., Any]` | `yami.MessageCommand`
+                The subcommand to add.
+
+        Kwargs:
+            name: `str` | `None`
+                The name of the subcommand
+                (defaults to the function name)
+            description: `str`
+                The subcommands description (defaults to "")
+            aliases: `Iterable[str]`
+                The subcommands aliases (defaults to [])
+
+        Returns:
+            `yami.MessageCommand`
+                The subcommand that was added.
+
+        Raises:
+            `yami.DuplicateCommand`
+                If the subcommand shares a name or alias with an
+                existing subcommand.
+            `TypeError`
+                If aliases is not a list or a tuple.
+        """
+        if isinstance(command, MessageCommand):
+            if not isinstance(command.aliases, (list, tuple)):
+                raise TypeError(
+                    f"Aliases must be a iterable of strings, not: {type(command.aliases)}"
+                )
+
+            if command.name in self._subcommands:
+                raise exceptions.DuplicateCommand(
+                    f"Failed to add subcommand {command} to {self} - name already in use"
+                )
+
+            for alias in filter(
+                lambda a: a in (sa.aliases for sa in self.yield_subcommands()), command.aliases
+            ):
+                raise exceptions.DuplicateCommand(
+                    f"Failed to add subcommand {command} to {self} "
+                    f"- alias {alias!r} already in use"
+                )
+
+            self._subcommands[command.name] = command
+            return command
+
+        cmd = MessageCommand(
+            command,
+            name or command.__name__,
+            description,
+            aliases=aliases,
+            raise_conversion=raise_conversion,
+            parent=self,
+        )
+        return self.add_subcommand(cmd)
 
     def yield_checks(self) -> typing.Generator[checks_.Check, None, None]:
         """Yields the checks bound to the command.
@@ -165,6 +281,36 @@ class MessageCommand:
         """
         yield from self._checks.values()
 
+    def yield_subcommands(self) -> typing.Generator[MessageCommand, None, None]:
+        """Yields the subcommands registered to the command.
+
+        Returns:
+            `Generator[yami.MessageCommand, ...]`
+                A generator over the commands checks.
+        """
+        yield from self._subcommands.values()
+
+    def subcommand(
+        self,
+        name: str | None = None,
+        description: str = "",
+        *,
+        aliases: typing.Iterable[str] = [],
+        raise_conversion: bool = False,
+        invoke_with: bool = False,
+    ) -> typing.Callable[..., MessageCommand]:
+        return lambda callback: self.add_subcommand(
+            MessageCommand(
+                callback,
+                name or callback.__name__,
+                description or callback.__doc__ or "",
+                aliases=aliases,
+                raise_conversion=raise_conversion,
+                invoke_with=invoke_with,
+                parent=self,
+            )
+        )
+
 
 def command(
     name: str | None = None,
@@ -172,6 +318,7 @@ def command(
     *,
     aliases: typing.Iterable[str] = [],
     raise_conversion: bool = False,
+    invoke_with: bool = False,
 ) -> typing.Callable[..., MessageCommand]:
     """Decorator to add commands to the bot inside of modules. It should
     decorate the callback that should fire when this command is run.
@@ -196,7 +343,8 @@ def command(
     return lambda callback: MessageCommand(
         callback,
         name or callback.__name__,
-        description or callback.__doc__,
+        description or callback.__doc__ or "",
         aliases=aliases,
         raise_conversion=raise_conversion,
+        invoke_with=invoke_with,
     )

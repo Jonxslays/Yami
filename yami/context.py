@@ -55,6 +55,7 @@ class MessageContext:
         "_shared",
         "_args",
         "_raw_args",
+        "_invoked_subcommands",
     )
 
     def __init__(
@@ -63,6 +64,7 @@ class MessageContext:
         message: hikari.Message,
         command: commands.MessageCommand,
         prefix: str,
+        invoked_subcommands: list[commands.MessageCommand] = [],
     ) -> None:
         self._message = message
         self._command = command
@@ -72,6 +74,7 @@ class MessageContext:
         self._shared = utils.Shared()
         self._args: list[args_.MessageArg] = []
         self._raw_args: tuple[inspect.Parameter, ...] = ()
+        self._invoked_subcommands = invoked_subcommands
 
     @property
     def bot(self) -> bot_.Bot:
@@ -104,7 +107,9 @@ class MessageContext:
     def args(self) -> list[args_.MessageArg]:
         """A list of converted `MessageArgs` passed to this context.
         `MessageContext` will not be present here even though it was
-        passed to the command callback.
+        passed to the command callback. If this context was invoked
+        with subcommands and parent commands, only the final subcommands
+        args will be present here.
         """
         return self._args
 
@@ -161,6 +166,13 @@ class MessageContext:
         context.
         """
         return self._shared
+
+    @property
+    def invoked_subcommands(self) -> list[commands.MessageCommand]:
+        """The subcommands that were invoked with this context, or
+        `None` if there were none.
+        """
+        return self._invoked_subcommands
 
     def trigger_typing(self) -> special_endpoints.TypingIndicator:
         """Shortcut method for `ctx.bot.rest.trigger_typing` in the

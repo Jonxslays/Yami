@@ -109,6 +109,7 @@ if __name__ == "__main__":
 - [x] Fully typed
 - [x] Bot
 - [x] Message Commands
+- [x] Message Subcommands
 - [x] Message Context
 - [x] Modules
 - [x] Exceptions (WIP)
@@ -123,7 +124,6 @@ if __name__ == "__main__":
 <details>
 <summary> :x: Incomplete</summary>
 
-- [ ] Subcommands
 - [ ] Events
 - [ ] Hooks?
 - [ ] Slash Commands

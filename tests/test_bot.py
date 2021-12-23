@@ -32,6 +32,7 @@ def model() -> yami.Bot:
         prefix="&&",
         case_insensitive=False,
         banner=None,
+        raise_cmd_not_found=True,
     )
 
 
@@ -96,7 +97,7 @@ async def test_add_non_command_object(model: yami.Bot) -> None:
 
 
 def test_add_command_aliases_failure(model: yami.Bot) -> None:
-    with pytest.raises(yami.BadArgument):
+    with pytest.raises(TypeError):
         model.add_command(mock.AsyncMock(), name="yoink", aliases="wrong")
 
 
@@ -215,4 +216,5 @@ async def test_bot__invoke_with_invalid_cmd(
 
     with pytest.raises(yami.CommandNotFound) as e:
         await model._invoke("&&", content_w_cmd_e, content_w_cmd_e.message.content)
-        assert "No command found with name 'echo'" in e
+
+    assert "No command found with name 'echo'" in str(e.value)
