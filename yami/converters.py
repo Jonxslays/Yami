@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import abc
 import logging
-from typing import Any
+from typing import Any, Callable, TypeVar
 
 import hikari
 
@@ -28,6 +28,8 @@ __all__ = ["HIKARI_CAN_CONVERT", "BUILTIN_CAN_CONVERT", "Converter", "BuiltinCon
 
 _log = logging.getLogger(__name__)
 
+BuiltinTypeT = TypeVar("BuiltinTypeT", bound=type)
+HikariTypeT = TypeVar("HikariTypeT")
 
 BUILTIN_CAN_CONVERT = (bool, int, complex, float, bytes)
 HIKARI_CAN_CONVERT = (
@@ -80,59 +82,63 @@ class BuiltinConverter(Converter):
 
     def __init__(self, value: Any) -> None:
         self._value = value
-        self._mapping = {
-            bool: self.to_bool,
-            bytes: self.to_bytes,
-            complex: self.to_complex,
-            float: self.to_float,
-            int: self.to_int,
-            str: self.to_str,
+        self._mapping: dict[type, Callable[..., Any]] = {
+            bool: self.as_bool,
+            bytes: self.as_bytes,
+            complex: self.as_complex,
+            float: self.as_float,
+            int: self.as_int,
+            str: self.as_str,
         }
 
     @classmethod
-    def can_convert(cls, value: Any) -> bool:
+    def can_convert(cls, type_: Any) -> bool:
         """Returns `True` if this converter can convert an object to
         type of value passed in.
 
         Args:
-            value: `Any`
+            type_: `Any`
                 The type to check compatibility for.
 
         Returns:
             `bool`
                 Whether or not the conversion is possible.
         """
-        return value in BUILTIN_CAN_CONVERT
+        return type_ in BUILTIN_CAN_CONVERT
 
-    def from_type(self, value: Any, *, encoding: str = "utf8") -> Any:
-        """Converts to the type of value passed to this method.
+    def as_type(self, type_: BuiltinTypeT, *, encoding: str = "utf8") -> BuiltinTypeT:
+        """Converts the value to the given type.
 
         Args:
-            value: `Any`
-                The type to try converting to.
+            type_: `BuiltinTypeT`
+                The type to try converting to. Must be one of:
+                bool, int, float, bytes, str, or complex.
 
         Kwargs:
             encoding: `str`
-                The encoding if value is bytes. Defaults to 'utf8'.
+                The encoding if type_ is bytes. Defaults to "utf8".
 
         Raises:
             `yami.ConversionFailed`:
                 If the conversion fails for any reason.
 
         Returns:
-            `Any`:
+            `BuiltinTypeT`:
                 The converted value.
         """
-        if value in self._mapping:
-            if value is bytes:
-                return bytes(self._value, encoding)
+        if type_ in self._mapping:
+            converted: BuiltinTypeT
 
-            return self._mapping[value]()  # type: ignore
+            if type_ is bytes:
+                converted = self._mapping[type_](encoding)
+            else:
+                converted = self._mapping[type_]()
+            return converted
 
-        raise exceptions.ConversionFailed(f"Can't convert {self} to {value} - it's not a builtin")
+        raise exceptions.ConversionFailed(f"{self} can't be converted to {type_}")
 
-    def to_bool(self) -> bool:
-        """Converts to `bool`.
+    def as_bool(self) -> bool:
+        """Converts the value to `bool`.
         - 'true' and 'True' with be `True`
         - 'false' and 'False' with be `False`
         """
@@ -143,41 +149,41 @@ class BuiltinConverter(Converter):
         else:
             raise self._raise(bool)
 
-    def to_str(self) -> str:
-        """Converts to `str`."""
+    def as_str(self) -> str:
+        """Converts the value to `str`."""
         try:
             return str(self._value)
         except:
             raise self._raise(str) from None
 
-    def to_bytes(self, encoding: str = "utf8") -> bytes:
-        """Converts to bytes.
+    def as_bytes(self, encoding: str = "utf8") -> bytes:
+        """Converts the value to `bytes`.
 
         Args:
             encoding: `str`
-                The encoding to use. Defaults to 'utf8'.
+                The encoding to use. Defaults to "utf8".
         """
         try:
             return bytes(self._value, encoding)
         except:
             raise self._raise(bytes) from None
 
-    def to_int(self) -> int:
-        """Converts to `int`."""
+    def as_int(self) -> int:
+        """Converts the value to `int`."""
         try:
             return int(self._value)
         except:
             raise self._raise(int) from None
 
-    def to_complex(self) -> complex:
+    def as_complex(self) -> complex:
         """Converts to `complex`."""
         try:
             return complex(self._value)
         except:
             raise self._raise(complex) from None
 
-    def to_float(self) -> float:
-        """Converts to `float`."""
+    def as_float(self) -> float:
+        """Converts the value to `float`."""
         try:
             return float(self._value)
         except:

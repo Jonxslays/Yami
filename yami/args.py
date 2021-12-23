@@ -94,8 +94,11 @@ class MessageArg:
     async def _convert_builtin(self, ctx: context.MessageContext) -> None:
         converter = converters.BuiltinConverter(self._value)
 
+        print(self._annotation)
+        print(type(self._annotation))
+
         try:
-            self._value = converter.from_type(self._annotation)
+            self._value = converter.as_type(self._annotation)
         except exceptions.ConversionFailed:
             return self._raise(ctx)
 
