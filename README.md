@@ -54,25 +54,27 @@ import yami
 bot = yami.Bot(os.environ["TOKEN"], prefix="$")
 
 
-# This command can only be run in guilds.
+# Can only be run in guilds.
 @yami.is_in_guild()
 @bot.command("add", "Adds 2 numbers", aliases=["sum"])
 async def add_cmd(ctx: yami.MessageContext, num1: int, num2: int) -> None:
     # Basic builtin python types are converted for you using their type
-    # hints (int, float, bool). More types coming soon™.
+    # hints (int, float, bool, complex, bytes). More types coming soon™.
     await ctx.respond(f"The sum is {num1 + num2}")
 
 
-@bot.command("fibonacci")
+# Can only be run by members with one of these roles.
+@yami.has_any_role("Admin", "Fibonacci")
+@bot.command("fibonacci", aliases=("fib",))
 async def fibonacci(ctx: yami.MessageContext, num: int) -> None:
     """Calculates the num'th term in the fibonacci sequence."""
     calc: typing.Callable[[int], int] = functools.lru_cache(
-        lambda num: num if num < 2 else calc(num - 1) + calc(num - 2)
+        lambda n: n if n < 2 else calc(n - 1) + calc(n - 2)
     )
 
     # Though we cache the function call, let's simulate thinking.
     async with ctx.trigger_typing():
-        await asyncio.sleep(1.5)
+        await asyncio.sleep(0.75)
 
     # Make a pretty embed.
     await ctx.respond(
@@ -102,7 +104,8 @@ if __name__ == "__main__":
 <details>
 <summary> :heavy_check_mark: Complete</summary>
 
-- [x] CI and testing
+- [x] CI
+- [x] Testing (WIP)
 - [x] Fully typed
 - [x] Bot
 - [x] Message Commands
@@ -110,6 +113,7 @@ if __name__ == "__main__":
 - [x] Modules
 - [x] Exceptions (WIP)
 - [x] Checks (WIP)
+- [x] Basic arg parsing (builtin types)
 
 </details>
 </div>
@@ -123,11 +127,11 @@ if __name__ == "__main__":
 - [ ] Hooks?
 - [ ] Slash Commands
 - [ ] Slash Context
-- [ ] Converters
-- [ ] Utils
-- [x] Proper command arg type parsing (WIP but a lot to do)
-- [ ] QOL methods
-- [ ] Logging
+- [ ] Converters (WIP)
+- [ ] Utils (WIP)
+- [ ] Full blown arg parsing (hikari types)
+- [ ] QOL methods (WIP)
+- [ ] Logging (WIP)
 
 </details>
 </div>
