@@ -123,6 +123,7 @@ if __name__ == "__main__":
 <details>
 <summary> :x: Incomplete</summary>
 
+- [ ] Subcommands
 - [ ] Events
 - [ ] Hooks?
 - [ ] Slash Commands
@@ -132,6 +133,7 @@ if __name__ == "__main__":
 - [ ] Full blown arg parsing (hikari types)
 - [ ] QOL methods (WIP)
 - [ ] Logging (WIP)
+- [ ] Docs
 
 </details>
 </div>

@@ -56,6 +56,7 @@ __all__ = [
     "ConversionFailed",
     "Converter",
     "BuiltinConverter",
+    "HikariConverter",
     "HIKARI_CAN_CONVERT",
     "BUILTIN_CAN_CONVERT",
 ]

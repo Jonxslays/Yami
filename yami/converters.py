@@ -24,7 +24,13 @@ import hikari
 
 from yami import exceptions
 
-__all__ = ["HIKARI_CAN_CONVERT", "BUILTIN_CAN_CONVERT", "Converter", "BuiltinConverter"]
+__all__ = [
+    "HIKARI_CAN_CONVERT",
+    "BUILTIN_CAN_CONVERT",
+    "Converter",
+    "BuiltinConverter",
+    "HikariConverter",
+]
 
 _log = logging.getLogger(__name__)
 
@@ -62,20 +68,49 @@ class Converter(abc.ABC):
     def __repr__(self) -> str:
         return f"{self.__class__.__name__}({self._value})"
 
-    def _raise(self, convert: Any) -> exceptions.ConversionFailed:
+    def _raise(self, type_: Any) -> exceptions.ConversionFailed:
         return exceptions.ConversionFailed(
-            f"Converting to {convert} failed for value: {self._value!r}"
+            f"Converting to {type_} failed for value: {self._value!r}"
         )
+
+
+class HikariConverter(Converter):
+    """Converts to the hikari types.
+    - `hikari.User`
+    - `hikari.Member`
+    - `hikari.PartialChannel`
+    - `hikari.GroupDMChanne'`
+    - `hikari.GuildTextChannel`
+    - `hikari.GuildVoiceChannel`
+    - `hikari.GuildStoreChannel`
+    - `hikari.GuildNewsChannel`
+    - `hikari.GuildChannel`
+    - `hikari.TextableChannel`
+    - `hikari.Message`
+    - `hikari.Role`
+    - `hikari.CustomEmoji`
+    - `hikari.KnownCustomEmoji`
+    - `hikari.Emoji`
+    """
+
+    def __init__(self) -> None:
+        raise NotImplementedError("This converter is not yet implemented.")
 
 
 class BuiltinConverter(Converter):
     """Converts to the builtin types.
+
+    This converter can produce:
     - `bool`
     - `bytes`
     - `int`
     - `complex`
     - `float`
     - `str`
+
+    Args:
+        value: `Any`
+            The value to perform the conversion on.
     """
 
     __slots__ = ("_value", "_mapping")
@@ -112,11 +147,11 @@ class BuiltinConverter(Converter):
         Args:
             type_: `BuiltinTypeT`
                 The type to try converting to. Must be one of:
-                bool, int, float, bytes, str, or complex.
+                `bool`, `bytes`, `complex`, `int`, `float`, or `str`.
 
         Kwargs:
             encoding: `str`
-                The encoding if type_ is bytes. Defaults to "utf8".
+                The encoding if type_ is `bytes`. Defaults to "utf8".
 
         Raises:
             `yami.ConversionFailed`:
