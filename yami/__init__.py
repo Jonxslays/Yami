@@ -54,6 +54,10 @@ __all__ = [
     "MessageArg",
     "MissingArgs",
     "ConversionFailed",
+    "Converter",
+    "BuiltinConverter",
+    "HIKARI_CAN_CONVERT",
+    "BUILTIN_CAN_CONVERT",
 ]
 
 __version__ = "0.3.0"
@@ -68,6 +72,7 @@ from yami.bot import *
 from yami.checks import *
 from yami.commands import *
 from yami.context import *
+from yami.converters import *
 from yami.events import *
 from yami.exceptions import *
 from yami.modules import *

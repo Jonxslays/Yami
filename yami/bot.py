@@ -520,6 +520,15 @@ class Bot(hikari.GatewayBot):
         """
         yield from self._modules.values()
 
+    def yield_loaded_modules(self) -> typing.Generator[modules_.Module, None, None]:
+        """Yields the loaded modules attached to the bot.
+
+        Returns:
+            `Generator[yami.MessageCommand, ...]`
+                A generator over the bots loaded modules.
+        """
+        yield from (m for m in self._modules.values() if m.is_loaded)
+
     def get_command(self, name: str) -> commands_.MessageCommand | None:
         """Gets a command.
 
@@ -620,25 +629,31 @@ class Bot(hikari.GatewayBot):
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
         annots = annots[2:] if cmd.module or cmd.was_globally_added else annots[1:]
         ctx = context.MessageContext(self, event.message, cmd, p)
-
         len_annots, len_parsed = len(annots), len(parsed)
 
-        if len_parsed > len_annots and not self._allow_extra_args:
-            raise exceptions.TooManyArgs(
-                f"Too many args for {ctx.command} - expected " f"{len_annots} but got {len_parsed}"
-            )
+        if len_parsed > len_annots:
+            if not self._allow_extra_args:
+                raise exceptions.TooManyArgs(
+                    f"Too many args for {ctx.command} - expected "
+                    f"{len_annots} but got {len_parsed}"
+                )
+            else:
+                # Hack so that the user doesnt lose the remaining args
+                # when they do allow extra command args. It just puts
+                # the remaining args onto the last arg. This breaks ints
+                # and other type conversions but works well for strings.
+                # TODO: Find a better solution.
+                recycle = " ".join(parsed.pop(-1) for _ in range(len_parsed - len_annots + 1))
+                parsed.append(recycle)
 
         if len_annots > len_parsed:
-            print(annots, parsed)
             raise exceptions.MissingArgs(
                 f"Missing args for {cmd} - expected {len_annots} but got {len_parsed} - missing"
                 f" {', '.join(f'({a})' for a in annots[len_parsed - len_annots :])}"
             )
 
         for param, value in zip(annots, parsed):
-            print("converting", value, "from", str, "to", param.annotation)
             a = args_.MessageArg(param, value)
-            print(a)
 
             try:
                 await a.convert(ctx)
