@@ -664,18 +664,19 @@ class Bot(hikari.GatewayBot):
         all_invoked = (cmd, *self._parse_for_subcommands(cmd, parsed))
 
         for i, c in enumerate(all_invoked):
+            is_final = i + 1 >= len(all_invoked)
             for check in c.yield_checks():
                 await check.execute(ctx)
 
             for arg in self._get_args(c, parsed):
                 await arg.convert(ctx)
 
-            if c.is_subcommand:
+            if c.is_subcommand and (c.invoke_with or is_final):
                 ctx._invoked_subcommands.append(c)
 
             await self._invoke_callback(ctx, c)
 
-            if i + 1 < len(all_invoked):
+            if not is_final:
                 ctx.args.clear()
 
     def _get_args(
