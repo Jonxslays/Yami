@@ -5,6 +5,7 @@
 <!-- [ ] = No, [x] = Yes -->
 - [ ] I have searched for similar/duplicate PR's, and there are none.
 - [ ] I have made tests to validate any changes to the code base.
+- [ ] I have documented any changes, additions, or removals.
 - [ ] I have run `nox` and all sessions pass.
 
 ### Related issues

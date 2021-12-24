@@ -17,7 +17,6 @@
 
 from __future__ import annotations
 
-import inspect
 import typing
 
 import hikari
@@ -55,7 +54,6 @@ class MessageContext:
         "_exceptions",
         "_shared",
         "_args",
-        "_raw_args",
         "_invoked_subcommands",
     )
 
@@ -74,7 +72,6 @@ class MessageContext:
         self._exceptions: list[exceptions.YamiException] = []
         self._shared = utils.Shared()
         self._args: list[args_.MessageArg] = []
-        self._raw_args: tuple[inspect.Parameter, ...] = ()
         self._invoked_subcommands = invoked_subcommands
 
     @property
@@ -113,13 +110,6 @@ class MessageContext:
         args will be present here.
         """
         return self._args
-
-    @property
-    def raw_args(self) -> tuple[inspect.Parameter, ...]:
-        """A tuple containing the raw `inspect.Parameters` that were
-        passed to the command, minus the context.
-        """
-        return self._raw_args
 
     @property
     def exceptions(self) -> list[exceptions.YamiException]:
@@ -162,9 +152,11 @@ class MessageContext:
 
     @property
     def shared(self) -> utils.Shared:
-        """A SharedData object that holds cached information about the
-        context that was obtained while checks were run for this
-        context.
+        """A :obj:`~yami.Shared` object that can be used to share data
+        between subcommands.
+
+        - Also houses cached data from the checks that were run for this
+          context.
         """
         return self._shared
 
@@ -194,12 +186,17 @@ class MessageContext:
     async def respond(self, *args: typing.Any, **kwargs: typing.Any) -> hikari.Message:
         """Respond to the message that created this context.
 
-        Args:
-            *args, **kwargs
-                The arguments for `hikari.Message.respond`
+        Args
+            args: `Any`
+                The arguments for :obj:`hikari.messages.Message.respond`
 
-        Returns:
-            hikari.Message
+        Kwargs
+            kwargs: `Any`
+                The keywords arguments for
+                :obj:`hikari.messages.Message.respond`
+
+        Returns
+            :obj:`~hikari.messages.Message`
                 The message this response creates.
         """
         return await self._message.respond(*args, **kwargs)

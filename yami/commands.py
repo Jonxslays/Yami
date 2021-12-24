@@ -353,29 +353,26 @@ def command(
     """Decorator to add commands to the bot inside of modules. It should
     decorate the callback that should fire when this command is run.
 
-    Parameters:
-    -----
-    - name: `str`
-        The name of the command. Defaults to the function name.
-    - description: `str`
-        The command description. If omitted, the callbacks docstring
-        will be used instead.
+    Args
+        - name: `str`
+            The name of the command. Defaults to the function name.
+        - description: `str`
+            The command description. If omitted, the callbacks docstring
+            will be used instead.
 
-    Kwargs:
-    -------
-    - aliases: ``Iterable[str]``
-        A list or tuple of aliases for the command.
-    - raise_conversion: ``bool``
-        Whether or not to raise `yami.ConversionFailed` when converting
-        a command argument fails.
-    - invoke_with: ``bool``
-        Whether or not to invoke this commands callback, when its
-        subcommand is invoked.
+    Kwargs
+        - aliases: ``Iterable[str]``
+            A list or tuple of aliases for the command.
+        - raise_conversion: ``bool``
+            Whether or not to raise `yami.ConversionFailed` when
+            converting a command argument fails.
+        - invoke_with: ``bool``
+            Whether or not to invoke this commands callback, when its
+            subcommand is invoked.
 
-    Returns:
-    --------
-    ``Callable[..., :obj:`yami.MessageCommand`]``
-        The callback, but transformed into a message command.
+    Returns
+        ``Callable[..., :obj:`yami.MessageCommand`]``
+            The callback, but transformed into a message command.
     """
     return lambda callback: MessageCommand(
         callback,

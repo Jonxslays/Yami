@@ -125,5 +125,13 @@ def licensing(session: nox.Session) -> None:
 
 @nox.session(reuse_venv=True)
 def docs(session: nox.Session) -> None:
-    session.install("-U", DEPS["sphinx"], DEPS["karma_sphinx_theme"], DEPS["hikari"])
-    session.run("python", "-m", "sphinx.cmd.build", "-b", "html", "./docs/source", "./docs/build")
+    session.install(
+        "-U",
+        DEPS["sphinx"],
+        DEPS["sphinx-rtd-theme"],
+        DEPS["sphinx-rtd-dark-mode"],
+        DEPS["hikari"],
+    )
+    session.run(
+        "python", "-m", "sphinx.cmd.build", "-b", "html", "-a", "./docs/source", "./docs/build"
+    )

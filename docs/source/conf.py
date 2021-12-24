@@ -15,16 +15,15 @@ import sys
 sys.path.insert(0, os.path.abspath('.'))
 
 with open('../../pyproject.toml') as f:
-    print(os.curdir)
-    v = f.readlines()[2].split(" = ")[-1]
+    _v = f.readlines()[2].split("=")[-1].strip()
 
 # -- Project information -----------------------------------------------------
 
 project = 'Yami'
 copyright = '2021 Jonxslays'
 author = 'Jonxslays'
-version = v
-release = version
+version = _v
+release = _v
 
 # -- General configuration ---------------------------------------------------
 
@@ -36,6 +35,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.napoleon',
     'sphinx.ext.intersphinx',
+    'sphinx_rtd_dark_mode',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -52,7 +52,7 @@ exclude_patterns = ["this.py"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'karma_sphinx_theme'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -62,7 +62,14 @@ html_static_path = ['_static']
 
 # -- Extension configuration -------------------------------------------------
 
+# Link to hikari and python docs
 intersphinx_mapping = {
     'hikari': ('https://hikari-py.dev', None),
     'python': ('https://docs.python.org/3', None),
 }
+
+# Set dark mode as the default
+default_dark_mode = True
+
+# Load custom css
+html_css_files = ['css/styles.css']

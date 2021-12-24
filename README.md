@@ -148,4 +148,4 @@ Yami is open to contributions. To get started check out the
 
 ## License
 
-Yami is licensed under the [GPL V3](https://github.com/Jonxslays/Yami/blob/master/LICENSE) license.
+Yami is licensed under the [GPLV3](https://github.com/Jonxslays/Yami/blob/master/LICENSE) license.

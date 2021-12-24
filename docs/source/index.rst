@@ -1,64 +1,31 @@
+====
 Yami
 ====
 
-A command handler that complements Hikari.
+A command handler that complements `Hikari <https://hikari-py.dev/hikari>`_.
 
-Getting Started
-===============
+Build your commands with ease using Yami, the yin to Hikari's yang.
 
-Installation
-############
+To learn more about using Yami, check out the
+`getting started <getting-started.html>`_ guide.
 
-**Stable**
-
-.. code-block:: bash
-
-   pip install yami
-
-   # Alternatively
-   python -m pip install yami
-
-**Development**
-
-.. code-block:: bash
-
-   pip install git+https://github.com/Jonxslays/Yami.git
-
-Creating your first bot
-#######################
-
-.. code-block:: python
-
-   import os
-
-   import hikari
-   import yami
+###################
+Helpful information
+###################
 
 
-   bot = yami.Bot(os.environ["TOKEN"], prefix="$")
 
-   @bot.command("echo", "Says what you said")
-   async def echo_cmd(ctx: yami.MessageContext, text: str) -> None:
-      await ctx.respond(text)
+=========
+More info
+=========
 
-   @bot.listen(hikari.StartedEvent)
-   async def on_started(_: hikari.StartedEvent)
-      bot.load_all_modules("./modules")
-      print(f"Modules loaded. Latency: {bot.heartbeat_latency}")
-
-
-   if __name__ == "__main__":
-      bot.run()
-
-.. automodule:: yami
-   :members:
+For more detailed information check out the `api reference <reference.html>`_,
+or visit us in the Hikari `discord server <https://discord.gg/Jx4cNGG>`_!
 
 .. toctree::
    :maxdepth: 2
 
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
+   getting-started
+   message-commands
+   checks
+   reference

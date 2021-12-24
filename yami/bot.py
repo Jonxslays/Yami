@@ -78,7 +78,7 @@ class Bot(hikari.GatewayBot):
         raise_cmd_not_found: ``bool``
             Whether or not to raise the `CommandNotFound` error.
             Defaults to `False`.
-        **kwargs: :obj:`typing.Any`
+        kwargs: :obj:`typing.Any`
             The remaining kwargs for :obj:`~hikari.impl.bot.GatewayBot`.
     """
 
@@ -651,14 +651,13 @@ class Bot(hikari.GatewayBot):
             name = parsed.pop(0)
 
         # TODO: Fire a CommandInvokeEvent here once we make it
-        # TODO: This is a mess, add a helper class or module
 
         if name in self._aliases:
             cmd = self._commands[self._aliases[name]]
         elif name in self._commands:
             cmd = self._commands[name]
         elif self._raise_cmd_not_found:
-            raise exceptions.CommandNotFound(f"No command found with name '{name}'")
+            raise exceptions.CommandNotFound(f"No command found with name {name!r}")
         else:
             return None
 
@@ -670,13 +669,19 @@ class Bot(hikari.GatewayBot):
             for check in c.iter_checks():
                 await check.execute(ctx)
 
+            if c.is_subcommand:
+                if c.invoke_with or is_final:
+                    ctx._invoked_subcommands.append(c)
+                else:
+                    continue
+
             for arg in self._get_args(c, parsed):
                 await arg.convert(ctx)
 
-            if c.is_subcommand and (c.invoke_with or is_final):
-                ctx._invoked_subcommands.append(c)
-
-            await self._invoke_callback(ctx, c)
+            try:
+                await self._invoke_callback(ctx, c)
+            except TypeError:
+                raise exceptions.MissingArgs(f"{c} is missing a required argument")
 
             if not is_final:
                 ctx.args.clear()
@@ -691,19 +696,14 @@ class Bot(hikari.GatewayBot):
         annots_l = len(annots)
         parsed_l = len(parsed)
 
-        if annots_l < parsed_l:
-            if not self._allow_extra_args:
-                raise exceptions.TooManyArgs(
-                    f"{cmd} received too many args - expected {annots_l} but got {parsed_l}"
-                )
-
-        if parsed_l < annots_l:
-            raise exceptions.MissingArgs(
-                f"{cmd} is missing arguments - expected {annots_l} but got {parsed_l}"
-            )
-
         args: list[args_.MessageArg] = []
         args.extend(args_.MessageArg(a, p) for a, p in zip(annots, parsed))
+
+        if parsed_l > annots_l:
+            if not self._allow_extra_args:
+                raise exceptions.TooManyArgs(
+                    f"{cmd} received too many args - excepted {annots_l} but got {parsed_l}"
+                )
 
         return args
 

@@ -152,7 +152,7 @@ class BuiltinConverter(Converter):
 
         Kwargs:
             encoding: `str`
-                The encoding if type_ is `bytes`. Defaults to "utf8".
+                The encoding if `type_` is `bytes`. Defaults to "utf8".
 
         Raises:
             `yami.ConversionFailed`:

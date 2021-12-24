@@ -36,10 +36,10 @@ class SharedNone(object, metaclass=YamiNoneType):
     class can not be instantiated.
 
     - When a `SharedNone` is returned, it is this class, but its type()
-    will be `YamiNoneType`.
+      will be `YamiNoneType`.
 
     - To check if a value returned by Shared was SharedNone use
-    `shared.obj is SharedNone`.
+      `shared.obj is SharedNone`.
     """
 
     def __init__(self) -> None:
@@ -64,12 +64,13 @@ class Shared(object, metaclass=SharedMeta):
 
     You can dynamically add attributes to the shared object.
 
-    ```py
-    s = yami.Shared()
-    s.hello = "hello"
-    s.hello # returns "hello"
-    s.doesnt_exist # returns yami.SharedNone
-    ```
+    .. code-block:: python
+
+        s = yami.Shared()
+        s.hello = "hello"
+        s.hello # returns "hello"
+        s.doesnt_exist # returns yami.SharedNone
+
     """
 
     def __getattr__(self, name: str) -> Any:
@@ -102,13 +103,12 @@ class Shared(object, metaclass=SharedMeta):
         with the given name. If so, you can assume the attribute will
         not return a `SharedNone`.
 
-        Parameters:
-        -----------
+        Args
+            name: ``str``
+                The name of the attribute to check for.
 
-        name: ``str``
-            The name of the attribute to check for.
-
-        Returns: ``bool``
-            `True` if the attribute exists, otherwise `False`.
+        Returns
+            ``bool``
+                `True` if the attribute exists, otherwise `False`.
         """
         return name in self.__dict__
