@@ -13,12 +13,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""Houses the Yami `Module` system."""
 
 from __future__ import annotations
 
 import inspect
 import logging
-from typing import Any, Callable, Coroutine, Generator
+from typing import Any, Callable, Coroutine, Iterator
 
 import hikari
 
@@ -35,15 +36,23 @@ class Module:
     """A collection of commands and functions that typically share a
     need for the same data, or are related in some way.
 
-    - You should subclass `Module` to create your own modules.
-    - Modules do not require any special functions in their file.
+    Modules are loaded via the :obj:`~yami.Bot.load_module` and
+    :obj:`~yami.Bot.load_all_modules` methods.
 
-    If you overwrite the `__init__` method, it should take at least 1
-    argument which is of type `yami.Bot`. Be sure to call
-    `super().__init__(bot)` first thing.
+    .. note::
+        - You should subclass :obj:`Module` to create your own modules.
+        - Modules do not require any special functions in their file.
 
-    Yami takes care of importing the `Module` for you via the
-    `Bot.load_module()` and `Bot.load_all_modules()` methods.
+    .. warning::
+        If you overwrite the `__init__` method, it should take only 1
+        argument which is of type :obj:`~yami.Bot`.
+
+        .. code-block:: python
+
+            class MyMod(yami.Module):
+                def __init__(self, bot: yami.Bot) -> None:
+                    super().__init__(bot)
+                    # Do whatever else you need here.
     """
 
     def __init__(self, bot: bot_.Bot) -> None:
@@ -74,8 +83,8 @@ class Module:
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
-        """A dictionary of name, MessageCommand pairs this module
-        has.
+        """A dictionary of ``name``, ``command`` pairs this
+        module contains.
         """
         return self._commands
 
@@ -97,24 +106,24 @@ class Module:
     def is_loaded(self, value: bool) -> None:
         self._is_loaded = value
 
-    def yield_commands(self) -> Generator[commands_.MessageCommand, None, None]:
-        """Yields commands attached to the module.
+    def iter_commands(self) -> Iterator[commands_.MessageCommand]:
+        """Returns an iterator over the commands attached to the module.
 
-        Returns:
-            `Generator[yami.MessageCommand, ...]`
-                A generator over the modules's commands.
+        Returns
+            :obj:`~typing.Iterator` [:obj:`~yami.MessageCommand`]
+                An iterator over the modules's commands.
         """
         yield from self._commands.values()
 
     def add_command(self, command: commands_.MessageCommand) -> None:
         """Adds a command to the module.
 
-        Args:
-            command: `yami.MessageCommand`
+        Args
+            command: :obj:`~yami.MessageCommand`
                 The command to add.
 
-        Raises:
-            `yami.DuplicateCommand`
+        Raises
+            :obj:`~yami.DuplicateCommand`
                 When a command with this name already exists.
         """
         _log.debug(f"Adding {command} to {self}")
@@ -132,12 +141,16 @@ class Module:
     def remove_command(self, name: str) -> commands_.MessageCommand:
         """Removes a command from the module.
 
-        Args:
-            name: `str`
+        Args
+            name: :obj:`str`
                 The name of the command to remove. (case sensitive)
 
-        Raises:
-            yami.CommandNotFound:
+        Returns
+            :obj:`~yami.MessageCommand`
+                The command that was removed.
+
+        Raises
+            :obj:`~yami.CommandNotFound`
                 When a command with this name is not found.
         """
         if name not in self.commands:

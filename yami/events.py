@@ -13,6 +13,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Provides cli functionality for versioning info."""
+"""Module for Yami events."""
 
 from __future__ import annotations

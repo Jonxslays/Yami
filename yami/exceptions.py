@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""Yami exceptions."""
 
 from __future__ import annotations
 
@@ -62,7 +63,7 @@ class MissingArgs(CommandException):
 
 
 class BadArgument(CommandException):
-    """Raised what a bad argument is passed to a message command."""
+    """Raised when a bad argument is passed to a message command."""
 
 
 class ConversionFailed(BadArgument):

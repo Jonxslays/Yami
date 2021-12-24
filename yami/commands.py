@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""Module containing all Command related objects."""
 
 from __future__ import annotations
 
@@ -83,8 +84,8 @@ class MessageCommand:
 
     @property
     def checks(self) -> dict[str, checks_.Check]:
-        """A dictionary containing name, Check pairs that are registered
-        to this command.
+        """A dictionary containing name, `yami.Check` pairs that are
+        registered to this command.
         """
         return self._checks
 
@@ -95,7 +96,7 @@ class MessageCommand:
 
     @property
     def module(self) -> modules.Module | None:
-        """The module this command originates from, if any."""
+        """The `yami.Module` this command originates from, if any."""
         return self._module
 
     @property
@@ -118,7 +119,7 @@ class MessageCommand:
     @property
     def was_globally_added(self) -> bool:
         """`True` if the command was created with the `yami.command`
-        decorator. `False` if `bot.command` was used.
+        decorator. `False` if `yami.Bot.command` was used.
         """
         return self._was_globally_added
 
@@ -128,8 +129,8 @@ class MessageCommand:
 
     @property
     def subcommands(self) -> dict[str, MessageCommand]:
-        """A dictionary containing name, MessageCommand pairs that are
-        registered to this command.
+        """A dictionary containing name, `yami.MessageCommand` pairs
+        that are registered to this command.
         """
         return self._subcommands
 
@@ -191,7 +192,7 @@ class MessageCommand:
                 The check to remove.
 
         Raises:
-            `yami.CheckRemovalException`
+            `yami.CheckRemovalFailed`
                 When an invalid type is passed as an argument to this
                 method.
         """
@@ -252,7 +253,7 @@ class MessageCommand:
                 )
 
             for alias in filter(
-                lambda a: a in (sa.aliases for sa in self.yield_subcommands()), command.aliases
+                lambda a: a in (sa.aliases for sa in self.iter_subcommands()), command.aliases
             ):
                 raise exceptions.DuplicateCommand(
                     f"Failed to add subcommand {command} to {self} "
@@ -272,21 +273,22 @@ class MessageCommand:
         )
         return self.add_subcommand(cmd)
 
-    def yield_checks(self) -> typing.Generator[checks_.Check, None, None]:
-        """Yields the checks bound to the command.
+    def iter_checks(self) -> typing.Iterator[checks_.Check]:
+        """Returns an iterator over the checks bound to the command.
 
-        Returns:
-            `Generator[yami.Check, ...]`
-                A generator over the commands checks.
+        Returns
+            :obj:`~typing.Iterator` [:obj:`~yami.Check`, ...]
+                An iterator over the commands checks.
         """
         yield from self._checks.values()
 
-    def yield_subcommands(self) -> typing.Generator[MessageCommand, None, None]:
-        """Yields the subcommands registered to the command.
+    def iter_subcommands(self) -> typing.Generator[MessageCommand, None, None]:
+        """Returns an iterator over the subcommands registered to the
+        command.
 
-        Returns:
-            `Generator[yami.MessageCommand, ...]`
-                A generator over the commands checks.
+        Returns
+            :obj:`~typing.Iterator` [:obj:`~MessageCommand`, ...]
+                An iterator over the commands subcommands.
         """
         yield from self._subcommands.values()
 
@@ -299,6 +301,34 @@ class MessageCommand:
         raise_conversion: bool = False,
         invoke_with: bool = False,
     ) -> typing.Callable[..., MessageCommand]:
+        """Decorator to add a subcommand to an existing command. It
+        should decorate the callback that should fire when this
+        subcommand is run.
+
+        Args:
+        -----
+        - **name**: `str`
+            The name of the subcommand. Defaults to the function name.
+        - **description**: `str`
+            The subcommand description. If omitted, the callbacks
+            docstring will be used instead.
+
+        Kwargs:
+        -------
+        - **aliases**: `Iterable[str]`
+            A list or tuple of aliases for the command.
+        - **raise_conversion**: `bool`
+            Whether or not to raise `yami.ConversionFailed` when
+            converting a command argument fails.
+        - **invoke_with**: `bool`
+            Whether or not to invoke this commands callback, when its
+            subcommand is invoked.
+
+        Returns:
+        --------
+        - `Callable[..., MessageCommand]`
+            The callback, but transformed into a MessageCommand.
+        """
         return lambda callback: self.add_subcommand(
             MessageCommand(
                 callback,
@@ -323,22 +353,29 @@ def command(
     """Decorator to add commands to the bot inside of modules. It should
     decorate the callback that should fire when this command is run.
 
-    Args:
-        name: `str`
-            The name of the command. Defaults to the function name.
-        description: `str`
-            The command description. If omitted, the callbacks docstring
-            will be used instead. REMINDER: docstrings are stripped from
-            your programs bytecode when it is run with the `-OO`
-            optimization flag.
+    Parameters:
+    -----
+    - name: `str`
+        The name of the command. Defaults to the function name.
+    - description: `str`
+        The command description. If omitted, the callbacks docstring
+        will be used instead.
 
     Kwargs:
-        aliases: `Iterable[str]`
-            A list or tuple of aliases for the command.
+    -------
+    - aliases: ``Iterable[str]``
+        A list or tuple of aliases for the command.
+    - raise_conversion: ``bool``
+        Whether or not to raise `yami.ConversionFailed` when converting
+        a command argument fails.
+    - invoke_with: ``bool``
+        Whether or not to invoke this commands callback, when its
+        subcommand is invoked.
 
     Returns:
-        `Callable[..., yami.MessageCommand]`
-            The callback, but transformed into a message command.
+    --------
+    ``Callable[..., :obj:`yami.MessageCommand`]``
+        The callback, but transformed into a message command.
     """
     return lambda callback: MessageCommand(
         callback,

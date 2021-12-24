@@ -115,15 +115,15 @@ def test_dup_name_add_command(model: yami.Bot) -> None:
         assert "'giraffe' - name already in use" in e
 
 
-def test_yield_commands(model: yami.Bot) -> None:
+def test_iter_commands(model: yami.Bot) -> None:
     for i in range(5):
         model.add_command(mock.AsyncMock(), name=f"cmd{i}")
 
-    for i, cmd in enumerate(model.yield_commands()):
+    for i, cmd in enumerate(model.iter_commands()):
         assert isinstance(cmd, yami.MessageCommand)
         assert cmd.name.startswith(f"cmd{i}")
 
-    gen = model.yield_commands()
+    gen = model.iter_commands()
     assert isinstance(gen, typing.Generator)
 
     assert next(gen).name == "cmd0"

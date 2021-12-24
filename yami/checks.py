@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""Module containing all the Yami Checks."""
 
 from __future__ import annotations
 
@@ -41,12 +42,6 @@ class Check(abc.ABC):
     """Base class all Yami checks inherit from."""
 
     __slots__ = ("_obj",)
-
-    def __init__(self, *args: Any, **kwargs: Any) -> None:
-        if args or kwargs:
-            raise exceptions.BadCheck(
-                f"Unclosed parentheses on {self}, or an unexpected argument was passed"
-            )
 
     def __call__(self, obj: commands.MessageCommand) -> commands.MessageCommand:
         return self._bind(obj)

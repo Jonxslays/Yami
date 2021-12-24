@@ -13,7 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""Classes representing command arguments."""
+"""Module containing the command arguments interface."""
 
 from __future__ import annotations
 

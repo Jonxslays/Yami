@@ -121,3 +121,9 @@ def licensing(session: nox.Session) -> None:
             "\nThe following files are missing their license:\n"
             + "\n".join(f" - {m}" for m in missing)
         )
+
+
+@nox.session(reuse_venv=True)
+def docs(session: nox.Session) -> None:
+    session.install("-U", DEPS["sphinx"], DEPS["karma_sphinx_theme"], DEPS["hikari"])
+    session.run("python", "-m", "sphinx.cmd.build", "-b", "html", "./docs/source", "./docs/build")

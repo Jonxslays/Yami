@@ -13,6 +13,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
+"""Module containing Context objects."""
 
 from __future__ import annotations
 
@@ -171,6 +172,11 @@ class MessageContext:
     def invoked_subcommands(self) -> list[commands.MessageCommand]:
         """The subcommands that were invoked with this context, or
         `None` if there were none.
+
+        .. note::
+            If subcommands were chained and the parent callback was not
+            actually run (due to having invoke_with set to `False`) it
+            will not appear here.
         """
         return self._invoked_subcommands
 
@@ -180,8 +186,8 @@ class MessageContext:
         """
         return self._bot.rest.trigger_typing(self._message.channel_id)
 
-    def yield_arg_values(self) -> typing.Generator[None, None, typing.Any]:
-        """Returns a generator over the argument values for this
+    def iter_arg_values(self) -> typing.Iterable[typing.Any]:
+        """Returns an iterator over the argument values for this
         context."""
         yield from (v.value for v in self._args)
 
@@ -247,18 +253,22 @@ class MessageContext:
         with the context. This method calls to the cache first, and
         falls back to rest if not found.
 
-        This method can return one of any:
-            `DMChannel`, `GroupDMChannel`, `GuildTextChannel`,
-            `GuildVoiceChannel`, `GuildStoreChannel`, `GuildNewsChanne`.
+        .. note::
+            This method can return one of any:
 
-        **WARNING**:
+            `DMChannel`, `GroupDMChannel`, `GuildTextChannel`,
+            `GuildVoiceChannel`, `GuildStoreChannel`,
+            `GuildNewsChannel`.
+
+        .. warning::
             This method can utilize both cache, and rest. For more fine
             grained control consider using cache or rest yourself
             explicitly.
 
         Returns:
-            `hikari.PartialChannel`
-                The channel object associated with the context.
+        --------
+        `hikari.PartialChannel`
+            The channel object associated with the context.
         """
         return self._bot.cache.get_guild_channel(
             self._message.channel_id

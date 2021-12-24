@@ -13,7 +13,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-"""A command handler that complements Hikari."""
 
 from __future__ import annotations
 
@@ -37,6 +36,7 @@ __all__ = [
     "is_owner",
     "CheckRemovalFailed",
     "BadCheck",
+    "Check",
     "CheckFailed",
     "CheckAddFailed",
     "is_in_guild",
@@ -61,8 +61,10 @@ __all__ = [
     "BUILTIN_CAN_CONVERT",
 ]
 
+__packagename__ = "Yami"
 __version__ = "0.3.0"
 __author__ = "Jonxslays"
+__copyright__ = "2021 Jonxslays"
 __description__ = "A command handler that complements Hikari."
 __url__ = "https://github.com/Jonxslays/Yami"
 __repository__ = __url__

@@ -102,12 +102,13 @@ class Shared(object, metaclass=SharedMeta):
         with the given name. If so, you can assume the attribute will
         not return a `SharedNone`.
 
-        Args:
-            name: `str`
-                The name of the attribute to check for.
+        Parameters:
+        -----------
 
-        Returns:
-            `bool`
-                True if the attribute exists, otherwise `False`.
+        name: ``str``
+            The name of the attribute to check for.
+
+        Returns: ``bool``
+            `True` if the attribute exists, otherwise `False`.
         """
         return name in self.__dict__
