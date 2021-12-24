@@ -47,8 +47,8 @@ poetry --version
 3) Run `poetry shell` to create a new virtual env, and activate it.
 4) Run `poetry install` to install dependencies (this includes dev deps).
 
-While this should not be the case, if there are any dependency cheanges please detail them in
-your pull request.
+While this should not be the case, if there are any dependency changes please
+detail them in your pull request.
 
 Dependencies can be added and removed from the project with poetry.
 
