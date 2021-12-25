@@ -28,7 +28,7 @@ def get_dependencies() -> dict[str, str]:
         deps = data["dev-dependencies"]
         deps.update(data["dependencies"])
 
-    return dict((k, f"{k}{v}") for k, v in deps.items())
+    return dict((k, f"{k}{v.replace('^', '~=')}") for k, v in deps.items())
 
 
 DEPS = get_dependencies()
