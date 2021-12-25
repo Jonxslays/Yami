@@ -95,16 +95,14 @@ jobs:
           pip install --upgrade pip
           poetry install -q
           poetry run nox -s docs
-          mv docs/build master
 
       - name: Deploy
         run: |
           git config --global user.name "Jonxslays"
           git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
-          git fetch
-          git checkout gh-pages
-          git add master
-          git commit -m "Docs deploy ${GITHUB_SHA::7}"
+          git fetch && git checkout gh-pages
+          rm -rf master && mv docs/build master
+          git commit -am "Master docs deploy from ${GITHUB_SHA::7}"
           git push origin gh-pages
 
   upload-coverage:

@@ -16,7 +16,7 @@ jobs:
         run: |
           LATEST_TAG=$(git tag -l | tail -1)
           PROJECT_VERS=$(sed -rn 's/version = "(.*)"/v\1/p' pyproject.toml)
-          INIT_VERS=$(sed -rn 's/__version__ = "(.*)"/v\1/p' yami/__init__.py )
+          INIT_VERS=$(sed -rn 's/__version__ = "(.*)"/v\1/p' yami/__init__.py)
 
           if [ ! $LATEST_TAG = $PROJECT_VERS ]; then
             echo "Latest tag doesnt match project version!"
@@ -26,6 +26,7 @@ jobs:
             exit 1
           fi
 
+          echo "::set-output name=git-tag::$($LATEST_TAG)\n"
           echo "Tags match!"
           exit 0
 
@@ -35,3 +36,35 @@ jobs:
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
           ignore_dev_requirements: "yes"
+
+  build-docs:
+    name: Build docs
+    needs: validate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v7
+
+      - name: Build docs
+        run: |
+          pip install --upgrade pip
+          poetry install -q
+          poetry run nox -s docs
+
+      - name: Deploy
+        run: |
+          git config --global user.name "Jonxslays"
+          git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
+          git fetch && git checkout gh-pages
+          rm -rf stable && mv docs/build stable
+          git commit -am "Release ${{ steps.validate.output.git-tag }} docs deploy from ${GITHUB_SHA::7}"
+          git push origin gh-pages
