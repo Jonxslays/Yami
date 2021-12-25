@@ -30,6 +30,7 @@ def info() -> None:
     py_ver = platform.python_version()
     py_c = platform.python_compiler()
 
-    print(f"Yami v{__version__} @ {path}")
+    print("+-+-+-+-+\n|Y|a|m|i|\n+-+-+-+-+")
+    print(f"v{__version__} @ {path}")
     print(f"{py_impl} {py_ver} {py_c}")
     print(" ".join(f"{i.strip()}" for i in platform.uname()))
