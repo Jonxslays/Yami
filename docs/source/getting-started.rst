@@ -46,16 +46,18 @@ These are well documented in the Hikari
   * :ul:`Only available on UNIX-like operating systems`.
 
 - `hikari[speedups] <https://github.com/hikari-py/hikari#hikarispeedups>`_:
-  ``pip install "hikari[speedups]"``
 
-  * Installs some additional speedups packages.
+  * Installs ``aiodns``, ``cchardet``, ``Brotli``, ``ciso8601``, and ``ed25519``.
   * :ul:`Requires a working C compiler on the system`.
+
+  Yami can be installed with speedups automatically, as well using
+  ``pip install "yami[speedups]"``
 
 ############
 Create a Bot
 ############
 
-Make sure you have a bot token, obtained from the `discord
+Make sure you have a bot token, obtained from the `Discord
 developer portal <https://discord.com/developers/applications>`_.
 
 ..  code-block:: python
