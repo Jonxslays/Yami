@@ -73,6 +73,40 @@ jobs:
           poetry install -q
           poetry run nox -s ${{ matrix.session }}
 
+  build-docs:
+    name: Build docs
+    if: ${{ github.event.branch }} == "master"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install python 3.10
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.10"
+
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v7
+
+      - name: Build docs
+        run: |
+          pip install --upgrade pip
+          poetry install -q
+          poetry run nox -s docs
+          mv docs/build master
+
+      - name: Deploy
+        run: |
+          git config --global user.name "Jonxslays"
+          git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
+          git fetch
+          git checkout gh-pages
+          git add master
+          git commit -m "Docs deploy ${GITHUB_SHA::7}"
+          git push origin gh-pages
+
   upload-coverage:
     name: Upload coverage
     if: ${{ github.event_name }} == "push"
