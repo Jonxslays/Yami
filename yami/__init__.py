@@ -67,6 +67,7 @@ __author__ = "Jonxslays"
 __copyright__ = "2021 Jonxslays"
 __description__ = "A command handler that complements Hikari."
 __url__ = "https://github.com/Jonxslays/Yami"
+__docs__ = "https://jonxslays.github.io/Yami"
 __repository__ = __url__
 __license__ = "GPL-3.0-only"
 

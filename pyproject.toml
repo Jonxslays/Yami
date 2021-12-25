@@ -5,6 +5,7 @@ description = "A command handler that complements Hikari."
 license = "GPL-3.0-or-later"
 homepage = "https://github.com/Jonxslays/Yami"
 repository = "https://github.com/Jonxslays/Yami"
+documentation = "https://jonxslays.github.io/Yami"
 authors = ["Jonxslays"]
 readme = "README.md"
 packages = [
