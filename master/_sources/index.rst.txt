@@ -13,26 +13,51 @@ To learn more about using Yami, check out the
 Helpful links
 #############
 
+****
+Yami
+****
+
+- `Stable documentation <https://jonxslays.github.io/Yami>`_
+- `Development documentation <https://jonxslays.github.io/Yami/master>`_
+- `Repository <https://github.com/Jonxslays/Yami>`_
+
+******
+Hikari
+******
+
 - `Hikari documentation <https://hikari-py.dev/hikari>`_
 - `Hikari repository <https://github.com/hikari-py/hikari>`_
+- `Discord <https://discord.gg/Jx4cNGG>`_
 
-If you're looking for something different, consider giving an
-alternative Hikari command handler a try.
+************
+Alternatives
+************
 
-- **Lightbulb**
+If you're looking for something different, consider giving one of these
+other Hikari command handlers a try!
 
-  The official unofficial command handler for the Python discord API
-  wrapper library, Hikari.
+- **Lightbulb** - The official unofficial command handler for the Python
+  discord API wrapper library, Hikari.
 
   * `Documentation <https://hikari-lightbulb.readthedocs.io/en/latest/>`_
   * `Repository <https://github.com/tandemdude/hikari-lightbulb>`_
 
-- **Tanjun**
-
-  A flexible command framework designed to extend Hikari.
+- **Tanjun** - A flexible command framework designed to extend Hikari.
 
   * `Documentation <https://tanjun.cursed.solutions/release/tanjun.html>`_
   * `Repository <https://github.com/FasterSpeeding/Tanjun>`_
+
+##############
+Coming up next
+##############
+
+.. toctree::
+   :maxdepth: 1
+
+   getting-started
+   message-commands
+   checks
+   reference
 
 ########################
 Message from the creator
@@ -44,13 +69,5 @@ easier. Try to have fun with it!
 
 Best of luck with creating your Discord bot :).
 
-For more detailed information check out the `api reference <reference.html>`_,
-or visit us in the Hikari `discord server <https://discord.gg/Jx4cNGG>`_!
-
-.. toctree::
-   :maxdepth: 2
-
-   getting-started
-   message-commands
-   checks
-   reference
+For more in depth information check out the `api reference <reference.html>`_,
+or visit us in the Hikari `Discord server <https://discord.gg/Jx4cNGG>`_!

@@ -149,9 +149,9 @@ holding you back :).</p>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">allow_extra_args</span></code> kwarg for <code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code> is very
 helpful for allowing you to align the arguments of your
 subcommands.</p></li>
-<li><p>By default Yami disables the parent commands callback for any
-is disabled. This can be set using the <code class="docutils literal notranslate"><span class="pre">invoke_with</span></code> kwarg in
-the <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.command</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.command</span></code>, and
+<li><p>Yami disables the callback for all parent commands by default.
+This can be set using the <code class="docutils literal notranslate"><span class="pre">invoke_with</span></code> kwarg in the
+<code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.command</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.command</span></code>, and
 <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand.subcommand</span></code> decorators.</p></li>
 <li><p>Varying number and type for arguments in the command callbacks
 can cause failures. Pay close attention to what type hints and
@@ -161,7 +161,8 @@ what defaults you set.</p></li>
 to share information between parent commands and their
 subcommands. Keep in mind that if something goes wrong in the
 first callback, you may receive a <code class="xref py py-obj docutils literal notranslate"><span class="pre">SharedNone</span></code> if you
-access an attribute that has not been set.</p></li>
+access an attribute that has not been set in a later subcommands
+callback.</p></li>
 </ul>
 </div>
 <ul class="simple">

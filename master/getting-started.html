@@ -107,26 +107,27 @@ python -m pip install git+https://github.com/Jonxslays/Yami.git
 <p>There are some optional speedups that can be installed.</p>
 <p>These are well documented in the Hikari
 <a class="reference external" href="https://github.com/hikari-py/hikari">README</a>.</p>
-<ul class="simple">
+<ul>
 <li><p><a class="reference external" href="https://pypi.org/project/uvloop/">uvloop</a>:
 <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">uvloop</span></code></p>
-<ul>
+<ul class="simple">
 <li><p>A replacement for the asyncio event loop.</p></li>
 <li><p><span class="ul">Only available on UNIX-like operating systems</span>.</p></li>
 </ul>
 </li>
-<li><p><a class="reference external" href="https://github.com/hikari-py/hikari#hikarispeedups">hikari[speedups]</a>:
-<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;hikari[speedups]&quot;</span></code></p>
-<ul>
-<li><p>Installs some additional speedups packages.</p></li>
+<li><p><a class="reference external" href="https://github.com/hikari-py/hikari#hikarispeedups">hikari[speedups]</a>:</p>
+<ul class="simple">
+<li><p>Installs <code class="docutils literal notranslate"><span class="pre">aiodns</span></code>, <code class="docutils literal notranslate"><span class="pre">cchardet</span></code>, <code class="docutils literal notranslate"><span class="pre">Brotli</span></code>, <code class="docutils literal notranslate"><span class="pre">ciso8601</span></code>, and <code class="docutils literal notranslate"><span class="pre">ed25519</span></code>.</p></li>
 <li><p><span class="ul">Requires a working C compiler on the system</span>.</p></li>
 </ul>
+<p>Yami can be installed with speedups automatically, as well using
+<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">&quot;yami[speedups]&quot;</span></code></p>
 </li>
 </ul>
 </section>
 <section id="create-a-bot">
 <h2>Create a Bot<a class="headerlink" href="#create-a-bot" title="Permalink to this headline"></a></h2>
-<p>Make sure you have a bot token, obtained from the <a class="reference external" href="https://discord.com/developers/applications">discord
+<p>Make sure you have a bot token, obtained from the <a class="reference external" href="https://discord.com/developers/applications">Discord
 developer portal</a>.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
 

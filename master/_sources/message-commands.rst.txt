@@ -78,9 +78,9 @@ holding you back :).
       helpful for allowing you to align the arguments of your
       subcommands.
 
-    - By default Yami disables the parent commands callback for any
-      is disabled. This can be set using the ``invoke_with`` kwarg in
-      the :obj:`yami.command`, :obj:`yami.Bot.command`, and
+    - Yami disables the callback for all parent commands by default.
+      This can be set using the ``invoke_with`` kwarg in the
+      :obj:`yami.command`, :obj:`yami.Bot.command`, and
       :obj:`yami.MessageCommand.subcommand` decorators.
 
     - Varying number and type for arguments in the command callbacks
@@ -92,6 +92,7 @@ holding you back :).
       to share information between parent commands and their
       subcommands. Keep in mind that if something goes wrong in the
       first callback, you may receive a :obj:`~yami.SharedNone` if you
-      access an attribute that has not been set.
+      access an attribute that has not been set in a later subcommands
+      callback.
 
 - Not yet fully documented
