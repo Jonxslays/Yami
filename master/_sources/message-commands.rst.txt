@@ -94,9 +94,4 @@ holding you back :).
       first callback, you may receive a :obj:`~yami.SharedNone` if you
       access an attribute that has not been set.
 
-..  code-block:: python
-
-    # continued from previous example...
-
-    @yami.is_owner()
-    @yami.command("")
+- Not yet fully documented
