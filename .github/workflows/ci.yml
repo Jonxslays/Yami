@@ -48,11 +48,11 @@ jobs:
           if-no-files-found: error
 
   lint-and-format:
-    name: Lint and format
+    name: Lint
     strategy:
       fail-fast: false
       matrix:
-        session: [types, formatting, imports, licensing, coverage]
+        session: [types, formatting, imports, licensing, coverage, docs]
     runs-on: ubuntu-latest
 
     steps:
@@ -74,7 +74,7 @@ jobs:
           poetry run nox -s ${{ matrix.session }}
 
   build-docs:
-    name: Build docs
+    name: Docs
     if: ${{ github.event.branch }} == "master"
     runs-on: ubuntu-latest
 
@@ -90,20 +90,12 @@ jobs:
       - name: Install poetry
         uses: Gr1N/setup-poetry@v7
 
-      - name: Build docs
+      - name: Build and deploy
         run: |
           pip install --upgrade pip
           poetry install -q
           poetry run nox -s docs
-
-      - name: Deploy
-        run: |
-          git config --global user.name "Jonxslays"
-          git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
-          git fetch && git checkout gh-pages
-          rm -rf master && mv docs/build master
-          git commit -am "Master docs deploy from ${GITHUB_SHA::7}"
-          git push origin gh-pages
+          ./scripts/docs-deploy.sh master
 
   upload-coverage:
     name: Upload coverage

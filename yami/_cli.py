@@ -20,7 +20,7 @@ from __future__ import annotations
 import platform
 from pathlib import Path
 
-from yami import __version__
+from yami import __git_sha__, __version__
 
 
 def info() -> None:
@@ -29,8 +29,10 @@ def info() -> None:
     py_impl = platform.python_implementation()
     py_ver = platform.python_version()
     py_c = platform.python_compiler()
+    p = platform.uname()
 
-    print("+-+-+-+-+\n|Y|a|m|i|\n+-+-+-+-+")
-    print(f"v{__version__} @ {path}")
+    print(f"Yami v{__version__} {__git_sha__}")
+    print(f"@ {path}")
     print(f"{py_impl} {py_ver} {py_c}")
-    print(" ".join(f"{i.strip()}" for i in platform.uname()))
+    print(f"{p.system} {p.node} {p.release} {p.machine}")
+    print(p.version)

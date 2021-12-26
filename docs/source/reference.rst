@@ -78,15 +78,6 @@ modules
     :members:
     :show-inheritance:
 
-#####
-utils
-#####
-
-..  automodule:: yami.utils
-    :members:
-    :noinclude: yami.utils.types
-    :show-inheritance:
-
 ********
 Full API
 ********

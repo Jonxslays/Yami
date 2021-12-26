@@ -1,45 +1,31 @@
-name: Publish to pypi
+name: Publish release
 
 on:
   release:
     types: [published]
 
 jobs:
-  validate:
+  pypi:
+    name: Pypi release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Validate versions
-        id: validate
-        run: |
-          LATEST_TAG=$(git tag -l | tail -1)
-          PROJECT_VERS=$(sed -rn 's/version = "(.*)"/v\1/p' pyproject.toml)
-          INIT_VERS=$(sed -rn 's/__version__ = "(.*)"/v\1/p' yami/__init__.py)
+      - name: Run pre-release script
+        id: prerelease
+        run: ./scripts/pre-release.sh
 
-          if [ ! $LATEST_TAG = $PROJECT_VERS ]; then
-            echo "Latest tag doesnt match project version!"
-            exit 1
-          elif [ ! $LATEST_TAG = $INIT_VERS ]; then
-            echo "Latest tag doesnt match init version!"
-            exit 1
-          fi
-
-          echo "::set-output name=git-tag::$($LATEST_TAG)\n"
-          echo "Tags match!"
-          exit 0
-
-      - name: Build and publish to pypi
+      - name: Build and publish
         uses: JRubics/poetry-publish@v1.8
-        if: steps.validate.conclusion == 'success'
+        if: steps.prerelease.conclusion == 'success'
         with:
           pypi_token: ${{ secrets.PYPI_TOKEN }}
           ignore_dev_requirements: "yes"
 
-  build-docs:
-    name: Build docs
-    needs: validate
+  docs:
+    name: Docs release
+    needs: pypi
     runs-on: ubuntu-latest
 
     steps:
@@ -54,17 +40,21 @@ jobs:
       - name: Install poetry
         uses: Gr1N/setup-poetry@v7
 
-      - name: Build docs
+      - name: Build and deploy
         run: |
           pip install --upgrade pip
           poetry install -q
           poetry run nox -s docs
+          ./scripts/docs-deploy.sh stable
 
-      - name: Deploy
-        run: |
-          git config --global user.name "Jonxslays"
-          git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
-          git fetch && git checkout gh-pages
-          rm -rf stable && mv docs/build stable
-          git commit -am "Release ${{ steps.validate.output.git-tag }} docs deploy from ${GITHUB_SHA::7}"
-          git push origin gh-pages
+  post-release:
+    name: Post release
+    needs: docs
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run post-release script
+        run: ./scripts/post-release.sh
