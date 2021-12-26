@@ -9,9 +9,9 @@ Build your commands with ease using Yami, the yin to Hikari's yang.
 To learn more about using Yami, check out the
 `getting started <getting-started.html>`_ guide.
 
-#############
-Helpful links
-#############
+#########
+Resources
+#########
 
 ****
 Yami

@@ -22,8 +22,6 @@ callback.
 
 ..  code-block:: python
 
-    # continued from previous example...
-
     @bot.command("echo", aliases=["say"], invoke_with=True)
     async def echo_cmd(ctx: yami.MessageContext, text: str) -> None:
         """Echos what you said back to you."""
@@ -49,8 +47,6 @@ In this example the subcommand provides and optional interface to delete
 the message sent by the parent command.
 
 ..  code-block:: python
-
-    # continued from previous example...
 
     @echo_cmd.subcommand("-d", aliases=["--delete"])
     async def echo_delete_cmd(
