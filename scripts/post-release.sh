@@ -23,7 +23,7 @@ sed -i 's/__version__ = ".*"/__version__ = "'$NEW_VERS'"/' yami/__init__.py
 
 ./scripts/update-sha.sh "HEAD"
 
-echo "Commiting changes..."
+echo "Committing changes..."
 
 git config --global user.name "Jonxslays"
 git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
