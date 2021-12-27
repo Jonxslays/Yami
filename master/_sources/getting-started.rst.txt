@@ -47,10 +47,10 @@ These are well documented in the Hikari
 
 - `hikari[speedups] <https://github.com/hikari-py/hikari#hikarispeedups>`_:
 
-  * Installs ``aiodns``, ``cchardet``, ``Brotli``, ``ciso8601``, and ``ed25519``.
+  * Installs ``aiodns``, ``cchardet``, ``brotli``, ``ciso8601``, and ``ed25519``.
   * :ul:`Requires a working C compiler on the system`.
 
-  Yami can be installed with speedups automatically, as well using
+  Yami can be installed with speedups automatically as well using
   ``pip install "yami[speedups]"``
 
 ############
