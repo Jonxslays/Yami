@@ -50,7 +50,7 @@ class Check(abc.ABC):
             obj (:obj:`~yami.MessageCommand`): The command to bind to.
 
         Returns:
-            (:obj:`~yami.MessageCommand`): The command.
+            :obj:`~yami.MessageCommand`: The command.
         """
         return self._bind(obj)
 
@@ -70,8 +70,8 @@ class Check(abc.ABC):
         return obj
 
     def _raise(self, ctx: context.MessageContext, msg: str) -> None:
-        """Raised a `CheckFailed` exception for a command name and with
-        the given message
+        """Raises a `CheckFailed` exception for a command name and with
+        the given message.
         """
         e = exceptions.CheckFailed(f"{ctx.command} failed - {msg}")
         ctx.exceptions.append(e)
@@ -79,6 +79,11 @@ class Check(abc.ABC):
 
     @classmethod
     def get_name(cls) -> str:
+        """Returns the name of this :obj:`~yami.Check` subclass.
+
+        Returns:
+            :obj:`str`: The name of the class.
+        """
         return cls.__name__
 
     @abc.abstractmethod
@@ -86,23 +91,28 @@ class Check(abc.ABC):
         """Executes the check.
 
         Args:
-            ctx: `yami.MessageContext`
-                The context to execute the check against.
+            ctx (:obj:`~yami.MessageContext`): The context to execute
+                the check against.
 
         Raises:
-            `yami.CheckFailed`
-                When the check fails.
+            :obj:`~yami.CheckFailed`: When the check fails.
         """
 
 
 class is_owner(Check):
     """Fails if the author of the command is not the bots owner.
 
-    Who is the bots owner:
-    - Any user with an id matching one of the ids passed into the bots
-    constructor for the kwarg `owner_ids`.
-    - The application owner fetched from discord if no `owner_ids` were
-    passed to the constructor.
+    .. hint::
+
+        Who is the bots owner?
+
+        - Any user with an id matching one of the ids passed into the
+          bots constructor for the kwarg ``owner_ids``.
+        - The application owner fetched from Discord if no ``owner_ids``
+          were passed to the constructor.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
     """
 
     __slots__ = ()
@@ -113,7 +123,11 @@ class is_owner(Check):
 
 
 class is_in_guild(Check):
-    """Fails if the command was not run in a guild."""
+    """Fails if the command was not run in a guild.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
+    """
 
     __slots__ = ()
 
@@ -123,7 +137,11 @@ class is_in_guild(Check):
 
 
 class is_in_dm(Check):
-    """Fails if the command was not run in a DM."""
+    """Fails if the command was not run in a DM.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
+    """
 
     __slots__ = ()
 
@@ -136,12 +154,15 @@ class has_roles(Check):
     """Fails if the author does not have all of the roles passed to this
     check decorator.
 
-    This is inherently an `is_in_guild` check as well, because a user
-    cannot have a role outside of a guild.
+    This is inherently an :obj:`~yami.is_in_guild` check as well,
+    because a user cannot have a role outside of a guild.
 
     Args:
-        *roles: `str` | `int`
-            The name or id of the role or roles the user must have.
+        *roles (:obj:`str` | :obj:`int`): The name or id of the role
+            or roles the user must have.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
     """
 
     __slots__ = ("_roles",)
@@ -190,13 +211,15 @@ class has_any_role(Check):
     """Fails if the author does not have any of the role names or ids
     passed to this check.
 
-    This is inherently an `is_in_guild` check as well, because a user
-    cannot have a role outside of a guild.
+    This is inherently an :obj:`~yami.is_in_guild` check as well,
+    because a user cannot have a role outside of a guild.
 
     Args:
-        *roles: `str` | `int`
-            The names or ids of the roles the user must have at least
-            one of.
+        *roles (:obj:`str` | `int`): The names or ids of the roles the
+            user must have at least one of.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
     """
 
     __slots__ = ("_roles",)
@@ -246,13 +269,23 @@ class has_perms(Check):
     """Fails if the author does not have all of the specified
     permissions. This accumulates all permissions the user has.
 
-    This is inherently an `is_in_guild` check as well, because a user
-    cannot have permissions outside of a guild.
+    This is inherently an :obj:`~yami.is_in_guild` check as well,
+    because a user cannot have a role outside of a guild.
 
-    Args:
-        **perms: `bool`
-            Keyword arguments for each of the available hikari
-            [perms](https://www.hikari-py.dev/hikari/permissions.html).
+    .. warning::
+        If you pass something like ``manage_messages=False`` to this
+        check, it will do nothing.
+
+        It will not require the user to have the permission. Make sure
+        you use ``manage_messages=True``.
+
+    Keyword Args:
+        **perms (:obj:`bool`): Keyword arguments for each of the
+            available `hikari perms. \
+                <https://www.hikari-py.dev/hikari/permissions.html>`_
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
     """
 
     __slots__ = ("_perms", "_raw_perms")
@@ -360,23 +393,36 @@ CustomCheckSigT = Callable[[context.MessageContext], Any]
 
 
 class custom_check(Check):
-    """A custom check. If the check returns `False` or raises an
-    `Exception` the check will fail. If the check returns `True` or any
-    other value without raising an error, it will pass.
+    """A custom check.
+
+    .. hint::
+
+        - If the check returns :obj:`False` or raises an
+          :obj:`Exception` the check will fail.
+
+        - If the check returns :obj:`True` or any other value without
+          raising an error, it will pass.
 
     Args:
-        check: `Callable[[yami.MessageContext], Any]`
-            The callback function that should be used for the check.
+        check(:obj:`~typing.Callable` [[:obj:`~yami.MessageContext`], \
+            :obj:`~typing.Any`]): The callback function that should be
+            used for the check.
 
-            It should accept one argument of type `yami.MessageContext`
-            and return a `bool`.
+            .. note::
 
-            This can be an async, or sync function.
+                - It should accept one argument of type
+                  :obj:`~yami.MessageContext` and return :obj:`False` or
+                  raise an error if it fails.
 
-    Kwargs:
-        message: `str`
-            The optional message to use in the `CheckFailed` exception.
-            The default message is "a custom check was failed".
+                - This can be an async, or sync function.
+
+    Keyword Args:
+        message: (:obj:`str`): The optional message to use in the
+            :obj:`~yami.CheckFailed` exception. The default message is
+            ``"a custom check was failed"``.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
     """
 
     __slots__ = ("_check", "_message")
@@ -414,7 +460,11 @@ class custom_check(Check):
 
 
 class is_the_cutest(Check):
-    """Fails if you aren't Jaxtar."""
+    """Fails if you aren't Jaxtar.
+
+    Raises:
+        :obj:`~yami.CheckFailed`: When the check fails.
+    """
 
     __slots__ = ()
 

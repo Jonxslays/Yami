@@ -158,8 +158,9 @@ class MessageContext:
         """A :obj:`~yami.Shared` object that can be used to share data
         between subcommands.
 
-        - Also houses cached data from the checks that were run for this
-          context.
+        .. hint::
+            Also houses cached data from the checks that were run for
+            this context.
         """
         return self._shared
 

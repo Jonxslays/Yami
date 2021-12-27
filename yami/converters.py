@@ -153,8 +153,9 @@ class BuiltinConverter(Converter):
     def as_bool(self) -> bool:
         """Converts the value to :obj:`bool`.
 
-        - ``'true'`` and ``'True'`` will be ``True``
-        - ``'false'`` and ``'False'`` will be ``False``
+        .. hint::
+            - ``'true'`` and ``'True'`` will be ``True``
+            - ``'false'`` and ``'False'`` will be ``False``
 
         Returns:
             :obj:`bool`: The converted value.

@@ -39,7 +39,7 @@ class Module:
     Args:
         bot (:obj:`yami.bot`): The bot instance.
 
-    .. note::
+    .. hint::
         - You should subclass :obj:`Module` to create your own modules.
         - Modules do not require any special functions in their file.
         - Modules are loaded via the :obj:`~yami.Bot.load_module` and
