@@ -159,6 +159,10 @@ html.writer-html4 .rst-content dl:not(.docutils) .descclassname, html.writer-htm
     color: #c1c1c1 !important;
 }
 
+.fm {
+    color: #bd93f9 !important;
+}
+
 .sig-paren {
     color: #c1c1c1 !important;
 }

@@ -66,15 +66,13 @@ class BadArgument(CommandException):
     """Raised when a bad argument is passed to a message command."""
 
 
-class ConversionFailed(BadArgument):
-    """Raised when the conversion of an arg to its corresponding type
-    hint fails.
-    """
+class ConversionFailed(YamiException):
+    """Raised when the conversion performed by a converter fails."""
 
 
 class DuplicateCommand(CommandException):
     """Raised when a command is added that shares a name or aliases with
-    an existing command.
+    an existing command, or subcommand on the same level.
     """
 
 
@@ -87,11 +85,11 @@ class ModuleRemoveException(ModuleException):
 
 
 class ModuleUnloadException(ModuleException):
-    """Raised when a module fails to be removed from the bot."""
+    """Raised when a module fails to be unloaded from the bot."""
 
 
 class ModuleLoadException(ModuleException):
-    """Raised when a module fails to be removed from the bot."""
+    """Raised when a module fails to be loaded to the bot."""
 
 
 class ModuleAddException(ModuleException):

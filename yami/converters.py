@@ -26,11 +26,11 @@ import hikari
 from yami import exceptions
 
 __all__ = [
-    "HIKARI_CAN_CONVERT",
-    "BUILTIN_CAN_CONVERT",
     "Converter",
     "BuiltinConverter",
     "HikariConverter",
+    "HIKARI_CAN_CONVERT",
+    "BUILTIN_CAN_CONVERT",
 ]
 
 _log = logging.getLogger(__name__)
@@ -77,21 +77,10 @@ class Converter(abc.ABC):
 
 class HikariConverter(Converter):
     """Converts to the hikari types.
-    - `hikari.User`
-    - `hikari.Member`
-    - `hikari.PartialChannel`
-    - `hikari.GroupDMChanne'`
-    - `hikari.GuildTextChannel`
-    - `hikari.GuildVoiceChannel`
-    - `hikari.GuildStoreChannel`
-    - `hikari.GuildNewsChannel`
-    - `hikari.GuildChannel`
-    - `hikari.TextableChannel`
-    - `hikari.Message`
-    - `hikari.Role`
-    - `hikari.CustomEmoji`
-    - `hikari.KnownCustomEmoji`
-    - `hikari.Emoji`
+
+    .. warning::
+
+        Not yet implemented!
     """
 
     def __init__(self) -> None:
@@ -101,16 +90,8 @@ class HikariConverter(Converter):
 class BuiltinConverter(Converter):
     """Converts to the builtin types.
 
-    This converter can produce:
-    - `bool`
-    - `bytes`
-    - `int`
-    - `complex`
-    - `float`
-    - `str`
-
     Args:
-        value: `Any`
+        value (:obj:`~typing.Any`)
             The value to perform the conversion on.
     """
 
@@ -129,16 +110,15 @@ class BuiltinConverter(Converter):
 
     @classmethod
     def can_convert(cls, type_: Any) -> bool:
-        """Returns `True` if this converter can convert an object to
-        type of value passed in.
+        """Whether or not this converter can convert an object to this
+        type.
 
         Args:
-            type_: `Any`
-                The type to check compatibility for.
+            type_ (:obj:`~typing.Any`): The type to check compatibility
+                for.
 
         Returns:
-            `bool`
-                Whether or not the conversion is possible.
+            :obj:`bool`: ``True`` if it can be converted.
         """
         return type_ in BUILTIN_CAN_CONVERT
 
@@ -146,21 +126,18 @@ class BuiltinConverter(Converter):
         """Converts the value to the given type.
 
         Args:
-            type_: `BuiltinTypeT`
-                The type to try converting to. Must be one of:
-                `bool`, `bytes`, `complex`, `int`, `float`, or `str`.
+            type_ (:obj:`BuiltinTypeT`): The type to try converting to.
 
-        Kwargs:
-            encoding: `str`
-                The encoding if `type_` is `bytes`. Defaults to "utf8".
-
-        Raises:
-            `yami.ConversionFailed`:
-                If the conversion fails for any reason.
+        Keyword Args:
+            encoding (:obj:`str`): The encoding if ``type_`` is
+                :obj:`bytes`. Defaults to ``"utf8"``.
 
         Returns:
-            `BuiltinTypeT`:
-                The converted value.
+            :obj:`BuiltinTypeT`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
         """
         if type_ in self._mapping:
             converted: BuiltinTypeT
@@ -175,8 +152,16 @@ class BuiltinConverter(Converter):
 
     def as_bool(self) -> bool:
         """Converts the value to `bool`.
-        - 'true' and 'True' with be `True`
-        - 'false' and 'False' with be `False`
+
+        - ``'true'`` and ``'True'`` will be ``True``
+        - ``'false'`` and ``'False'`` will be ``False``
+
+        Returns:
+            :obj:`bool`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
         """
         if self._value == "true":
             return True
@@ -186,18 +171,33 @@ class BuiltinConverter(Converter):
             raise self._raise(bool)
 
     def as_str(self) -> str:
-        """Converts the value to `str`."""
+        """Converts the value to `str`.
+
+        Returns:
+            :obj:`str`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
+        """
         try:
             return str(self._value)
         except:
             raise self._raise(str) from None
 
     def as_bytes(self, encoding: str = "utf8") -> bytes:
-        """Converts the value to `bytes`.
+        """Converts the value to ``bytes``.
 
         Args:
-            encoding: `str`
-                The encoding to use. Defaults to "utf8".
+            encoding (:obj:`bytes`): The encoding to use. Defaults to
+                ``"utf8"``.
+
+        Returns:
+            :obj:`str`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
         """
         try:
             return bytes(self._value, encoding)
@@ -205,21 +205,45 @@ class BuiltinConverter(Converter):
             raise self._raise(bytes) from None
 
     def as_int(self) -> int:
-        """Converts the value to `int`."""
+        """Converts the value to ``int``.
+
+        Returns:
+            :obj:`int`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
+        """
         try:
             return int(self._value)
         except:
             raise self._raise(int) from None
 
     def as_complex(self) -> complex:
-        """Converts to `complex`."""
+        """Converts to ``complex``.
+
+        Returns:
+            :obj:`complex`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
+        """
         try:
             return complex(self._value)
         except:
             raise self._raise(complex) from None
 
     def as_float(self) -> float:
-        """Converts the value to `float`."""
+        """Converts the value to ``float``.
+
+        Returns:
+            :obj:`float`: The converted value.
+
+        Raises:
+            `~yami.ConversionFailed`: If the conversion fails for any
+                reason.
+        """
         try:
             return float(self._value)
         except:

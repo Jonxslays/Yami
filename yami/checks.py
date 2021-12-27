@@ -26,8 +26,8 @@ import hikari
 from yami import commands, context, exceptions
 
 __all__ = [
-    "is_owner",
     "Check",
+    "is_owner",
     "is_in_guild",
     "is_in_dm",
     "has_roles",
@@ -44,6 +44,14 @@ class Check(abc.ABC):
     __slots__ = ("_obj",)
 
     def __call__(self, obj: commands.MessageCommand) -> commands.MessageCommand:
+        """Binds the check to a command.
+
+        Args:
+            obj (:obj:`~yami.MessageCommand`): The command to bind to.
+
+        Returns:
+            (:obj:`~yami.MessageCommand`): The command.
+        """
         return self._bind(obj)
 
     def __repr__(self) -> str:
