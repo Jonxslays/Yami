@@ -32,7 +32,13 @@ _log = logging.getLogger(__name__)
 
 
 class MessageArg:
-    """Represents a MessageCommand argument."""
+    """Represents a :obj:`~yami.MessageCommand` argument.
+
+    .. warning::
+
+        This class should not be instantiated manually, it will be
+        injected during argument conversion when commands are invoked.
+    """
 
     __slots__ = ("_param", "_name", "_kind", "_is_empty", "_annotation", "_is_converted", "_value")
 
@@ -55,12 +61,13 @@ class MessageArg:
     @property
     def value(self) -> Any:
         """Returns the converted value, or the raw string value if no
-        conversion occurred."""
+        conversion occurred.
+        """
         return self._value
 
     @property
     def annotation(self) -> Any:
-        """The annotations for this arg."""
+        """The typing annotations for this arg."""
         return self._annotation
 
     @property
@@ -70,7 +77,7 @@ class MessageArg:
 
     @property
     def is_empty(self) -> bool:
-        """Returned `True` if the argument had not type hints."""
+        """Returns ``True`` if the argument had no type hints."""
         return self._annotation is inspect.Signature.empty
 
     @property
@@ -84,6 +91,11 @@ class MessageArg:
         )
 
     async def convert(self, ctx: context.MessageContext) -> None:
+        """Attempts to convert the argument to its type hint.
+
+        Args:
+            ctx (:obj:`~yami.MessageContext`): The message context.
+        """
         _log.debug(f"Attempting conversion of message arg {self._name!r} to {self._annotation}")
 
         if self._annotation in converters.BUILTIN_CAN_CONVERT:

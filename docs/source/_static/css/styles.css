@@ -35,7 +35,7 @@ html[data-theme="dark"] .highlight .c1 {
 }
 
 html[data-theme="dark"] body {
-    color: #c1c1c1 !important;
+    color: #c1c1c1;
     font-weight: bold;
 }
 
@@ -106,4 +106,64 @@ html[data-theme="dark"] .wy-nav-top {
 
 html[data-theme="dark"] .highlight .nb {
     color: #8be9fd !important;
+}
+
+/* .sig-prename .descclassname {
+    color: #c1c1c1 !important;
+} */
+
+.sig-name .descname {
+    color: #c1c1c1 !important;
+}
+
+html.writer-html4 .rst-content dl:not(.docutils) .descclassname, html.writer-html4 .rst-content dl:not(.docutils) .descname, html.writer-html4 .rst-content dl:not(.docutils) .sig-name, html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .descclassname, html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .descname, html.writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) .sig-name {
+    color: #c1c1c1;
+}
+
+.property {
+    color: #8be9fd;
+}
+
+.property dd {
+    color: #c1c1c1 !important;
+}
+
+.n {
+    color: #c1c1c1 !important;
+}
+
+.sig-paren {
+    color: #c1c1c1 !important;
+}
+
+.p {
+    color: #c1c1c1 !important;
+}
+
+.default_value {
+    color: #8be9fd !important;
+}
+
+.o {
+    color: #8be9fd !important;
+}
+
+html[data-theme="dark"].writer-html4 .rst-content dl:not(.docutils) > dt, html[data-theme="dark"].writer-html5 .rst-content dl[class]:not(.option-list):not(.field-list):not(.footnote):not(.glossary):not(.simple) > dt {
+    color: #c1c1c1 !important;
+}
+
+.sig-name.descname {
+    color: #27f059 !important;
+}
+
+.document h2 {
+    color: #bd93f9 !important;
+}
+
+.document h1 {
+    color: #ff79c6 !important;
+}
+
+.document h3 {
+    color: #27f059 !important;
 }
