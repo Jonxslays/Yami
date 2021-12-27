@@ -1,7 +1,12 @@
 .ul { text-decoration: underline; }
 #themeSwitcher { display: none; }
-.wy-nav-top { position: sticky; top: 0; z-index: 1; }
 .wy-body-for-nav { background-color: #0d0d0d; }
+.wy-nav-top {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
 
 .rst-content .highlighted {
     background: inherit;
