@@ -289,7 +289,7 @@ class Bot(hikari.GatewayBot):
             self._modules = mod_state
             raise e
         else:
-            setattr(mod, "_is_loaded", True)
+            mod.is_loaded = True
             _log.debug(f"Loaded module {instantiated}")
 
     def load_module(self, name: str, path: str | Path) -> None:
