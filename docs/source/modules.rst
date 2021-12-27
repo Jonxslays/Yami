@@ -23,14 +23,14 @@ Create a module
     class Games(yami.Module):
 
         @yami.command("slap")
-        async def slap_cmd(ctx: yami.MessageContext, user_id: int) -> None:
+        async def slap_cmd(self, ctx: yami.MessageContext, user_id: int) -> None:
             """Slaps a user."""
             await ctx.respond(f"<@!{ctx.author.id}> slapped <@!{user_id}>")
 
     class ClassicWow(yami.Module):
 
         @yami.command("logs")
-        async def logs_cmd(ctx: yami.MessageContext, name: str) -> None:
+        async def logs_cmd(self, ctx: yami.MessageContext, name: str) -> None:
             """Fetches logs search link for a user."""
             await ctx.respond(f"https://classic.warcraftlogs.com/search/?term={name}")
 
