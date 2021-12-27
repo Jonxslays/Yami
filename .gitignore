@@ -133,3 +133,4 @@ dmypy.json
 .tests
 poetry.lock
 bot_tests
+.buildinfo
