@@ -4,13 +4,14 @@
 .wy-nav-top {
     position: -webkit-sticky; /* Safari */
     position: sticky;
+    top: 0;
     z-index: 1;
 }
 
 .wy-nav-content {
     padding: 1.618em 3.236em;
     height: 100%;
-    max-width: none;
+    max-width: 90%;
 }
 
 .rst-content .highlighted {
@@ -18,6 +19,22 @@
     box-shadow: inherit;
     font-weight: inherit;
     padding: inherit;
+}
+
+.py.property, .py.method {
+    display: contents !important;
+}
+
+.admonition {
+    max-width: fit-content;
+}
+
+.highlight {
+    max-width: fit-content;
+}
+
+.rst-content div[class^="highlight"], .rst-content pre.literal-block {
+    border: none;
 }
 
 .html[data-theme="dark"] body {
