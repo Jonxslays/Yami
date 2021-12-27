@@ -34,8 +34,11 @@ _log = logging.getLogger(__name__)
 class MessageArg:
     """Represents a :obj:`~yami.MessageCommand` argument.
 
-    .. warning::
+    Args:
+        param (:obj:`inspect.Parameter`): The raw inspect parameter.
+        value (:obj:`str`): The value for this argument.
 
+    .. warning::
         This class should not be instantiated manually, it will be
         injected during argument conversion when commands are invoked.
     """
@@ -60,19 +63,19 @@ class MessageArg:
 
     @property
     def value(self) -> Any:
-        """Returns the converted value, or the raw string value if no
-        conversion occurred.
+        """The value for this arg, whether or not it has been
+        converted.
         """
         return self._value
 
     @property
     def annotation(self) -> Any:
-        """The typing annotations for this arg."""
+        """The typing annotation for this arg."""
         return self._annotation
 
     @property
     def kind(self) -> inspect._ParameterKind:
-        """The parameter kind this is."""
+        """The parameter kind this arg is."""
         return self._kind
 
     @property

@@ -19,7 +19,7 @@ from __future__ import annotations
 
 import inspect
 import logging
-from typing import Any, Callable, Coroutine, Iterator
+from typing import Any, Callable, Coroutine, Generator
 
 import hikari
 
@@ -36,12 +36,14 @@ class Module:
     """A collection of commands and functions that typically share a
     need for the same data, or are related in some way.
 
-    Modules are loaded via the :obj:`~yami.Bot.load_module` and
-    :obj:`~yami.Bot.load_all_modules` methods.
+    Args:
+        bot (:obj:`yami.bot`): The bot instance.
 
     .. note::
         - You should subclass :obj:`Module` to create your own modules.
         - Modules do not require any special functions in their file.
+        - Modules are loaded via the :obj:`~yami.Bot.load_module` and
+          :obj:`~yami.Bot.load_all_modules` methods.
 
     .. warning::
         If you overwrite the `__init__` method, it should take only 1
@@ -83,8 +85,8 @@ class Module:
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
-        """A dictionary of ``name``, ``command`` pairs this
-        module contains.
+        """A dictionary of ``name``, :obj:`~yami.MessageCommand` pairs
+        this module contains.
         """
         return self._commands
 
@@ -106,25 +108,26 @@ class Module:
     def is_loaded(self, value: bool) -> None:
         self._is_loaded = value
 
-    def iter_commands(self) -> Iterator[commands_.MessageCommand]:
-        """Returns an iterator over the commands attached to the module.
+    def iter_commands(self) -> Generator[commands_.MessageCommand, None, None]:
+        """Iterates the modules commands.
 
-        Returns
-            :obj:`~typing.Iterator` [:obj:`~yami.MessageCommand`]
-                An iterator over the modules's commands.
+        Returns:
+            :obj:`~typing.Generator`: A generator over the commands.
+
+        Yields:
+            :obj:`~yami.MessageCommand`: Each command.
         """
         yield from self._commands.values()
 
     def add_command(self, command: commands_.MessageCommand) -> None:
         """Adds a command to the module.
 
-        Args
-            command: :obj:`~yami.MessageCommand`
-                The command to add.
+        Args:
+            command (:obj:`~yami.MessageCommand`): The command to add.
 
-        Raises
-            :obj:`~yami.DuplicateCommand`
-                When a command with this name already exists.
+        Raises:
+            :obj:`~yami.DuplicateCommand`: When a command with this name
+                already exists.
         """
         _log.debug(f"Adding {command} to {self}")
 
@@ -141,17 +144,16 @@ class Module:
     def remove_command(self, name: str) -> commands_.MessageCommand:
         """Removes a command from the module.
 
-        Args
-            name: :obj:`str`
-                The name of the command to remove. (case sensitive)
+        Args:
+            name (:obj:`str`): The name of the command to remove.
+                (case sensitive)
 
-        Returns
-            :obj:`~yami.MessageCommand`
-                The command that was removed.
+        Returns:
+            :obj:`~yami.MessageCommand`: The command that was removed.
 
-        Raises
-            :obj:`~yami.CommandNotFound`
-                When a command with this name is not found.
+        Raises:
+            :obj:`~yami.CommandNotFound`: When a command with this name
+                is not found.
         """
         if name not in self.commands:
             raise exceptions.CommandNotFound(

@@ -151,7 +151,7 @@ class BuiltinConverter(Converter):
         raise exceptions.ConversionFailed(f"{self} can't be converted to {type_}")
 
     def as_bool(self) -> bool:
-        """Converts the value to `bool`.
+        """Converts the value to :obj:`bool`.
 
         - ``'true'`` and ``'True'`` will be ``True``
         - ``'false'`` and ``'False'`` will be ``False``
@@ -171,7 +171,7 @@ class BuiltinConverter(Converter):
             raise self._raise(bool)
 
     def as_str(self) -> str:
-        """Converts the value to `str`.
+        """Converts the value to :obj:`str`.
 
         Returns:
             :obj:`str`: The converted value.
@@ -186,14 +186,14 @@ class BuiltinConverter(Converter):
             raise self._raise(str) from None
 
     def as_bytes(self, encoding: str = "utf8") -> bytes:
-        """Converts the value to ``bytes``.
+        """Converts the value to :obj:`bytes`.
 
         Args:
-            encoding (:obj:`bytes`): The encoding to use. Defaults to
+            encoding (:obj:`str`): The encoding to use. Defaults to
                 ``"utf8"``.
 
         Returns:
-            :obj:`str`: The converted value.
+            :obj:`bytes`: The converted value.
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
@@ -205,7 +205,7 @@ class BuiltinConverter(Converter):
             raise self._raise(bytes) from None
 
     def as_int(self) -> int:
-        """Converts the value to ``int``.
+        """Converts the value to :obj:`int`.
 
         Returns:
             :obj:`int`: The converted value.
@@ -220,7 +220,7 @@ class BuiltinConverter(Converter):
             raise self._raise(int) from None
 
     def as_complex(self) -> complex:
-        """Converts to ``complex``.
+        """Converts to :obj:`complex`.
 
         Returns:
             :obj:`complex`: The converted value.
@@ -235,7 +235,7 @@ class BuiltinConverter(Converter):
             raise self._raise(complex) from None
 
     def as_float(self) -> float:
-        """Converts the value to ``float``.
+        """Converts the value to :obj:`float`.
 
         Returns:
             :obj:`float`: The converted value.
