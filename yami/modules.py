@@ -127,7 +127,7 @@ class Module:
 
         Raises:
             :obj:`~yami.DuplicateCommand`: When a command with this name
-                already exists.
+            already exists.
         """
         _log.debug(f"Adding {command} to {self}")
 
@@ -153,7 +153,7 @@ class Module:
 
         Raises:
             :obj:`~yami.CommandNotFound`: When a command with this name
-                is not found.
+            is not found.
         """
         if name not in self.commands:
             raise exceptions.CommandNotFound(

@@ -17,6 +17,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import typing
 
 import hikari
@@ -32,18 +33,17 @@ __all__ = ["MessageContext"]
 
 
 class MessageContext:
-    """The context surround a message commands invocation.
+    """The context surrounding a message commands invocation.
 
     Args:
-        bot: `yami.Bot`
-            The bot instance associated with the context.
-        message: `hikari.Message`
-            The message associated with the context.
-        command: `yami.MessageCommand`
-            The command associated with the context.
-        prefix: `str`
-            The prefix the context with created with.
-        *args: `dict[str. yami.MessageArg]`
+        bot (:obj:`~yami.Bot`): The bot instance associated with the
+            context.
+        message (:obj:`hikari.Message`): The message that created this
+            context.
+        command (:obj:`yami.MessageCommand`): The command that was
+            invoked to create this context.
+        prefix (:obj:`str`): The prefix that was used to create this
+            context.
     """
 
     __slots__: typing.Sequence[str] = (
@@ -76,12 +76,12 @@ class MessageContext:
 
     @property
     def bot(self) -> bot_.Bot:
-        """The bot instance associated with the context."""
+        """The bot instance associated with this context."""
         return self._bot
 
     @property
     def author(self) -> hikari.User:
-        """The user associated with the context."""
+        """The user that created this context."""
         return self._message.author
 
     @property
@@ -96,18 +96,21 @@ class MessageContext:
 
     @property
     def guild_id(self) -> hikari.Snowflake | None:
-        """The guild id associated with the context, or None if this
-        context was a DMChannel.
+        """The guild id associated with the context, or ``None`` if this
+        context was a :obj:`~hikari.DMChannel`.
         """
         return self._message.guild_id
 
     @property
     def args(self) -> list[args_.MessageArg]:
-        """A list of converted `MessageArgs` passed to this context.
-        `MessageContext` will not be present here even though it was
-        passed to the command callback. If this context was invoked
-        with subcommands and parent commands, only the final subcommands
-        args will be present here.
+        """A list of converted :obj:`~yami.MessageArgs` passed to this
+        context. Context will not be present here even though it was
+        passed to the command callback.
+
+        .. note::
+            If this context was invoked with subcommands and parent
+            commands, only the final subcommands args will be present
+            here.
         """
         return self._args
 
@@ -120,12 +123,17 @@ class MessageContext:
 
     @property
     def channel_id(self) -> hikari.Snowflake:
-        """The channel id associated with the context."""
+        """The channel id this context was created in."""
         return self._message.channel_id
 
     @property
+    def message(self) -> hikari.Message:
+        """The message associated with this context."""
+        return self._message
+
+    @property
     def message_id(self) -> hikari.Snowflake:
-        """The message id associated with the context."""
+        """The message id of this contexts message."""
         return self._message.id
 
     @property
@@ -139,11 +147,6 @@ class MessageContext:
     def command(self) -> commands.MessageCommand:
         """The command invoked during the creation of this context."""
         return self._command
-
-    @property
-    def message(self) -> hikari.Message:
-        """The message associated with this context."""
-        return self._message
 
     @property
     def prefix(self) -> str:
@@ -163,58 +166,93 @@ class MessageContext:
     @property
     def invoked_subcommands(self) -> list[commands.MessageCommand]:
         """The subcommands that were invoked with this context, or
-        `None` if there were none.
+        ``None`` if there were none.
 
         .. note::
             If subcommands were chained and the parent callback was not
-            actually run (due to having invoke_with set to `False`) it
-            will not appear here.
+            actually run (due to having ``invoke_with`` set to
+            ``False``) it will not appear here.
         """
         return self._invoked_subcommands
 
     def trigger_typing(self) -> special_endpoints.TypingIndicator:
-        """Shortcut method for `ctx.bot.rest.trigger_typing` in the
-        current channel.
+        """Shortcut method to ``ctx.rest.trigger_typing`` in the current
+        channel.
+
+        .. code-block:: python
+
+            async with ctx.trigger_typing():
+                # do work here and typing will stop
+                # when the context manager is exited.
+
+        Returns:
+            :obj:`~hikari.api.special_endpoints.TypingIndicator`: An
+            async context manager for the typing indicator on Discord.
         """
         return self._bot.rest.trigger_typing(self._message.channel_id)
 
-    def iter_arg_values(self) -> typing.Iterable[typing.Any]:
-        """Returns an iterator over the argument values for this
-        context."""
+    def iter_arg_values(self) -> typing.Generator[typing.Any, None, None]:
+        """Iterates the contexts message args.
+
+        Returns:
+            :obj:`~typing.Generator`: A generator over the arguments.
+
+        Yields:
+            :obj:`~typing.Any`: Each argument.
+        """
         yield from (v.value for v in self._args)
 
-    async def respond(self, *args: typing.Any, **kwargs: typing.Any) -> hikari.Message:
+    async def respond(
+        self,
+        content: hikari.UndefinedOr[typing.Any],
+        *,
+        delete_after: int | None = None,
+        **kwargs: typing.Any,
+    ) -> hikari.Message:
         """Respond to the message that created this context.
 
-        Args
-            args: `Any`
-                The arguments for :obj:`hikari.messages.Message.respond`
+        Args:
+            content (:obj:`~typing.Any`): The content of this response.
 
-        Kwargs
-            kwargs: `Any`
-                The keywords arguments for
-                :obj:`hikari.messages.Message.respond`
+        Keyword Args:
+            delete_after (:obj:`int` | :obj:`None`): The optional length
+                of time to delete this message after (in seconds).
+            **kwargs (:obj:`~typing.Any`): The remaining kwargs passed
+                to the ``hikari.Message.respond`` method.
 
-        Returns
-            :obj:`~hikari.messages.Message`
-                The message this response creates.
+        Returns:
+            :obj:`~hikari.messages.Message`: The message this response
+            created.
         """
-        return await self._message.respond(*args, **kwargs)
+        msg = await self._message.respond(content, **kwargs)
+
+        if delete_after is not None:
+            async def cleanup() -> None:
+                await asyncio.sleep(delete_after)
+
+                try:
+                    await msg.delete()
+                except hikari.NotFoundError:
+                    pass
+
+            asyncio.create_task(cleanup())
+
+        return msg
 
     async def getch_member(self) -> hikari.Member | None:
-        """Get or fetch the `hikari.Member` object associated with the
-        context. This method calls to the cache first, and falls back to
-        rest if not found.
+        """Get or fetch the :obj:`hikari.Member` object associated with
+        the context. This method calls to the cache first, and falls
+        back to rest if not found.
 
-        **WARNING**:
+        .. warning::
             This method can utilize both cache, and rest. For more fine
             grained control consider using cache or rest yourself
             explicitly.
 
         Returns:
-            `hikari.Member` | `None`
-                The member object associated with the context, or
-                None if the context is a DMChannel.
+            :obj:`~hikari.guilds.Member` | :obj:`None`: The member
+            object associated with this context, or :obj:`None` if the
+            context is a :obj:`~hikari.channels.DMChannel`.
         """
         if not self._message.guild_id:
             return None
@@ -224,19 +262,19 @@ class MessageContext:
         ) or await self._bot.rest.fetch_member(self._message.guild_id, self._message.author)
 
     async def getch_guild(self) -> hikari.Guild | None:
-        """Get or fetch the `hikari.Guild` object associated with the
-        context. This method calls to the cache first, and falls back to
-        rest if not found.
+        """Get or fetch the :obj:`hikari.guilds.Guild` object associated
+        with the context. This method calls to the cache first, and
+        falls back to rest if not found.
 
-        **WARNING**:
+        .. warning::
             This method can utilize both cache, and rest. For more fine
             grained control consider using cache or rest yourself
             explicitly.
 
         Returns:
-            `hikari.Guild` | `None`
-                The guild object associated with the context, or
-                None if the context is a DMChannel.
+            :obj:`~hikari.guilds.Guild` | :obj:`None`: The guild object
+            associated with this context, or :obj:`None` if the context
+            is a :obj:`~hikari.channels.DMChannel`.
         """
         if not self._message.guild_id:
             return None
@@ -246,16 +284,19 @@ class MessageContext:
         ) or await self._bot.rest.fetch_guild(self._message.guild_id)
 
     async def getch_channel(self) -> hikari.GuildChannel | hikari.PartialChannel:
-        """Get or fetch the `hikari.PartialChannel` object associated
-        with the context. This method calls to the cache first, and
-        falls back to rest if not found.
+        """Get or fetch the :obj:`hikari.channels.PartialChannel` object
+        associated with the context. This method calls to the cache
+        first, and falls back to rest if not found.
 
         .. note::
-            This method can return one of any:
+            This method can return any of the following:
 
-            `DMChannel`, `GroupDMChannel`, `GuildTextChannel`,
-            `GuildVoiceChannel`, `GuildStoreChannel`,
-            `GuildNewsChannel`.
+            :obj:`~hikari.channels.DMChannel`,
+            :obj:`~hikari.channels.GroupDMChannel`,
+            :obj:`~hikari.channels.GuildTextChannel`,
+            :obj:`~hikari.channels.GuildVoiceChannel`,
+            :obj:`~hikari.channels.GuildStoreChannel`,
+            :obj:`~hikari.channels.GuildNewsChannel`.
 
         .. warning::
             This method can utilize both cache, and rest. For more fine
@@ -263,9 +304,8 @@ class MessageContext:
             explicitly.
 
         Returns:
-        --------
-        `hikari.PartialChannel`
-            The channel object associated with the context.
+            :obj:`~hikari.channels.PartialChannel`: The channel object
+            associated with this context.
         """
         return self._bot.cache.get_guild_channel(
             self._message.channel_id
