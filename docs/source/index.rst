@@ -7,7 +7,7 @@ A command handler that complements `Hikari <https://hikari-py.dev/hikari>`_.
 Build your commands with ease using Yami, the yin to Hikari's yang.
 
 To learn more about using Yami, check out the
-`getting started <getting-started.html>`_ guide.
+`getting started <getting-started-guide.html>`_ guide.
 
 #########
 Resources
@@ -54,10 +54,10 @@ Coming up next
 .. toctree::
    :maxdepth: 1
 
-   getting-started
-   message-commands
-   checks
-   yami-modules
+   getting-started-guide
+   message-commands-guide
+   checks-guide
+   modules-guide
    reference
 
 ########################

@@ -102,7 +102,7 @@ Unload a module
 Unloading a module will remove it's command from the bot, and place it
 into an unloaded state but the module itself will still be attached to
 the bot, in :obj:`yami.Bot.modules`. To remove the module completely see
-`remove_module <modules#remove-a-module>`_
+`remove_module <modules-guide.html#remove-a-module>`_
 
 ..  code-block:: python
 
