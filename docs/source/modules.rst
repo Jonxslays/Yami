@@ -2,22 +2,37 @@
 Modules
 =======
 
+#################
+What is a module?
+#################
+
+In Yami, a ``Module`` is any class that inherits from :obj:`~yami.Module`.
+This is typically commands or functions that should be grouped together
+for one reason or another. If you're coming from ``discord.py``, they
+are Yami's equivalent to a ``Cog``.
+
 ###############
 Create a module
 ###############
-
-In Yami, a ``Module`` is any class that inherits from :obj:`~yami.Module`.
 
 ..  code-block:: python
 
     # fun.py
     import yami
 
-    class Fun(yami.Module):
+    class Games(yami.Module):
 
         @yami.command("slap")
         async def slap_cmd(ctx: yami.MessageContext, user_id: int) -> None:
-            await ctx.respond(f"<@!{ctx.author.id}> slapped <@!user_id>")
+            """Slaps a user."""
+            await ctx.respond(f"<@!{ctx.author.id}> slapped <@!{user_id}>")
+
+    class ClassicWow(yami.Module):
+
+        @yami.command("logs")
+        async def logs_cmd(ctx: yami.MessageContext, name: str) -> None:
+            """Fetches logs search link for a user."""
+            await ctx.respond(f"https://classic.warcraftlogs.com/search/?term={name}")
 
 The ideal implementation contains a directory with files that contain
 :obj:`~yami.Module` subclasses. These files do not require any special
@@ -73,10 +88,10 @@ You can load modules individually from a file as well:
     import yami
 
     bot = yami.Bot(environ["TOKEN"], "$")
-    bot.load_module("Fun", "./modules/fun")
+    bot.load_module("Games", "./modules/fun")
 
     # This is also valid.
-    bot.load_module("Fun", "./modules/fun.py")
+    bot.load_module("ClassicWow", "./modules/fun.py")
 
     if __name__ == "__main__":
         bot.run()
@@ -103,6 +118,7 @@ the bot, in :obj:`yami.Bot.modules`. To remove the module completely see
     @yami.is_owner()
     @bot.command("unload")
     async def unload_cmd(ctx: yami.MessageContext, mod: str) -> None:
+        """Unloads a module."""
         if (fetched := ctx.bot.get_module(mod)) and fetched.is_loaded:
             ctx.bot.unload_module(fetched.name)
             await ctx.respond("Done!")
@@ -129,7 +145,7 @@ commands.
     bot = yami.Bot(environ["TOKEN"], "$")
     bot.load_all_modules("./modules")
 
-    bot.remove_module("MyMod")
+    bot.remove_module("Games")
 
     if __name__ == "__main__":
         bot.run()
