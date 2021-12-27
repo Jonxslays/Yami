@@ -73,3 +73,6 @@ default_dark_mode = True
 
 # Load custom css
 html_css_files = ['css/styles.css']
+
+# Set order of module member documentation
+autodoc_member_order = 'bysource'
