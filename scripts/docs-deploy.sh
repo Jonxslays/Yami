@@ -26,7 +26,8 @@ mv docs/build $1
 
 echo "Committing changes..."
 
-git commit -am "$MESSAGE"
+git add master
+git commit -m "$MESSAGE"
 git push origin gh-pages
 
 echo "Done!"

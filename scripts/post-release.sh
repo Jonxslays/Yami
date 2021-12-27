@@ -29,7 +29,8 @@ git config --global user.name "Jonxslays"
 git config --global user.email "51417989+Jonxslays@users.noreply.github.com"
 
 git fetch
-git commit -am "Post release - bump version number to $NEW_VERS [skip ci]"
+git add yami pyproject.toml
+git commit -m "Post release - bump version number to $NEW_VERS [skip ci]"
 git push origin master
 
 echo "Done!"
