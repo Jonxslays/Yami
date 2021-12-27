@@ -228,15 +228,16 @@ class MessageContext:
         msg = await self._message.respond(content, **kwargs)
 
         if delete_after is not None:
-            async def cleanup() -> None:
-                await asyncio.sleep(delete_after)
+
+            async def cleanup(timeout: int) -> None:
+                await asyncio.sleep(timeout)
 
                 try:
                     await msg.delete()
                 except hikari.NotFoundError:
                     pass
 
-            asyncio.create_task(cleanup())
+            asyncio.create_task(cleanup(delete_after))
 
         return msg
 
