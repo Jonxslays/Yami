@@ -57,6 +57,7 @@ Coming up next
    getting-started
    message-commands
    checks
+   modules
    reference
 
 ########################

@@ -48,6 +48,8 @@ the message sent by the parent command.
 
 ..  code-block:: python
 
+    # continued from above...
+
     @echo_cmd.subcommand("-d", aliases=["--delete"])
     async def echo_delete_cmd(
         ctx: yami.MessageContext, _: str, timeout: float = 10.0
@@ -91,4 +93,25 @@ holding you back :).
       access an attribute that has not been set in a later subcommands
       callback.
 
-- Not yet fully documented
+..  code-block:: python
+
+    @bot.command("config")
+    async def config_cmd(ctx: yami.MessageContext) -> None:
+        """Configuration command."""
+        ...
+
+    @config_cmd.subcommand("exp", aliases=["experience"])
+    async def exp_subcmd(ctx: yami.MessageContext) -> None:
+        """Configures server experience gain."""
+        ...
+
+    @exp_subcmd.subcommand("on")
+    async def exp_on_subcmd(ctx: yami.MessageContext) -> None:
+        """Turns experience on."""
+        ...
+
+    @exp_subcmd.subcommand("off")
+    async def exp_off_subcmd(ctx: yami.MessageContext) -> None:
+        """Turns experience off."""
+        ...
+
