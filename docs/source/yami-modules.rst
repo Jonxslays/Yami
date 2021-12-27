@@ -73,7 +73,6 @@ Loading a module will import the class and initialize it, passing a
     if __name__ == "__main__":
         bot.run()
 
-
 In the example above all the classes that subclass :obj:`yami.Module`
 that are inside the files underneath the ``modules`` directory will be
 loaded to the bot, and that means all their commands will be loaded too.
