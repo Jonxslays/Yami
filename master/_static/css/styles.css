@@ -1,11 +1,16 @@
 .ul { text-decoration: underline; }
 #themeSwitcher { display: none; }
-.wy-body-for-nav { background-color: #0d0d0d; }
+.wy-body-for-nav { background-color: #101010; }
 .wy-nav-top {
     position: -webkit-sticky; /* Safari */
     position: sticky;
-    top: 0;
     z-index: 1;
+}
+
+.wy-nav-content {
+    padding: 1.618em 3.236em;
+    height: 100%;
+    max-width: none;
 }
 
 .rst-content .highlighted {
@@ -17,6 +22,10 @@
 
 .html[data-theme="dark"] body {
     color: #ECECEC;
+}
+
+.html[data-theme="dark"].rst-content {
+    box-sizing: initial;
 }
 
 .warning {
@@ -113,10 +122,6 @@ html[data-theme="dark"] .highlight .nb {
     color: #8be9fd !important;
 }
 
-/* .sig-prename .descclassname {
-    color: #c1c1c1 !important;
-} */
-
 .sig-name .descname {
     color: #c1c1c1 !important;
 }
@@ -171,4 +176,8 @@ html[data-theme="dark"].writer-html4 .rst-content dl:not(.docutils) > dt, html[d
 
 .document h3 {
     color: #27f059 !important;
+}
+
+html[data-theme="dark"] body #alternatives strong {
+    color: #ff79c6 !important;
 }
