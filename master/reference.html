@@ -267,8 +267,8 @@ but no command was found.</p>
 <dt class="sig sig-object py" id="yami.bot.Bot.load_all_modules">
 <span class="sig-name descname"><span class="pre">load_all_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.load_all_modules" title="Permalink to this definition"></a></dt>
 <dd><p>Loads all modules from each of the given paths.</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>This method looks for all <code class="docutils literal notranslate"><span class="pre">.py</span></code> files that do not begin
 with an <cite>_</cite>. It is recursive by default.</p>
 <p>If this method fails partway through, the bots modules are
@@ -301,8 +301,8 @@ directories while loading modules.</p>
 <dt class="sig sig-object py" id="yami.bot.Bot.load_module">
 <span class="sig-name descname"><span class="pre">load_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.load_module" title="Permalink to this definition"></a></dt>
 <dd><p>Loads a single module class from the path specified.</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>If this method fails partway through, the bots modules are
 reverted to their previous state and the module will not be
 loaded.</p>
@@ -2038,8 +2038,8 @@ but no command was found.</p>
 <dt class="sig sig-object py" id="yami.Bot.load_all_modules">
 <span class="sig-name descname"><span class="pre">load_all_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.Bot.load_all_modules" title="Permalink to this definition"></a></dt>
 <dd><p>Loads all modules from each of the given paths.</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>This method looks for all <code class="docutils literal notranslate"><span class="pre">.py</span></code> files that do not begin
 with an <cite>_</cite>. It is recursive by default.</p>
 <p>If this method fails partway through, the bots modules are
@@ -2072,8 +2072,8 @@ directories while loading modules.</p>
 <dt class="sig sig-object py" id="yami.Bot.load_module">
 <span class="sig-name descname"><span class="pre">load_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.Bot.load_module" title="Permalink to this definition"></a></dt>
 <dd><p>Loads a single module class from the path specified.</p>
-<div class="admonition hint">
-<p class="admonition-title">Hint</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>If this method fails partway through, the bots modules are
 reverted to their previous state and the module will not be
 loaded.</p>
