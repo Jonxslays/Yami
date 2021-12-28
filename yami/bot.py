@@ -187,7 +187,7 @@ class Bot(hikari.GatewayBot):
     def load_all_modules(self, *paths: str | Path, recursive: bool = True) -> None:
         """Loads all modules from each of the given paths.
 
-        .. hint::
+        .. note::
             This method looks for all ``.py`` files that do not begin
             with an `_`. It is recursive by default.
 
@@ -283,7 +283,7 @@ class Bot(hikari.GatewayBot):
     def load_module(self, name: str, path: str | Path) -> None:
         """Loads a single module class from the path specified.
 
-        .. hint::
+        .. note::
 
             If this method fails partway through, the bots modules are
             reverted to their previous state and the module will not be
