@@ -29,7 +29,7 @@ mv docs/build $BUILD_DIR
 
 echo "Committing changes..."
 
-git add master
+git add .
 git commit -m "$MESSAGE"
 git push origin gh-pages
 
