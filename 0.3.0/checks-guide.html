@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checks &mdash; Yami &#34;0.3.0&#34; documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/styles.css" type="text/css" />
+      <link rel="stylesheet" href="_static/dark_mode_css/general.css" type="text/css" />
+      <link rel="stylesheet" href="_static/dark_mode_css/dark.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/dark_mode_js/default_dark.js"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules" href="modules-guide.html" />
+    <link rel="prev" title="Message commands" href="message-commands-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Yami
+          </a>
+              <div class="version">
+                "0.3.0"
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started-guide.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="message-commands-guide.html">Message commands</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Checks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#built-in-checks">Built in checks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#custom-checks">Custom checks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules-guide.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Yami</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Checks</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/checks-guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="checks">
+<h1>Checks<a class="headerlink" href="#checks" title="Permalink to this headline"></a></h1>
+<p><a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> objects allow you to control the context in which
+your command can be invoked. A lot of useful ones are built into the
+library, but you can make your own custom checks as well.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> decorators <span class="ul">must</span> be placed <span class="ul">above</span>
+the <code class="docutils literal notranslate"><span class="pre">command</span></code> decorator.</p></li>
+</ul>
+</div>
+<section id="built-in-checks">
+<h2>Built in checks<a class="headerlink" href="#built-in-checks" title="Permalink to this headline"></a></h2>
+<p>Head over to the <a class="reference external" href="reference.html#module-yami.checks">checks reference</a>
+to see all the available built in checks.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@yami</span><span class="o">.</span><span class="n">is_in_guild</span><span class="p">()</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;add&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">add_cmd</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Adds two numbers together.&quot;&quot;&quot;</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nd">@yami</span><span class="o">.</span><span class="n">has_roles</span><span class="p">(</span><span class="s2">&quot;Supporter&quot;</span><span class="p">)</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;slap&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;smack&quot;</span><span class="p">])</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">slap_cmd</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Slaps the user with the given id.&quot;&quot;&quot;</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;@!</span><span class="si">{</span><span class="n">ctx</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&gt; slapped &lt;@!</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&gt;!&quot;</span><span class="p">)</span>
+
+<span class="nd">@yami</span><span class="o">.</span><span class="n">is_owner</span><span class="p">()</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;subtract&quot;</span><span class="p">,</span> <span class="n">aliases</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;sub&quot;</span><span class="p">,</span> <span class="s2">&quot;minus&quot;</span><span class="p">])</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">slap_cmd</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Subtracts y from x.&quot;&quot;&quot;</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nd">@yami</span><span class="o">.</span><span class="n">has_perms</span><span class="p">(</span><span class="n">ban_members</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;ban&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">ban_cmd</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Bans a member from the server.&quot;&quot;&quot;</span>
+
+    <span class="c1"># NOTE: there is not yet a bot_has_perms check which could</span>
+    <span class="c1"># cause problems here.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">rest</span><span class="o">.</span><span class="n">ban_user</span><span class="p">(</span><span class="n">ctx</span><span class="o">.</span><span class="n">guild_id</span><span class="p">,</span> <span class="n">user_id</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Something went wrong: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reply</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s2">&quot;Done!&quot;</span><span class="p">,</span> <span class="n">reply</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="custom-checks">
+<h2>Custom checks<a class="headerlink" href="#custom-checks" title="Permalink to this headline"></a></h2>
+<p>Custom checks are the great way to exert a little more control over who
+can run your commands.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A custom check is considered to fail if it returns <code class="docutils literal notranslate"><span class="pre">False</span></code>, or
+raises an exception. If the check returns <code class="docutils literal notranslate"><span class="pre">True</span></code> or any other
+value (including <code class="docutils literal notranslate"><span class="pre">None</span></code>) without raising an error, it will pass.</p>
+<p>Subclassed checks work a little different, see below for more info.</p>
+</div>
+<p>There are a few ways to create custom checks:</p>
+<ul class="simple">
+<li><p>Using a lambda function:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@yami</span><span class="o">.</span><span class="n">custom_check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">ctx</span><span class="o">.</span><span class="n">guild_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;guild&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">guild_only</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s2">&quot;Yep were in a guild!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Using a sync/async callback function:</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">async</span> <span class="k">def</span> <span class="nf">guild_check</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">ctx</span><span class="o">.</span><span class="n">guild_id</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="nd">@yami</span><span class="o">.</span><span class="n">custom_check</span><span class="p">(</span><span class="n">guild_check</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="s2">&quot;This command is guild only!&quot;</span><span class="p">)</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;guild&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">guild_only</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s2">&quot;Yep were in a guild!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Using your own <a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> subclass:</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<ul class="simple">
+<li><p>If you subclass <a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> it is required that your
+subclass has an async method called <code class="docutils literal notranslate"><span class="pre">execute</span></code> that accepts one
+parameter, a <a class="reference internal" href="reference.html#yami.MessageContext" title="yami.MessageContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageContext</span></code></a>.</p></li>
+<li><p>If the <code class="docutils literal notranslate"><span class="pre">execute</span></code> method <span class="ul">does not</span> raise any exception, it
+is considered <span class="ul">passed</span>. Make sure you raise an exception if
+you want the check to fail.</p></li>
+</ul>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MyGuildCheck</span><span class="p">(</span><span class="n">yami</span><span class="o">.</span><span class="n">Check</span><span class="p">):</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">ctx</span><span class="o">.</span><span class="n">guild_id</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">yami</span><span class="o">.</span><span class="n">CheckFailed</span><span class="p">(</span><span class="s2">&quot;Were not in a guild!&quot;</span><span class="p">)</span>
+
+<span class="nd">@yami</span><span class="o">.</span><span class="n">custom_check</span><span class="p">(</span><span class="n">MyCustomGuildCheck</span><span class="p">)</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;guild&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">guild_only</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s2">&quot;Yep were in a guild!&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now go make sure your community isn’t banning each other via your bot! :D</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="message-commands-guide.html" class="btn btn-neutral float-left" title="Message commands" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="modules-guide.html" class="btn btn-neutral float-right" title="Modules" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 Jonxslays.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
