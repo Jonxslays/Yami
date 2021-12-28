@@ -172,10 +172,10 @@ converted.</p>
 <p>Module that contains the <cite>yami.Bot</cite> implementation.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="yami.bot.Bot">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.bot.</span></span><span class="sig-name descname"><span class="pre">Bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_insensitive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_extra_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_cmd_not_found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.bot.Bot" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.bot.</span></span><span class="sig-name descname"><span class="pre">Bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_extra_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_cmd_not_found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.bot.Bot" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-class docutils literal notranslate"><span class="pre">hikari.impl.bot.GatewayBot</span></code></a></p>
-<p>A subclass of <code class="xref py py-obj docutils literal notranslate"><span class="pre">hikari.GatewayBot</span></code> that provides an interface
-for handling commands.</p>
+<p>A subclass of <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a> that provides an
+interface for handling commands.</p>
 <p>This is the class you will instantiate to utilize command features
 on top of the <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a> superclass.</p>
 <div class="admonition warning">
@@ -189,102 +189,110 @@ of <a class="reference internal" href="#yami.Shared" title="yami.Shared"><code c
 overwrite private or public attributes in your subclass.</p></li>
 </ul>
 </div>
-<dl class="simple">
-<dt>Args</dt><dd><dl class="simple">
-<dt>token: <code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>The bot token to sign in with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The bot token to sign in with.</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The
+prefix, or sequence of prefixes to listen for. Planned
+support for mentions, and functions soon (tm).</p></li>
+</ul>
 </dd>
-<dt>prefix: <code class="docutils literal notranslate"><span class="pre">str</span></code> | <code class="docutils literal notranslate"><span class="pre">Sequence[str]</span></code></dt><dd><p>The prefix, or sequence of prefixes to listen for.
-Planned support for mentions, and functions soon (tm).</p>
-</dd>
-</dl>
-</dd>
-<dt>Kwargs:</dt><dd><dl class="simple">
-<dt>case_insensitive: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>Whether or not to ignore case when handling message command
-invocations. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
-</dd>
-<dt>owner_ids: <code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Sequence[int]</span></code></dt><dd><p>A sequence of integers representing the Snowflakes of the
-bots owners. Defaults to an empty <cite>tuple</cite>.</p>
-</dd>
-<dt>allow_extra_args: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not the bot should allow extra args in command
-invocations. Defaults to <cite>False</cite>.</p>
-</dd>
-<dt>shared: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to create a <cite>yami.Shared</cite> instance and store
-it in the <cite>Bot.shared</cite> property. Defaults to <cite>False</cite>.</p>
-</dd>
-<dt>raise_cmd_not_found: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to raise the <cite>CommandNotFound</cite> error.
-Defaults to <cite>False</cite>.</p>
-</dd>
-<dt>kwargs: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Any</span></code></a></dt><dd><p>The remaining kwargs for <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a>.</p>
-</dd>
-</dl>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>owner_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>]) – A sequence
+of integers representing the Snowflakes of the bots owners.
+Defaults to <code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><strong>allow_extra_args</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not the bot should
+allow extra args in command invocations. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+<li><p><strong>raise_cmd_not_found</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise the
+<a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandNotFound</span></code></a> exception. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>) – The remaining kwargs for
+<a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a>.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.commands">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.bot.Bot.commands" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary of name, MessageCommand pairs bound to the bot,
-including commands from any loaded modules.</p>
+<dd><p>A dictionary of name, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> pairs bound
+to the bot, including commands from any loaded modules.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.aliases">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aliases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.bot.Bot.aliases" title="Permalink to this definition"></a></dt>
 <dd><p>A dictionary of aliases to their corresponding
-MessageCommand’s name.</p>
+<a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> name.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.modules">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.bot.Bot.modules" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary of name, <cite>Module</cite> pairs that are added to the
-bot, this includes unloaded modules.</p>
+<dd><p>A dictionary of name, <a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> pairs that are
+added to the bot, this includes unloaded modules.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.owner_ids">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">owner_ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.bot.Bot.owner_ids" title="Permalink to this definition"></a></dt>
-<dd><p>A sequence of integers representing the Snowflakes of the
-bots owners.</p>
+<dd><p>A sequence of integers representing the ids of the bots
+owners.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.allow_extra_args">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_extra_args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.bot.Bot.allow_extra_args" title="Permalink to this definition"></a></dt>
-<dd><p>If <cite>True</cite> do not error when extra args are passed to a
-command. Defaults to <cite>False</cite>.</p>
+<dd><p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> do not error when extra args are passed to a
+command.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.shared">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.Shared" title="yami.utils.types.Shared"><span class="pre">yami.utils.types.Shared</span></a></em><a class="headerlink" href="#yami.bot.Bot.shared" title="Permalink to this definition"></a></dt>
-<dd><p>The <cite>Shared</cite> instance associated with this bot.</p>
+<dd><p>The <a class="reference internal" href="#yami.Shared" title="yami.Shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Shared</span></code></a> instance associated with this bot.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.bot.Bot.raise_cmd_not_found">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">raise_cmd_not_found</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.bot.Bot.raise_cmd_not_found" title="Permalink to this definition"></a></dt>
-<dd><p>Returns <cite>True</cite> if this bot will raise a <cite>CommandNotFound</cite>
-exception when a prefix is used, but no command was found.</p>
+<dd><p>Returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if this bot will raise a
+<a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandNotFound</span></code></a> exception when a prefix is used,
+but no command was found.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.bot.Bot.load_all_modules">
 <span class="sig-name descname"><span class="pre">load_all_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.load_all_modules" title="Permalink to this definition"></a></dt>
-<dd><p>Loads all modules from each of the given paths.This method
-looks for all <cite>.py</cite> files that do not begin with an <cite>_</cite>. It is
-recursive by default.</p>
-<p>If this method fails partway through, the bots module’s are
-reverted to their state from before this method was called and
-no modules will be added.</p>
+<dd><p>Loads all modules from each of the given paths.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This method looks for all <code class="docutils literal notranslate"><span class="pre">.py</span></code> files that do not begin
+with an <cite>_</cite>. It is recursive by default.</p>
+<p>If this method fails partway through, the bots modules are
+reverted to their previous state and no modules will be
+loaded.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>*paths</strong> – <cite>str</cite> | <cite>pathlib.Path</cite>
-One or multiple paths to load modules from.</p>
+<dd class="field-odd"><p><strong>*paths</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a>) – One or more
+paths to load modules from.</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>yami.ModuleAddException</strong></a> – When a module with the same name is already added to the
-    bot, or there is a failure with one of the commands in
-    the module.</p>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><p><strong>recursive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to recurse into sub
+directories while loading modules.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#yami.ModuleLoadException" title="yami.ModuleLoadException"><strong>ModuleLoadException</strong></a> – When a module with the
+    same name is already loaded on the bot, or when the
+    named module is not found inside the given path’s source
+    file.</p></li>
+<li><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>ModuleAddException</strong></a> – When there is a failure
+    with one of the commands in the module.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -293,25 +301,29 @@ One or multiple paths to load modules from.</p>
 <dt class="sig sig-object py" id="yami.bot.Bot.load_module">
 <span class="sig-name descname"><span class="pre">load_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.load_module" title="Permalink to this definition"></a></dt>
 <dd><p>Loads a single module class from the path specified.</p>
-<p>If this method fails partway through, the bots module’s are
-reverted to their state from before this method was called and
-no modules will be added.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If this method fails partway through, the bots modules are
+reverted to their previous state and the module will not be
+loaded.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – <cite>str</cite>
-The name of the module class to load. (case sensitive)</p></li>
-<li><p><strong>path</strong> – <cite>str</cite> | <cite>pathlib.Path</cite>
-The path to load the module from.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module class to load.
+(case sensitive)</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a>) – The path to load
+the module from.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ModuleLoadException" title="yami.ModuleLoadException"><strong>yami.ModuleLoadException</strong></a> – When a module with the same name is already loaded on
-    the bot, or when the named module is not found inside
-    the given path’s source file.</p></li>
-<li><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>yami.ModuleAddException</strong></a> – When there is a failure with one of the commands in
-    the module.</p></li>
+<li><p><a class="reference internal" href="#yami.ModuleLoadException" title="yami.ModuleLoadException"><strong>ModuleLoadException</strong></a> – When a module with the
+    same name is already loaded on the bot, or when the
+    named module is not found inside the given paths source
+    file.</p></li>
+<li><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>ModuleAddException</strong></a> – When there is a failure
+    with one of the commands in the module.</p></li>
 </ul>
 </dd>
 </dl>
@@ -321,22 +333,23 @@ The path to load the module from.</p></li>
 <dt class="sig sig-object py" id="yami.bot.Bot.unload_module">
 <span class="sig-name descname"><span class="pre">unload_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.unload_module" title="Permalink to this definition"></a></dt>
 <dd><p>Unloads a single module class with the given name. It will
-remain in <cite>Bot.modules</cite>, but just in an unloaded state and its
-commands will no longer be executable until it is loaded again.</p>
+remain in <a class="reference internal" href="#yami.bot.Bot.modules" title="yami.bot.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot.modules</span></code></a>, but just in an unloaded state and
+its commands will no longer be executable until it is loaded
+again.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name of the module class to unload. (case sensitive)</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module class to unload.
+(case sensitive)</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Module</cite></dt><dd><p>The module that was unloaded.</p>
+<dd class="field-even"><p>The module that was unloaded.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#yami.ModuleUnloadException" title="yami.ModuleUnloadException"><strong>yami.ModuleUnloadException</strong></a> – When no module with this name was found.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.ModuleUnloadException" title="yami.ModuleUnloadException"><strong>ModuleUnloadException</strong></a> – When no module with this
+    name was found.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -345,21 +358,21 @@ The name of the module class to unload. (case sensitive)</p>
 <dt class="sig sig-object py" id="yami.bot.Bot.remove_module">
 <span class="sig-name descname"><span class="pre">remove_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.remove_module" title="Permalink to this definition"></a></dt>
 <dd><p>Removes a single module class with the given name. It will
-no longer be accessible via <cite>Bot.modules</cite>.</p>
+no longer be accessible via <a class="reference internal" href="#yami.bot.Bot.modules" title="yami.bot.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot.modules</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name of the module class to remove. (case sensitive)</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module class to remove.
+(case sensitive)</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Module</cite></dt><dd><p>The module that was removed.</p>
+<dd class="field-even"><p>The module that was removed.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#yami.ModuleRemoveException" title="yami.ModuleRemoveException"><strong>yami.ModuleRemoveException</strong></a> – When no module with this name was found.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.ModuleRemoveException" title="yami.ModuleRemoveException"><strong>ModuleRemoveException</strong></a> – When no module with this
+    name was found.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -368,36 +381,36 @@ The name of the module class to remove. (case sensitive)</p>
 <dt class="sig sig-object py" id="yami.bot.Bot.add_command">
 <span class="sig-name descname"><span class="pre">add_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.add_command" title="Permalink to this definition"></a></dt>
 <dd><p>Adds a command to the bot.</p>
-<dl class="simple">
-<dt>Args</dt><dd><dl class="simple">
-<dt>command: <code class="docutils literal notranslate"><span class="pre">Callable[...,</span> <span class="pre">Any]</span></code> |                 <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></dt><dd><p>The command or callback to add.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>]                 | <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>) – The command or callback
+to add.</p>
 </dd>
-</dl>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The name of the command.
+Defaults to the function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The commands description. Defaults
+to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>.</p></li>
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The commands
+aliases. Defaults to <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an
+exception if argument conversion fails. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+</ul>
 </dd>
-<dt>Kwargs</dt><dd><dl class="simple">
-<dt>name: <code class="docutils literal notranslate"><span class="pre">str</span></code> | <code class="docutils literal notranslate"><span class="pre">None</span></code></dt><dd><p>The name of the command. Defaults to the function name.</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The command that was added.</p>
 </dd>
-<dt>description: <code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>The commands description. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></p>
 </dd>
-<dt>aliases: <code class="docutils literal notranslate"><span class="pre">Iterable[str]</span></code></dt><dd><p>The commands aliases. Defaults to <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
-</dd>
-<dt>raise_conversion: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to raise an error if argument conversion
-fails. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></dt><dd><p>The command that was added.</p>
-</dd>
-</dl>
-</dd>
-<dt>Raises</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DuplicateCommand</span></code></a></dt><dd><p>If the command shares a name or alias with an existing
-command.</p>
-</dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TypeError</span></code></a></dt><dd><p>If aliases is not a list or a tuple.</p>
-</dd>
-</dl>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><strong>DuplicateCommand</strong></a> – If the command shares a name
+    or alias with an existing command.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><strong>TypeError</strong></a> – If aliases is not a list or a tuple.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -407,62 +420,72 @@ command.</p>
 <span class="sig-name descname"><span class="pre">remove_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></span><a class="headerlink" href="#yami.bot.Bot.remove_command" title="Permalink to this definition"></a></dt>
 <dd><p>Removes a <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> from the <a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code></a>,
 and its <a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code></a> if it has one.</p>
-<dl class="simple">
-<dt>Args</dt><dd><dl class="simple">
-<dt>name: <code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>The name of the command to remove.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command to remove.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The command that was removed.</p>
 </dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></dt><dd><p>The command that was removed.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></p>
 </dd>
-</dl>
-</dd>
-<dt>Raises</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandNotFound</span></code></a></dt><dd><p>If the command was not found.</p>
-</dd>
-</dl>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><strong>CommandNotFound</strong></a> – When the command was not
+    found.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.bot.Bot.iter_commands">
-<span class="sig-name descname"><span class="pre">iter_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.iter_commands" title="Permalink to this definition"></a></dt>
-<dd><p>Iterates over commands attached to the bot, including all
-commands bound to modules that are not loaded.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>]</dt><dd><p>A iterator over the bots commands.</p>
+<span class="sig-name descname"><span class="pre">iter_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.iter_commands" title="Permalink to this definition"></a></dt>
+<dd><p>Iterates the bots commands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the commands.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> – Each command.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.bot.Bot.iter_modules">
-<span class="sig-name descname"><span class="pre">iter_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.iter_modules" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">iter_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.iter_modules" title="Permalink to this definition"></a></dt>
 <dd><p>Iterates over the modules attached to the bot. This will
-yield both loaded, and unloaded modules.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>]</dt><dd><p>A iterator over the bots modules.</p>
+included both loaded and unloaded modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the modules.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> – Each module.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.bot.Bot.iter_loaded_modules">
-<span class="sig-name descname"><span class="pre">iter_loaded_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.iter_loaded_modules" title="Permalink to this definition"></a></dt>
-<dd><p>Iterates over the loaded modules attached to the bot.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>]</dt><dd><p>A iterator over the bots loaded modules.</p>
+<span class="sig-name descname"><span class="pre">iter_loaded_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.iter_loaded_modules" title="Permalink to this definition"></a></dt>
+<dd><p>Iterates over the modules attached to the bot. This will
+only include loaded modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the modules.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> – Each loaded module.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -473,15 +496,13 @@ yield both loaded, and unloaded modules.</p>
 <dd><p>Gets a command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name or alias of the command to get.</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name or alias of the command to get.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.MessageCommand</cite> | <cite>None</cite></dt><dd><p>The command, or <cite>None</cite> if not found.</p>
+<dd class="field-even"><p>The command, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not found.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -492,15 +513,13 @@ The name or alias of the command to get.</p>
 <dd><p>Gets a module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name of the module to get.</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module to get.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Module</cite> | <cite>None</cite></dt><dd><p>The module, or` None` if not found.</p>
+<dd class="field-even"><p>The module, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not found.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -508,39 +527,33 @@ The name of the module to get.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.bot.Bot.command">
 <span class="sig-name descname"><span class="pre">command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoke_with</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.bot.Bot.command" title="Permalink to this definition"></a></dt>
-<dd><p>Decorator to add a message command to the bot. This should
-be places immediately above the command callback. Any checks
-should be placed above this decorator.</p>
+<dd><p>Decorator to add a <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> to the bot.
+This should be placed immediately above the command callback.
+Any checks should be placed above this decorator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – <cite>str</cite>
-The name of the command. Defaults to the function name.</p></li>
-<li><p><strong>description</strong> – <cite>str</cite>
-The command description. If omitted, the callbacks
-docstring will be used instead. REMINDER: docstrings are
-stripped from your programs bytecode when it is run with
-the <cite>-OO</cite> optimization flag.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command. Defaults to the
+function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The command description. If
+omitted, the callbacks docstring will be used instead.</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>Kwargs:</dt><dd><dl class="simple">
-<dt>aliases: <cite>Sequence[str]</cite></dt><dd><p>A list or tuple of aliases for the command.</p>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list or
+tuple of aliases for the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an
+exception when a type hint conversion for the command
+arguments fails.</p></li>
+</ul>
 </dd>
-<dt>raise_conversion: bool</dt><dd><p>Whether or not to raise an error when a type hint
-conversion for the command arguments fails.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt><cite>Callable[…, yami.MessageCommand]</cite></dt><dd><p>The callback, but transformed into a message command.</p>
+<dd class="field-odd"><p>A message command crafted from the callback, and
+decorator arguments.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1930,10 +1943,10 @@ this module contains.</p>
 <span id="full-api"></span><h2>Full API<a class="headerlink" href="#module-yami" title="Permalink to this headline"></a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="yami.Bot">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">Bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">case_insensitive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_extra_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_cmd_not_found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.Bot" title="Permalink to this definition"></a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">Bot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_ids</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allow_extra_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_cmd_not_found</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.Bot" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-class docutils literal notranslate"><span class="pre">hikari.impl.bot.GatewayBot</span></code></a></p>
-<p>A subclass of <code class="xref py py-obj docutils literal notranslate"><span class="pre">hikari.GatewayBot</span></code> that provides an interface
-for handling commands.</p>
+<p>A subclass of <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a> that provides an
+interface for handling commands.</p>
 <p>This is the class you will instantiate to utilize command features
 on top of the <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a> superclass.</p>
 <div class="admonition warning">
@@ -1947,102 +1960,110 @@ of <a class="reference internal" href="#yami.Shared" title="yami.Shared"><code c
 overwrite private or public attributes in your subclass.</p></li>
 </ul>
 </div>
-<dl class="simple">
-<dt>Args</dt><dd><dl class="simple">
-<dt>token: <code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>The bot token to sign in with.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>token</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The bot token to sign in with.</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The
+prefix, or sequence of prefixes to listen for. Planned
+support for mentions, and functions soon (tm).</p></li>
+</ul>
 </dd>
-<dt>prefix: <code class="docutils literal notranslate"><span class="pre">str</span></code> | <code class="docutils literal notranslate"><span class="pre">Sequence[str]</span></code></dt><dd><p>The prefix, or sequence of prefixes to listen for.
-Planned support for mentions, and functions soon (tm).</p>
-</dd>
-</dl>
-</dd>
-<dt>Kwargs:</dt><dd><dl class="simple">
-<dt>case_insensitive: <a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></dt><dd><p>Whether or not to ignore case when handling message command
-invocations. Defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
-</dd>
-<dt>owner_ids: <code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Sequence[int]</span></code></dt><dd><p>A sequence of integers representing the Snowflakes of the
-bots owners. Defaults to an empty <cite>tuple</cite>.</p>
-</dd>
-<dt>allow_extra_args: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not the bot should allow extra args in command
-invocations. Defaults to <cite>False</cite>.</p>
-</dd>
-<dt>shared: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to create a <cite>yami.Shared</cite> instance and store
-it in the <cite>Bot.shared</cite> property. Defaults to <cite>False</cite>.</p>
-</dd>
-<dt>raise_cmd_not_found: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to raise the <cite>CommandNotFound</cite> error.
-Defaults to <cite>False</cite>.</p>
-</dd>
-<dt>kwargs: <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Any</span></code></a></dt><dd><p>The remaining kwargs for <a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a>.</p>
-</dd>
-</dl>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>owner_ids</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a>]) – A sequence
+of integers representing the Snowflakes of the bots owners.
+Defaults to <code class="docutils literal notranslate"><span class="pre">()</span></code>.</p></li>
+<li><p><strong>allow_extra_args</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not the bot should
+allow extra args in command invocations. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+<li><p><strong>raise_cmd_not_found</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise the
+<a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandNotFound</span></code></a> exception. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+<li><p><strong>**kwargs</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>) – The remaining kwargs for
+<a class="reference external" href="https://www.hikari-py.dev/hikari/impl/bot.html#hikari.impl.bot.GatewayBot" title="(in hikari v2.0.0.dev104)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">GatewayBot</span></code></a>.</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.commands">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.Bot.commands" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary of name, MessageCommand pairs bound to the bot,
-including commands from any loaded modules.</p>
+<dd><p>A dictionary of name, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> pairs bound
+to the bot, including commands from any loaded modules.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.aliases">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aliases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.Bot.aliases" title="Permalink to this definition"></a></dt>
 <dd><p>A dictionary of aliases to their corresponding
-MessageCommand’s name.</p>
+<a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> name.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.modules">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">modules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.Bot.modules" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary of name, <cite>Module</cite> pairs that are added to the
-bot, this includes unloaded modules.</p>
+<dd><p>A dictionary of name, <a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> pairs that are
+added to the bot, this includes unloaded modules.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.owner_ids">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">owner_ids</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.Bot.owner_ids" title="Permalink to this definition"></a></dt>
-<dd><p>A sequence of integers representing the Snowflakes of the
-bots owners.</p>
+<dd><p>A sequence of integers representing the ids of the bots
+owners.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.allow_extra_args">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">allow_extra_args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.Bot.allow_extra_args" title="Permalink to this definition"></a></dt>
-<dd><p>If <cite>True</cite> do not error when extra args are passed to a
-command. Defaults to <cite>False</cite>.</p>
+<dd><p>If <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> do not error when extra args are passed to a
+command.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.shared">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.Shared" title="yami.utils.types.Shared"><span class="pre">yami.utils.types.Shared</span></a></em><a class="headerlink" href="#yami.Bot.shared" title="Permalink to this definition"></a></dt>
-<dd><p>The <cite>Shared</cite> instance associated with this bot.</p>
+<dd><p>The <a class="reference internal" href="#yami.Shared" title="yami.Shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Shared</span></code></a> instance associated with this bot.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.Bot.raise_cmd_not_found">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">raise_cmd_not_found</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.Bot.raise_cmd_not_found" title="Permalink to this definition"></a></dt>
-<dd><p>Returns <cite>True</cite> if this bot will raise a <cite>CommandNotFound</cite>
-exception when a prefix is used, but no command was found.</p>
+<dd><p>Returns <a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if this bot will raise a
+<a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandNotFound</span></code></a> exception when a prefix is used,
+but no command was found.</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.Bot.load_all_modules">
 <span class="sig-name descname"><span class="pre">load_all_modules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">paths</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursive</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.Bot.load_all_modules" title="Permalink to this definition"></a></dt>
-<dd><p>Loads all modules from each of the given paths.This method
-looks for all <cite>.py</cite> files that do not begin with an <cite>_</cite>. It is
-recursive by default.</p>
-<p>If this method fails partway through, the bots module’s are
-reverted to their state from before this method was called and
-no modules will be added.</p>
+<dd><p>Loads all modules from each of the given paths.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This method looks for all <code class="docutils literal notranslate"><span class="pre">.py</span></code> files that do not begin
+with an <cite>_</cite>. It is recursive by default.</p>
+<p>If this method fails partway through, the bots modules are
+reverted to their previous state and no modules will be
+loaded.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>*paths</strong> – <cite>str</cite> | <cite>pathlib.Path</cite>
-One or multiple paths to load modules from.</p>
+<dd class="field-odd"><p><strong>*paths</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a>) – One or more
+paths to load modules from.</p>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>yami.ModuleAddException</strong></a> – When a module with the same name is already added to the
-    bot, or there is a failure with one of the commands in
-    the module.</p>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><p><strong>recursive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to recurse into sub
+directories while loading modules.</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#yami.ModuleLoadException" title="yami.ModuleLoadException"><strong>ModuleLoadException</strong></a> – When a module with the
+    same name is already loaded on the bot, or when the
+    named module is not found inside the given path’s source
+    file.</p></li>
+<li><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>ModuleAddException</strong></a> – When there is a failure
+    with one of the commands in the module.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -2051,25 +2072,29 @@ One or multiple paths to load modules from.</p>
 <dt class="sig sig-object py" id="yami.Bot.load_module">
 <span class="sig-name descname"><span class="pre">load_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><span class="pre">pathlib.Path</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#yami.Bot.load_module" title="Permalink to this definition"></a></dt>
 <dd><p>Loads a single module class from the path specified.</p>
-<p>If this method fails partway through, the bots module’s are
-reverted to their state from before this method was called and
-no modules will be added.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If this method fails partway through, the bots modules are
+reverted to their previous state and the module will not be
+loaded.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – <cite>str</cite>
-The name of the module class to load. (case sensitive)</p></li>
-<li><p><strong>path</strong> – <cite>str</cite> | <cite>pathlib.Path</cite>
-The path to load the module from.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module class to load.
+(case sensitive)</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/pathlib.html#pathlib.Path" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Path</span></code></a>) – The path to load
+the module from.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ModuleLoadException" title="yami.ModuleLoadException"><strong>yami.ModuleLoadException</strong></a> – When a module with the same name is already loaded on
-    the bot, or when the named module is not found inside
-    the given path’s source file.</p></li>
-<li><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>yami.ModuleAddException</strong></a> – When there is a failure with one of the commands in
-    the module.</p></li>
+<li><p><a class="reference internal" href="#yami.ModuleLoadException" title="yami.ModuleLoadException"><strong>ModuleLoadException</strong></a> – When a module with the
+    same name is already loaded on the bot, or when the
+    named module is not found inside the given paths source
+    file.</p></li>
+<li><p><a class="reference internal" href="#yami.ModuleAddException" title="yami.ModuleAddException"><strong>ModuleAddException</strong></a> – When there is a failure
+    with one of the commands in the module.</p></li>
 </ul>
 </dd>
 </dl>
@@ -2079,22 +2104,23 @@ The path to load the module from.</p></li>
 <dt class="sig sig-object py" id="yami.Bot.unload_module">
 <span class="sig-name descname"><span class="pre">unload_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></span><a class="headerlink" href="#yami.Bot.unload_module" title="Permalink to this definition"></a></dt>
 <dd><p>Unloads a single module class with the given name. It will
-remain in <cite>Bot.modules</cite>, but just in an unloaded state and its
-commands will no longer be executable until it is loaded again.</p>
+remain in <a class="reference internal" href="#yami.Bot.modules" title="yami.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot.modules</span></code></a>, but just in an unloaded state and
+its commands will no longer be executable until it is loaded
+again.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name of the module class to unload. (case sensitive)</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module class to unload.
+(case sensitive)</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Module</cite></dt><dd><p>The module that was unloaded.</p>
+<dd class="field-even"><p>The module that was unloaded.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#yami.ModuleUnloadException" title="yami.ModuleUnloadException"><strong>yami.ModuleUnloadException</strong></a> – When no module with this name was found.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.ModuleUnloadException" title="yami.ModuleUnloadException"><strong>ModuleUnloadException</strong></a> – When no module with this
+    name was found.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2103,21 +2129,21 @@ The name of the module class to unload. (case sensitive)</p>
 <dt class="sig sig-object py" id="yami.Bot.remove_module">
 <span class="sig-name descname"><span class="pre">remove_module</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></span><a class="headerlink" href="#yami.Bot.remove_module" title="Permalink to this definition"></a></dt>
 <dd><p>Removes a single module class with the given name. It will
-no longer be accessible via <cite>Bot.modules</cite>.</p>
+no longer be accessible via <a class="reference internal" href="#yami.Bot.modules" title="yami.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot.modules</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name of the module class to remove. (case sensitive)</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module class to remove.
+(case sensitive)</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Module</cite></dt><dd><p>The module that was removed.</p>
+<dd class="field-even"><p>The module that was removed.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#yami.ModuleRemoveException" title="yami.ModuleRemoveException"><strong>yami.ModuleRemoveException</strong></a> – When no module with this name was found.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.ModuleRemoveException" title="yami.ModuleRemoveException"><strong>ModuleRemoveException</strong></a> – When no module with this
+    name was found.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2126,36 +2152,36 @@ The name of the module class to remove. (case sensitive)</p>
 <dt class="sig sig-object py" id="yami.Bot.add_command">
 <span class="sig-name descname"><span class="pre">add_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.10)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></span><a class="headerlink" href="#yami.Bot.add_command" title="Permalink to this definition"></a></dt>
 <dd><p>Adds a command to the bot.</p>
-<dl class="simple">
-<dt>Args</dt><dd><dl class="simple">
-<dt>command: <code class="docutils literal notranslate"><span class="pre">Callable[...,</span> <span class="pre">Any]</span></code> |                 <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></dt><dd><p>The command or callback to add.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Any</span></code></a>]                 | <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>) – The command or callback
+to add.</p>
 </dd>
-</dl>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The name of the command.
+Defaults to the function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The commands description. Defaults
+to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>.</p></li>
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The commands
+aliases. Defaults to <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an
+exception if argument conversion fails. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+</ul>
 </dd>
-<dt>Kwargs</dt><dd><dl class="simple">
-<dt>name: <code class="docutils literal notranslate"><span class="pre">str</span></code> | <code class="docutils literal notranslate"><span class="pre">None</span></code></dt><dd><p>The name of the command. Defaults to the function name.</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The command that was added.</p>
 </dd>
-<dt>description: <code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>The commands description. Defaults to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>.</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></p>
 </dd>
-<dt>aliases: <code class="docutils literal notranslate"><span class="pre">Iterable[str]</span></code></dt><dd><p>The commands aliases. Defaults to <code class="docutils literal notranslate"><span class="pre">[]</span></code>.</p>
-</dd>
-<dt>raise_conversion: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to raise an error if argument conversion
-fails. Defaults to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
-</dd>
-</dl>
-</dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></dt><dd><p>The command that was added.</p>
-</dd>
-</dl>
-</dd>
-<dt>Raises</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DuplicateCommand</span></code></a></dt><dd><p>If the command shares a name or alias with an existing
-command.</p>
-</dd>
-<dt><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TypeError</span></code></a></dt><dd><p>If aliases is not a list or a tuple.</p>
-</dd>
-</dl>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><strong>DuplicateCommand</strong></a> – If the command shares a name
+    or alias with an existing command.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><strong>TypeError</strong></a> – If aliases is not a list or a tuple.</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -2165,62 +2191,72 @@ command.</p>
 <span class="sig-name descname"><span class="pre">remove_command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></span><a class="headerlink" href="#yami.Bot.remove_command" title="Permalink to this definition"></a></dt>
 <dd><p>Removes a <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> from the <a class="reference internal" href="#yami.Bot" title="yami.Bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code></a>,
 and its <a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code></a> if it has one.</p>
-<dl class="simple">
-<dt>Args</dt><dd><dl class="simple">
-<dt>name: <code class="docutils literal notranslate"><span class="pre">str</span></code></dt><dd><p>The name of the command to remove.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command to remove.</p>
 </dd>
-</dl>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The command that was removed.</p>
 </dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></dt><dd><p>The command that was removed.</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></p>
 </dd>
-</dl>
-</dd>
-<dt>Raises</dt><dd><dl class="simple">
-<dt><a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><code class="xref py py-obj docutils literal notranslate"><span class="pre">CommandNotFound</span></code></a></dt><dd><p>If the command was not found.</p>
-</dd>
-</dl>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.CommandNotFound" title="yami.CommandNotFound"><strong>CommandNotFound</strong></a> – When the command was not
+    found.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.Bot.iter_commands">
-<span class="sig-name descname"><span class="pre">iter_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.iter_commands" title="Permalink to this definition"></a></dt>
-<dd><p>Iterates over commands attached to the bot, including all
-commands bound to modules that are not loaded.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>]</dt><dd><p>A iterator over the bots commands.</p>
+<span class="sig-name descname"><span class="pre">iter_commands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.iter_commands" title="Permalink to this definition"></a></dt>
+<dd><p>Iterates the bots commands.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the commands.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> – Each command.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.Bot.iter_modules">
-<span class="sig-name descname"><span class="pre">iter_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.iter_modules" title="Permalink to this definition"></a></dt>
+<span class="sig-name descname"><span class="pre">iter_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.iter_modules" title="Permalink to this definition"></a></dt>
 <dd><p>Iterates over the modules attached to the bot. This will
-yield both loaded, and unloaded modules.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>]</dt><dd><p>A iterator over the bots modules.</p>
+included both loaded and unloaded modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the modules.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> – Each module.</p>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.Bot.iter_loaded_modules">
-<span class="sig-name descname"><span class="pre">iter_loaded_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.iter_loaded_modules" title="Permalink to this definition"></a></dt>
-<dd><p>Iterates over the loaded modules attached to the bot.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>]</dt><dd><p>A iterator over the bots loaded modules.</p>
+<span class="sig-name descname"><span class="pre">iter_loaded_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.iter_loaded_modules" title="Permalink to this definition"></a></dt>
+<dd><p>Iterates over the modules attached to the bot. This will
+only include loaded modules.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the modules.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> – Each loaded module.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2231,15 +2267,13 @@ yield both loaded, and unloaded modules.</p>
 <dd><p>Gets a command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name or alias of the command to get.</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name or alias of the command to get.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.MessageCommand</cite> | <cite>None</cite></dt><dd><p>The command, or <cite>None</cite> if not found.</p>
+<dd class="field-even"><p>The command, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not found.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2250,15 +2284,13 @@ The name or alias of the command to get.</p>
 <dd><p>Gets a module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> – <cite>str</cite>
-The name of the module to get.</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the module to get.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Module</cite> | <cite>None</cite></dt><dd><p>The module, or` None` if not found.</p>
+<dd class="field-even"><p>The module, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not found.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2266,39 +2298,33 @@ The name of the module to get.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.Bot.command">
 <span class="sig-name descname"><span class="pre">command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Sequence</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">()</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoke_with</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.Bot.command" title="Permalink to this definition"></a></dt>
-<dd><p>Decorator to add a message command to the bot. This should
-be places immediately above the command callback. Any checks
-should be placed above this decorator.</p>
+<dd><p>Decorator to add a <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> to the bot.
+This should be placed immediately above the command callback.
+Any checks should be placed above this decorator.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> – <cite>str</cite>
-The name of the command. Defaults to the function name.</p></li>
-<li><p><strong>description</strong> – <cite>str</cite>
-The command description. If omitted, the callbacks
-docstring will be used instead. REMINDER: docstrings are
-stripped from your programs bytecode when it is run with
-the <cite>-OO</cite> optimization flag.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command. Defaults to the
+function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The command description. If
+omitted, the callbacks docstring will be used instead.</p></li>
 </ul>
 </dd>
-</dl>
-<dl class="simple">
-<dt>Kwargs:</dt><dd><dl class="simple">
-<dt>aliases: <cite>Sequence[str]</cite></dt><dd><p>A list or tuple of aliases for the command.</p>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Sequence" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Sequence</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list or
+tuple of aliases for the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an
+exception when a type hint conversion for the command
+arguments fails.</p></li>
+</ul>
 </dd>
-<dt>raise_conversion: bool</dt><dd><p>Whether or not to raise an error when a type hint
-conversion for the command arguments fails.</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt><cite>Callable[…, yami.MessageCommand]</cite></dt><dd><p>The callback, but transformed into a message command.</p>
+<dd class="field-odd"><p>A message command crafted from the callback, and
+decorator arguments.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
