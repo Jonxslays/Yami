@@ -878,9 +878,38 @@ the check against.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.commands.</span></span><span class="sig-name descname"><span class="pre">MessageCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoke_with</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.commands.MessageCommand" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object that represents a message content command.</p>
-<p>You should not instantiate this class manually, instead use:
-- The <cite>yami.command</cite> decorator inside a <cite>yami.Module</cite> subclass.
-- The <cite>yami.Bot.command</cite> decorator outside a <cite>yami.Module</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You should not instantiate this class manually, instead use:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="#yami.commands.command" title="yami.commands.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">command</span></code></a> decorator inside a
+<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> subclass.</p></li>
+<li><p>The <a class="reference internal" href="#yami.Bot.command" title="yami.Bot.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.command</span></code></a> decorator outside a
+<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>.</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Callable</span></code></a> […, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Any</span></code></a>]) – The async callback function for the command.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The description for the command.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The aliases for
+the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an error
+when a type hint conversion for the command arguments fails.</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The parent of this
+command if it is a subcommand, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not.</p></li>
+<li><p><strong>invoke_with</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to invoke this command
+with its subcommands, if it has any. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.aliases">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aliases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.commands.MessageCommand.aliases" title="Permalink to this definition"></a></dt>
@@ -890,8 +919,8 @@ the check against.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.checks">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">checks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.checks.Check" title="yami.checks.Check"><span class="pre">yami.checks.Check</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.commands.MessageCommand.checks" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary containing name, <cite>yami.Check</cite> pairs that are
-registered to this command.</p>
+<dd><p>A dictionary containing name, <a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> pairs that
+are registered to this command.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -903,7 +932,8 @@ registered to this command.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.module">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></em><a class="headerlink" href="#yami.commands.MessageCommand.module" title="Permalink to this definition"></a></dt>
-<dd><p>The <cite>yami.Module</cite> this command originates from, if any.</p>
+<dd><p>The <a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> this command originates from, if
+any.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -915,7 +945,7 @@ registered to this command.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.callback">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">callback</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.commands.MessageCommand.callback" title="Permalink to this definition"></a></dt>
-<dd><p>The callback function registered to the command.</p>
+<dd><p>The callback function registered to this command.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -928,14 +958,14 @@ for the command arguments fails.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.was_globally_added">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">was_globally_added</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.commands.MessageCommand.was_globally_added" title="Permalink to this definition"></a></dt>
-<dd><p><cite>True</cite> if the command was created with the <cite>yami.command</cite>
-decorator. <cite>False</cite> if <cite>yami.Bot.command</cite> was used.</p>
+<dd><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if this command was created with the
+<a class="reference internal" href="#yami.commands.command" title="yami.commands.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">command</span></code></a> decorator, and <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.subcommands">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subcommands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.commands.MessageCommand.subcommands" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary containing name, <cite>yami.MessageCommand</cite> pairs
+<dd><p>A dictionary containing name, <a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> pairs
 that are registered to this command.</p>
 </dd></dl>
 
@@ -948,14 +978,14 @@ that are registered to this command.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></em><a class="headerlink" href="#yami.commands.MessageCommand.parent" title="Permalink to this definition"></a></dt>
-<dd><p>The parent of this command, or <cite>None</cite> if this command is not
-a subcommand.</p>
+<dd><p>The parent of this command, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if this command
+is not a subcommand.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.invoke_with">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">invoke_with</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.commands.MessageCommand.invoke_with" title="Permalink to this definition"></a></dt>
-<dd><p>Whether or not to invoke this command if one of it’s
+<dd><p>Whether or not to invoke this command if one of its
 subcommands are invoked.</p>
 </dd></dl>
 
@@ -965,18 +995,17 @@ subcommands are invoked.</p>
 <dd><p>Adds a check to be run before this command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>check</strong> – <cite>yami.Check</cite>
-The check to add.</p>
+<dd class="field-odd"><p><strong>check</strong> (<a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a>) – The check to add.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Check</cite></dt><dd><p>The check that was added.</p>
+<dd class="field-even"><p>The check that was added.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#yami.CheckAddFailed" title="yami.CheckAddFailed"><strong>yami.CheckAddFailed</strong></a> – If the check is not a <cite>Check</cite> object.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.CheckAddFailed" title="yami.CheckAddFailed"><strong>CheckAddFailed</strong></a> – If the check is not a
+    <a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -988,12 +1017,17 @@ The check to add.</p>
 bound to this command, it will do nothing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>check</strong> – <cite>yami.Check</cite>
-The check to remove.</p>
+<dd class="field-odd"><p><strong>check</strong> (<a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a>) – The check to remove.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The removed check, or none  if it was not found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#yami.CheckRemovalFailed" title="yami.CheckRemovalFailed"><strong>yami.CheckRemovalFailed</strong></a> – When an invalid type is passed as an argument to this
-    method.</p>
+<dd class="field-even"><p><a class="reference internal" href="#yami.CheckRemovalFailed" title="yami.CheckRemovalFailed"><strong>CheckRemovalFailed</strong></a> – When an invalid type is
+    passed as an argument to this method.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1004,34 +1038,31 @@ The check to remove.</p>
 <dd><p>Adds a subcommand to the command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>command</strong> – <cite>Callable[…, Any]</cite> | <cite>yami.MessageCommand</cite>
-The subcommand to add.</p>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Callable</span></code></a>                 […, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Any</span></code></a>] | <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand</span></code></a>) – The subcommand to add.</p>
 </dd>
-</dl>
-<dl class="simple">
-<dt>Kwargs:</dt><dd><dl class="simple">
-<dt>name: <cite>str</cite> | <cite>None</cite></dt><dd><p>The name of the subcommand
-(defaults to the function name)</p>
-</dd>
-<dt>description: <cite>str</cite></dt><dd><p>The subcommands description (defaults to “”)</p>
-</dd>
-<dt>aliases: <cite>Iterable[str]</cite></dt><dd><p>The subcommands aliases (defaults to [])</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt><cite>yami.MessageCommand</cite></dt><dd><p>The subcommand that was added.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Keyword Arguments</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><strong>yami.DuplicateCommand</strong></a> – If the subcommand shares a name or alias with an
-    existing subcommand.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The name of the subcommand.
+(defaults to the function name)</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The subcommands description.
+(defaults to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>)</p></li>
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The
+subcommands aliases (defaults to <code class="docutils literal notranslate"><span class="pre">[]</span></code>)</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an
+error when argument conversion fails.
+(Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The subcommand that was added.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><strong>DuplicateCommand</strong></a> – If the subcommand shares a
+    name or alias with an existing subcommand.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><strong>TypeError</strong></a> – If aliases is not a list or a tuple.</p></li>
 </ul>
 </dd>
@@ -1040,13 +1071,17 @@ The subcommand to add.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.iter_checks">
-<span class="sig-name descname"><span class="pre">iter_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.checks.Check" title="yami.checks.Check"><span class="pre">yami.checks.Check</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.commands.MessageCommand.iter_checks" title="Permalink to this definition"></a></dt>
-<dd><p>Returns an iterator over the checks bound to the command.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterator</span></code></a> [<a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a>, …]</dt><dd><p>An iterator over the commands checks.</p>
+<span class="sig-name descname"><span class="pre">iter_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.checks.Check" title="yami.checks.Check"><span class="pre">yami.checks.Check</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.commands.MessageCommand.iter_checks" title="Permalink to this definition"></a></dt>
+<dd><p>Iterates the commands checks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the checks.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> – Each check.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1054,13 +1089,16 @@ The subcommand to add.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.commands.MessageCommand.iter_subcommands">
 <span class="sig-name descname"><span class="pre">iter_subcommands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.commands.MessageCommand.iter_subcommands" title="Permalink to this definition"></a></dt>
-<dd><p>Returns an iterator over the subcommands registered to the
-command.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterator</span></code></a> [<a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>, …]</dt><dd><p>An iterator over the commands subcommands.</p>
+<dd><p>Iterates the subcommands for this command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the subcommands.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> – Each subcommand.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1071,45 +1109,33 @@ command.</p>
 <dd><p>Decorator to add a subcommand to an existing command. It
 should decorate the callback that should fire when this
 subcommand is run.</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>name</strong>: <cite>str</cite></dt><dd><p>The name of the subcommand. Defaults to the function name.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>description</strong>: <cite>str</cite></dt><dd><p>The subcommand description. If omitted, the callbacks
-docstring will be used instead.</p>
-</dd>
-</dl>
-</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the subcommand. Defaults to
+the function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The subcommand description. If
+omitted, the callbacks docstring will be used instead.</p></li>
 </ul>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>aliases</strong>: <cite>Iterable[str]</cite></dt><dd><p>A list or tuple of aliases for the command.</p>
 </dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>raise_conversion</strong>: <cite>bool</cite></dt><dd><p>Whether or not to raise <cite>yami.ConversionFailed</cite> when
-converting a command argument fails.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>invoke_with</strong>: <cite>bool</cite></dt><dd><p>Whether or not to invoke this commands callback, when its
-subcommand is invoked.</p>
-</dd>
-</dl>
-</li>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list or tuple of aliases for the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise
+<a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversionFailed</span></code></a> when converting a commands
+argument fails.</p></li>
+<li><p><strong>invoke_with</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to invoke this
+commands callback, when its subcommand is invoked.</p></li>
 </ul>
-<ul class="simple">
-<li><dl class="simple">
-<dt><cite>Callable[…, MessageCommand]</cite></dt><dd><p>The callback, but transformed into a MessageCommand.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A message command crafted from the callback, and
+decorator arguments.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>]</p>
 </dd>
 </dl>
-</li>
-</ul>
 </dd></dl>
 
 </dd></dl>
@@ -1119,45 +1145,31 @@ subcommand is invoked.</p>
 <span class="sig-prename descclassname"><span class="pre">yami.commands.</span></span><span class="sig-name descname"><span class="pre">command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoke_with</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.commands.command" title="Permalink to this definition"></a></dt>
 <dd><p>Decorator to add commands to the bot inside of modules. It should
 decorate the callback that should fire when this command is run.</p>
-<dl class="simple">
-<dt>Args</dt><dd><ul class="simple">
-<li><dl class="simple">
-<dt>name: <cite>str</cite></dt><dd><p>The name of the command. Defaults to the function name.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>description: <cite>str</cite></dt><dd><p>The command description. If omitted, the callbacks docstring
-will be used instead.</p>
-</dd>
-</dl>
-</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command. Defaults to
+the function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The command description. If
+omitted, the callbacks docstring will be used instead.</p></li>
 </ul>
 </dd>
-<dt>Kwargs</dt><dd><ul class="simple">
-<li><dl class="simple">
-<dt>aliases: <code class="docutils literal notranslate"><span class="pre">Iterable[str]</span></code></dt><dd><p>A list or tuple of aliases for the command.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>raise_conversion: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to raise <cite>yami.ConversionFailed</cite> when
-converting a command argument fails.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>invoke_with: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to invoke this commands callback, when its
-subcommand is invoked.</p>
-</dd>
-</dl>
-</li>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list or tuple of aliases for the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise
+<a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversionFailed</span></code></a> when converting a commands
+argument fails.</p></li>
+<li><p><strong>invoke_with</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to invoke this
+commands callback, when its subcommand is invoked.</p></li>
 </ul>
 </dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">Callable[...,</span> <span class="pre">:obj:`yami.MessageCommand`]</span></code></dt><dd><p>The callback, but transformed into a message command.</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A message command crafted from the callback, and
+decorator arguments.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1504,10 +1516,8 @@ for.</p>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BuiltinTypeT</span></code></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1531,10 +1541,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1551,10 +1559,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1575,10 +1581,8 @@ for.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1595,10 +1599,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1615,10 +1617,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">complex</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1635,10 +1635,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2591,9 +2589,38 @@ associated with this context.</p>
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">MessageCommand</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">callback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoke_with</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.MessageCommand" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>An object that represents a message content command.</p>
-<p>You should not instantiate this class manually, instead use:
-- The <cite>yami.command</cite> decorator inside a <cite>yami.Module</cite> subclass.
-- The <cite>yami.Bot.command</cite> decorator outside a <cite>yami.Module</cite>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You should not instantiate this class manually, instead use:</p>
+<ul class="simple">
+<li><p>The <a class="reference internal" href="#yami.command" title="yami.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">command</span></code></a> decorator inside a
+<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> subclass.</p></li>
+<li><p>The <a class="reference internal" href="#yami.Bot.command" title="yami.Bot.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.command</span></code></a> decorator outside a
+<a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>.</p></li>
+</ul>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>callback</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Callable</span></code></a> […, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Any</span></code></a>]) – The async callback function for the command.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The description for the command.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The aliases for
+the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an error
+when a type hint conversion for the command arguments fails.</p></li>
+<li><p><strong>parent</strong> (<a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The parent of this
+command if it is a subcommand, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if not.</p></li>
+<li><p><strong>invoke_with</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to invoke this command
+with its subcommands, if it has any. Defaults to
+<a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>.</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.aliases">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">aliases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.MessageCommand.aliases" title="Permalink to this definition"></a></dt>
@@ -2603,8 +2630,8 @@ associated with this context.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.checks">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">checks</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.checks.Check" title="yami.checks.Check"><span class="pre">yami.checks.Check</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.MessageCommand.checks" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary containing name, <cite>yami.Check</cite> pairs that are
-registered to this command.</p>
+<dd><p>A dictionary containing name, <a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> pairs that
+are registered to this command.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2616,7 +2643,8 @@ registered to this command.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.module">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></em><a class="headerlink" href="#yami.MessageCommand.module" title="Permalink to this definition"></a></dt>
-<dd><p>The <cite>yami.Module</cite> this command originates from, if any.</p>
+<dd><p>The <a class="reference internal" href="#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> this command originates from, if
+any.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2628,7 +2656,7 @@ registered to this command.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.callback">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">callback</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">Any</span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.MessageCommand.callback" title="Permalink to this definition"></a></dt>
-<dd><p>The callback function registered to the command.</p>
+<dd><p>The callback function registered to this command.</p>
 </dd></dl>
 
 <dl class="py property">
@@ -2641,14 +2669,14 @@ for the command arguments fails.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.was_globally_added">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">was_globally_added</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.MessageCommand.was_globally_added" title="Permalink to this definition"></a></dt>
-<dd><p><cite>True</cite> if the command was created with the <cite>yami.command</cite>
-decorator. <cite>False</cite> if <cite>yami.Bot.command</cite> was used.</p>
+<dd><p><a class="reference external" href="https://docs.python.org/3/library/constants.html#True" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">True</span></code></a> if this command was created with the
+<a class="reference internal" href="#yami.command" title="yami.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">command</span></code></a> decorator, and <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a> if not.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.subcommands">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">subcommands</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.10)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.MessageCommand.subcommands" title="Permalink to this definition"></a></dt>
-<dd><p>A dictionary containing name, <cite>yami.MessageCommand</cite> pairs
+<dd><p>A dictionary containing name, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> pairs
 that are registered to this command.</p>
 </dd></dl>
 
@@ -2661,14 +2689,14 @@ that are registered to this command.</p>
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.parent">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parent</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></em><a class="headerlink" href="#yami.MessageCommand.parent" title="Permalink to this definition"></a></dt>
-<dd><p>The parent of this command, or <cite>None</cite> if this command is not
-a subcommand.</p>
+<dd><p>The parent of this command, or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a> if this command
+is not a subcommand.</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="yami.MessageCommand.invoke_with">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">invoke_with</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></em><a class="headerlink" href="#yami.MessageCommand.invoke_with" title="Permalink to this definition"></a></dt>
-<dd><p>Whether or not to invoke this command if one of it’s
+<dd><p>Whether or not to invoke this command if one of its
 subcommands are invoked.</p>
 </dd></dl>
 
@@ -2678,18 +2706,17 @@ subcommands are invoked.</p>
 <dd><p>Adds a check to be run before this command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>check</strong> – <cite>yami.Check</cite>
-The check to add.</p>
+<dd class="field-odd"><p><strong>check</strong> (<a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a>) – The check to add.</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt><cite>yami.Check</cite></dt><dd><p>The check that was added.</p>
+<dd class="field-even"><p>The check that was added.</p>
 </dd>
-</dl>
-</p>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a></p>
 </dd>
-<dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#yami.CheckAddFailed" title="yami.CheckAddFailed"><strong>yami.CheckAddFailed</strong></a> – If the check is not a <cite>Check</cite> object.</p>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.CheckAddFailed" title="yami.CheckAddFailed"><strong>CheckAddFailed</strong></a> – If the check is not a
+    <a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> object.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2701,12 +2728,17 @@ The check to add.</p>
 bound to this command, it will do nothing.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>check</strong> – <cite>yami.Check</cite>
-The check to remove.</p>
+<dd class="field-odd"><p><strong>check</strong> (<a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a>) – The check to remove.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The removed check, or none  if it was not found.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference internal" href="#yami.CheckRemovalFailed" title="yami.CheckRemovalFailed"><strong>yami.CheckRemovalFailed</strong></a> – When an invalid type is passed as an argument to this
-    method.</p>
+<dd class="field-even"><p><a class="reference internal" href="#yami.CheckRemovalFailed" title="yami.CheckRemovalFailed"><strong>CheckRemovalFailed</strong></a> – When an invalid type is
+    passed as an argument to this method.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2717,34 +2749,31 @@ The check to remove.</p>
 <dd><p>Adds a subcommand to the command.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>command</strong> – <cite>Callable[…, Any]</cite> | <cite>yami.MessageCommand</cite>
-The subcommand to add.</p>
+<dd class="field-odd"><p><strong>command</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Callable</span></code></a>                 […, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Any</span></code></a>] | <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand</span></code></a>) – The subcommand to add.</p>
 </dd>
-</dl>
-<dl class="simple">
-<dt>Kwargs:</dt><dd><dl class="simple">
-<dt>name: <cite>str</cite> | <cite>None</cite></dt><dd><p>The name of the subcommand
-(defaults to the function name)</p>
-</dd>
-<dt>description: <cite>str</cite></dt><dd><p>The subcommands description (defaults to “”)</p>
-</dd>
-<dt>aliases: <cite>Iterable[str]</cite></dt><dd><p>The subcommands aliases (defaults to [])</p>
-</dd>
-</dl>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p><dl class="simple">
-<dt><cite>yami.MessageCommand</cite></dt><dd><p>The subcommand that was added.</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-even">Raises</dt>
+<dt class="field-even">Keyword Arguments</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><strong>yami.DuplicateCommand</strong></a> – If the subcommand shares a name or alias with an
-    existing subcommand.</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a>) – The name of the subcommand.
+(defaults to the function name)</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The subcommands description.
+(defaults to <code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>)</p></li>
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">typing.Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – The
+subcommands aliases (defaults to <code class="docutils literal notranslate"><span class="pre">[]</span></code>)</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise an
+error when argument conversion fails.
+(Defaults to <a class="reference external" href="https://docs.python.org/3/library/constants.html#False" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">False</span></code></a>)</p></li>
+</ul>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The subcommand that was added.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#yami.DuplicateCommand" title="yami.DuplicateCommand"><strong>DuplicateCommand</strong></a> – If the subcommand shares a
+    name or alias with an existing subcommand.</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.10)"><strong>TypeError</strong></a> – If aliases is not a list or a tuple.</p></li>
 </ul>
 </dd>
@@ -2753,13 +2782,17 @@ The subcommand to add.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.MessageCommand.iter_checks">
-<span class="sig-name descname"><span class="pre">iter_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.checks.Check" title="yami.checks.Check"><span class="pre">yami.checks.Check</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.MessageCommand.iter_checks" title="Permalink to this definition"></a></dt>
-<dd><p>Returns an iterator over the checks bound to the command.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterator</span></code></a> [<a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a>, …]</dt><dd><p>An iterator over the commands checks.</p>
+<span class="sig-name descname"><span class="pre">iter_checks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.checks.Check" title="yami.checks.Check"><span class="pre">yami.checks.Check</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.MessageCommand.iter_checks" title="Permalink to this definition"></a></dt>
+<dd><p>Iterates the commands checks.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the checks.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> – Each check.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2767,13 +2800,16 @@ The subcommand to add.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="yami.MessageCommand.iter_subcommands">
 <span class="sig-name descname"><span class="pre">iter_subcommands</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Generator</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.MessageCommand.iter_subcommands" title="Permalink to this definition"></a></dt>
-<dd><p>Returns an iterator over the subcommands registered to the
-command.</p>
-<dl class="simple">
-<dt>Returns</dt><dd><dl class="simple">
-<dt><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterator</span></code></a> [<a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>, …]</dt><dd><p>An iterator over the commands subcommands.</p>
+<dd><p>Iterates the subcommands for this command.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A generator over the subcommands.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Generator" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Generator</span></code></a></p>
+</dd>
+<dt class="field-odd">Yields</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a> – Each subcommand.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2784,45 +2820,33 @@ command.</p>
 <dd><p>Decorator to add a subcommand to an existing command. It
 should decorate the callback that should fire when this
 subcommand is run.</p>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>name</strong>: <cite>str</cite></dt><dd><p>The name of the subcommand. Defaults to the function name.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>description</strong>: <cite>str</cite></dt><dd><p>The subcommand description. If omitted, the callbacks
-docstring will be used instead.</p>
-</dd>
-</dl>
-</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the subcommand. Defaults to
+the function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The subcommand description. If
+omitted, the callbacks docstring will be used instead.</p></li>
 </ul>
-<ul class="simple">
-<li><dl class="simple">
-<dt><strong>aliases</strong>: <cite>Iterable[str]</cite></dt><dd><p>A list or tuple of aliases for the command.</p>
 </dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>raise_conversion</strong>: <cite>bool</cite></dt><dd><p>Whether or not to raise <cite>yami.ConversionFailed</cite> when
-converting a command argument fails.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt><strong>invoke_with</strong>: <cite>bool</cite></dt><dd><p>Whether or not to invoke this commands callback, when its
-subcommand is invoked.</p>
-</dd>
-</dl>
-</li>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list or tuple of aliases for the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise
+<a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversionFailed</span></code></a> when converting a commands
+argument fails.</p></li>
+<li><p><strong>invoke_with</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to invoke this
+commands callback, when its subcommand is invoked.</p></li>
 </ul>
-<ul class="simple">
-<li><dl class="simple">
-<dt><cite>Callable[…, MessageCommand]</cite></dt><dd><p>The callback, but transformed into a MessageCommand.</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A message command crafted from the callback, and
+decorator arguments.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageCommand</span></code></a>]</p>
 </dd>
 </dl>
-</li>
-</ul>
 </dd></dl>
 
 </dd></dl>
@@ -3138,10 +3162,8 @@ for.</p>
 <dd class="field-even"><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">BuiltinTypeT</span></code></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3165,10 +3187,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3185,10 +3205,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3209,10 +3227,8 @@ for.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bytes</span></code></a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-even"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3229,10 +3245,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3249,10 +3263,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#complex" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">complex</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3269,10 +3281,8 @@ for.</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float</span></code></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any</p></li>
-<li><p><strong>reason.</strong> – </p></li>
-</ul>
+<dd class="field-odd"><p><a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><strong>ConversionFailed</strong></a> – If the conversion fails for any
+    reason.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -3614,45 +3624,31 @@ the check against.</p>
 <span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">command</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aliases</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">raise_conversion</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoke_with</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">[</span></span><span class="p"><span class="pre">...</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#yami.command" title="Permalink to this definition"></a></dt>
 <dd><p>Decorator to add commands to the bot inside of modules. It should
 decorate the callback that should fire when this command is run.</p>
-<dl class="simple">
-<dt>Args</dt><dd><ul class="simple">
-<li><dl class="simple">
-<dt>name: <cite>str</cite></dt><dd><p>The name of the command. Defaults to the function name.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>description: <cite>str</cite></dt><dd><p>The command description. If omitted, the callbacks docstring
-will be used instead.</p>
-</dd>
-</dl>
-</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The name of the command. Defaults to
+the function name.</p></li>
+<li><p><strong>description</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>) – The command description. If
+omitted, the callbacks docstring will be used instead.</p></li>
 </ul>
 </dd>
-<dt>Kwargs</dt><dd><ul class="simple">
-<li><dl class="simple">
-<dt>aliases: <code class="docutils literal notranslate"><span class="pre">Iterable[str]</span></code></dt><dd><p>A list or tuple of aliases for the command.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>raise_conversion: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to raise <cite>yami.ConversionFailed</cite> when
-converting a command argument fails.</p>
-</dd>
-</dl>
-</li>
-<li><dl class="simple">
-<dt>invoke_with: <code class="docutils literal notranslate"><span class="pre">bool</span></code></dt><dd><p>Whether or not to invoke this commands callback, when its
-subcommand is invoked.</p>
-</dd>
-</dl>
-</li>
+<dt class="field-even">Keyword Arguments</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>aliases</strong> (<a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Iterable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Iterable</span></code></a> [<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str</span></code></a>]) – A list or tuple of aliases for the command.</p></li>
+<li><p><strong>raise_conversion</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to raise
+<a class="reference internal" href="#yami.ConversionFailed" title="yami.ConversionFailed"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConversionFailed</span></code></a> when converting a commands
+argument fails.</p></li>
+<li><p><strong>invoke_with</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bool</span></code></a>) – Whether or not to invoke this
+commands callback, when its subcommand is invoked.</p></li>
 </ul>
 </dd>
-<dt>Returns</dt><dd><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">Callable[...,</span> <span class="pre">:obj:`yami.MessageCommand`]</span></code></dt><dd><p>The callback, but transformed into a message command.</p>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A message command crafted from the callback, and
+decorator arguments.</p>
 </dd>
-</dl>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Callable" title="(in Python v3.10)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Callable</span></code></a> […, <a class="reference internal" href="#yami.MessageCommand" title="yami.MessageCommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand</span></code></a>]</p>
 </dd>
 </dl>
 </dd></dl>
