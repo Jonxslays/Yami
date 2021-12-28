@@ -37,7 +37,7 @@ class Module:
     need for the same data, or are related in some way.
 
     Args:
-        bot (:obj:`yami.bot`): The bot instance.
+        bot (:obj:`~yami.Bot`): The bot instance.
 
     .. hint::
         - You should subclass :obj:`Module` to create your own modules.
@@ -46,7 +46,7 @@ class Module:
           :obj:`~yami.Bot.load_all_modules` methods.
 
     .. warning::
-        If you overwrite the `__init__` method, it should take only 1
+        If you overwrite the ``__init__`` method, it should take only 1
         argument which is of type :obj:`~yami.Bot`.
 
         .. code-block:: python
@@ -127,7 +127,7 @@ class Module:
 
         Raises:
             :obj:`~yami.DuplicateCommand`: When a command with this name
-            already exists.
+                already exists.
         """
         _log.debug(f"Adding {command} to {self}")
 
@@ -153,7 +153,7 @@ class Module:
 
         Raises:
             :obj:`~yami.CommandNotFound`: When a command with this name
-            is not found.
+                is not found.
         """
         if name not in self.commands:
             raise exceptions.CommandNotFound(
