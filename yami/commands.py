@@ -32,9 +32,32 @@ __all__ = [
 class MessageCommand:
     """An object that represents a message content command.
 
-    You should not instantiate this class manually, instead use:
-    - The `yami.command` decorator inside a `yami.Module` subclass.
-    - The `yami.Bot.command` decorator outside a `yami.Module`.
+    .. note::
+
+        You should not instantiate this class manually, instead use:
+
+        - The :obj:`command` decorator inside a
+          :obj:`~yami.Module` subclass.
+
+        - The :obj:`yami.Bot.command` decorator outside a
+          :obj:`~yami.Module`.
+
+    Args:
+        callback (:obj:`typing.Callable` [..., :obj:`typing.Any`]):
+            The async callback function for the command.
+        name (:obj:`str`): The name of the command.
+        description (:obj:`str`): The description for the command.
+
+    Keyword Args:
+        aliases (:obj:`typing.Iterable` [:obj:`str`]): The aliases for
+            the command.
+        raise_conversion (:obj:`bool`): Whether or not to raise an error
+            when a type hint conversion for the command arguments fails.
+        parent (:obj:`MessageCommand` | :obj:`None`): The parent of this
+            command if it is a subcommand, or :obj:`None` if not.
+        invoke_with (:obj:`bool`): Whether or not to invoke this command
+            with its subcommands, if it has any. Defaults to
+            :obj:`False`.
     """
 
     __slots__ = (
@@ -84,8 +107,8 @@ class MessageCommand:
 
     @property
     def checks(self) -> dict[str, checks_.Check]:
-        """A dictionary containing name, `yami.Check` pairs that are
-        registered to this command.
+        """A dictionary containing name, :obj:`~yami.Check` pairs that
+        are registered to this command.
         """
         return self._checks
 
@@ -96,7 +119,9 @@ class MessageCommand:
 
     @property
     def module(self) -> modules.Module | None:
-        """The `yami.Module` this command originates from, if any."""
+        """The :obj:`~yami.Module` this command originates from, if
+        any.
+        """
         return self._module
 
     @property
@@ -106,7 +131,7 @@ class MessageCommand:
 
     @property
     def callback(self) -> typing.Callable[..., typing.Any]:
-        """The callback function registered to the command."""
+        """The callback function registered to this command."""
         return self._callback
 
     @property
@@ -118,8 +143,8 @@ class MessageCommand:
 
     @property
     def was_globally_added(self) -> bool:
-        """`True` if the command was created with the `yami.command`
-        decorator. `False` if `yami.Bot.command` was used.
+        """:obj:`True` if this command was created with the
+        :obj:`command` decorator, and :obj:`False` if not.
         """
         return self._was_globally_added
 
@@ -129,7 +154,7 @@ class MessageCommand:
 
     @property
     def subcommands(self) -> dict[str, MessageCommand]:
-        """A dictionary containing name, `yami.MessageCommand` pairs
+        """A dictionary containing name, :obj:`MessageCommand` pairs
         that are registered to this command.
         """
         return self._subcommands
@@ -141,14 +166,14 @@ class MessageCommand:
 
     @property
     def parent(self) -> MessageCommand | None:
-        """The parent of this command, or `None` if this command is not
-        a subcommand.
+        """The parent of this command, or :obj:`None` if this command
+        is not a subcommand.
         """
         return self._parent
 
     @property
     def invoke_with(self) -> bool:
-        """Whether or not to invoke this command if one of it's
+        """Whether or not to invoke this command if one of its
         subcommands are invoked.
         """
         return self._invoke_with
@@ -157,16 +182,14 @@ class MessageCommand:
         """Adds a check to be run before this command.
 
         Args:
-            check: `yami.Check`
-                The check to add.
+            check (:obj:`~yami.Check`): The check to add.
 
         Returns:
-            `yami.Check`
-                The check that was added.
+            :obj:`~yami.Check`: The check that was added.
 
         Raises:
-            `yami.CheckAddFailed`
-                If the check is not a `Check` object.
+            :obj:`~yami.CheckAddFailed`: If the check is not a
+                :obj:`~yami.Check` object.
         """
         try:
             if isinstance(check, checks_.Check):
@@ -188,13 +211,15 @@ class MessageCommand:
         bound to this command, it will do nothing.
 
         Args:
-            check: `yami.Check`
-                The check to remove.
+            check (:obj:`~yami.Check`): The check to remove.
+
+        Returns:
+            :obj:`~yami.Check` | :obj:`None`:
+                The removed check, or none  if it was not found.
 
         Raises:
-            `yami.CheckRemovalFailed`
-                When an invalid type is passed as an argument to this
-                method.
+            :obj:`~yami.CheckRemovalFailed`: When an invalid type is
+                passed as an argument to this method.
         """
         if not isinstance(check, (checks_.Check, abc.ABCMeta)):
             raise exceptions.CheckRemovalFailed(
@@ -218,28 +243,28 @@ class MessageCommand:
         """Adds a subcommand to the command.
 
         Args:
-            command: `Callable[..., Any]` | `yami.MessageCommand`
+            command (:obj:`typing.Callable` \
+                [..., :obj:`typing.Any`] | :obj:`yami.MessageCommand`):
                 The subcommand to add.
 
-        Kwargs:
-            name: `str` | `None`
-                The name of the subcommand
+        Keyword Args:
+            name (:obj:`str` | :obj:`None`): The name of the subcommand.
                 (defaults to the function name)
-            description: `str`
-                The subcommands description (defaults to "")
-            aliases: `Iterable[str]`
-                The subcommands aliases (defaults to [])
+            description (:obj:`str`): The subcommands description.
+                (defaults to ``""``)
+            aliases (:obj:`typing.Iterable` [:obj:`str`]): The
+                subcommands aliases (defaults to ``[]``)
+            raise_conversion (:obj:`bool`): Whether or not to raise an
+                error when argument conversion fails.
+                (Defaults to :obj:`False`)
 
         Returns:
-            `yami.MessageCommand`
-                The subcommand that was added.
+            :obj:`MessageCommand`: The subcommand that was added.
 
         Raises:
-            `yami.DuplicateCommand`
-                If the subcommand shares a name or alias with an
-                existing subcommand.
-            `TypeError`
-                If aliases is not a list or a tuple.
+            :obj:`~yami.DuplicateCommand`: If the subcommand shares a
+                name or alias with an existing subcommand.
+            :obj:`TypeError`: If aliases is not a list or a tuple.
         """
         if isinstance(command, MessageCommand):
             if not isinstance(command.aliases, (list, tuple)):
@@ -273,22 +298,25 @@ class MessageCommand:
         )
         return self.add_subcommand(cmd)
 
-    def iter_checks(self) -> typing.Iterator[checks_.Check]:
-        """Returns an iterator over the checks bound to the command.
+    def iter_checks(self) -> typing.Generator[checks_.Check, None, None]:
+        """Iterates the commands checks.
 
-        Returns
-            :obj:`~typing.Iterator` [:obj:`~yami.Check`, ...]
-                An iterator over the commands checks.
+        Returns:
+            :obj:`~typing.Generator`: A generator over the checks.
+
+        Yields:
+            :obj:`~yami.Check`: Each check.
         """
         yield from self._checks.values()
 
     def iter_subcommands(self) -> typing.Generator[MessageCommand, None, None]:
-        """Returns an iterator over the subcommands registered to the
-        command.
+        """Iterates the subcommands for this command.
 
-        Returns
-            :obj:`~typing.Iterator` [:obj:`~MessageCommand`, ...]
-                An iterator over the commands subcommands.
+        Returns:
+            :obj:`~typing.Generator`: A generator over the subcommands.
+
+        Yields:
+            :obj:`MessageCommand`: Each subcommand.
         """
         yield from self._subcommands.values()
 
@@ -306,28 +334,24 @@ class MessageCommand:
         subcommand is run.
 
         Args:
-        -----
-        - **name**: `str`
-            The name of the subcommand. Defaults to the function name.
-        - **description**: `str`
-            The subcommand description. If omitted, the callbacks
-            docstring will be used instead.
+            name (:obj:`str`): The name of the subcommand. Defaults to
+                the function name.
+            description (:obj:`str`): The subcommand description. If
+                omitted, the callbacks docstring will be used instead.
 
-        Kwargs:
-        -------
-        - **aliases**: `Iterable[str]`
-            A list or tuple of aliases for the command.
-        - **raise_conversion**: `bool`
-            Whether or not to raise `yami.ConversionFailed` when
-            converting a command argument fails.
-        - **invoke_with**: `bool`
-            Whether or not to invoke this commands callback, when its
-            subcommand is invoked.
+        Keyword Args:
+            aliases (:obj:`~typing.Iterable` [:obj:`str`]):
+                A list or tuple of aliases for the command.
+            raise_conversion (:obj:`bool`): Whether or not to raise
+                :obj:`~yami.ConversionFailed` when converting a commands
+                argument fails.
+            invoke_with (:obj:`bool`): Whether or not to invoke this
+                commands callback, when its subcommand is invoked.
 
         Returns:
-        --------
-        - `Callable[..., MessageCommand]`
-            The callback, but transformed into a MessageCommand.
+            :obj:`~typing.Callable` [..., :obj:`MessageCommand`]:
+                A message command crafted from the callback, and
+                decorator arguments.
         """
         return lambda callback: self.add_subcommand(
             MessageCommand(
@@ -353,26 +377,25 @@ def command(
     """Decorator to add commands to the bot inside of modules. It should
     decorate the callback that should fire when this command is run.
 
-    Args
-        - name: `str`
-            The name of the command. Defaults to the function name.
-        - description: `str`
-            The command description. If omitted, the callbacks docstring
-            will be used instead.
+    Args:
+        name (:obj:`str`): The name of the command. Defaults to
+            the function name.
+        description (:obj:`str`): The command description. If
+            omitted, the callbacks docstring will be used instead.
 
-    Kwargs
-        - aliases: ``Iterable[str]``
+    Keyword Args:
+        aliases (:obj:`~typing.Iterable` [:obj:`str`]):
             A list or tuple of aliases for the command.
-        - raise_conversion: ``bool``
-            Whether or not to raise `yami.ConversionFailed` when
-            converting a command argument fails.
-        - invoke_with: ``bool``
-            Whether or not to invoke this commands callback, when its
-            subcommand is invoked.
+        raise_conversion (:obj:`bool`): Whether or not to raise
+            :obj:`~yami.ConversionFailed` when converting a commands
+            argument fails.
+        invoke_with (:obj:`bool`): Whether or not to invoke this
+            commands callback, when its subcommand is invoked.
 
-    Returns
-        ``Callable[..., :obj:`yami.MessageCommand`]``
-            The callback, but transformed into a message command.
+    Returns:
+        :obj:`~typing.Callable` [..., :obj:`yami.MessageCommand`]:
+            A message command crafted from the callback, and
+            decorator arguments.
     """
     return lambda callback: MessageCommand(
         callback,

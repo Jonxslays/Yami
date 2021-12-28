@@ -474,7 +474,7 @@ class Bot(hikari.GatewayBot):
                     f"Failed to add command {command} to bot " f"- alias {alias!r} already in use"
                 )
 
-            self._aliases.update(dict((a, command.name) for a in command.aliases))
+            self._aliases.update({a: command.name for a in command.aliases})
             self._commands[command.name] = command
             return command
 
