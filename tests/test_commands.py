@@ -27,7 +27,6 @@ def model() -> yami.Bot:
     return yami.Bot(
         token="12345",
         prefix="&&",
-        case_insensitive=False,
         banner=None,
     )
 

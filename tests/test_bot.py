@@ -30,7 +30,6 @@ def model() -> yami.Bot:
     return yami.Bot(
         token="12345",
         prefix="&&",
-        case_insensitive=False,
         banner=None,
         raise_cmd_not_found=True,
     )
@@ -63,7 +62,6 @@ def with_content_no_cmd_m_create_event() -> hikari.MessageCreateEvent:
 def test_bot_instantiation(model: yami.Bot) -> None:
     assert model._prefix == ("&&",)
     assert model._token == "12345"
-    assert not model._case_insensitive
     assert model.commands == {}
     assert model.aliases == {}
     assert isinstance(model, hikari.GatewayBot)

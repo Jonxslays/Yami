@@ -120,6 +120,7 @@ if __name__ == "__main__":
 - [x] Exceptions (WIP)
 - [x] Checks (WIP)
 - [x] Basic arg parsing (builtin types)
+- [x] Docs
 
 </details>
 </div>
@@ -138,7 +139,6 @@ if __name__ == "__main__":
 - [ ] Full blown arg parsing (hikari types)
 - [ ] QOL methods (WIP)
 - [ ] Logging (WIP)
-- [ ] Docs
 
 </details>
 </div>

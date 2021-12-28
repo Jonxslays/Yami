@@ -38,8 +38,8 @@ _log = logging.getLogger(__name__)
 
 
 class Bot(hikari.GatewayBot):
-    """A subclass of :obj:`hikari.GatewayBot` that provides an interface
-    for handling commands.
+    """A subclass of :obj:`~hikari.impl.bot.GatewayBot` that provides an
+    interface for handling commands.
 
     This is the class you will instantiate to utilize command features
     on top of the :obj:`~hikari.impl.bot.GatewayBot` superclass.
@@ -54,32 +54,25 @@ class Bot(hikari.GatewayBot):
         - Subclass :obj:`Bot`, but this can lead to issues if you
           overwrite private or public attributes in your subclass.
 
-    Args
-        token: ``str``
-            The bot token to sign in with.
+    Args:
+        token (:obj:`str`): The bot token to sign in with.
 
-        prefix: ``str`` | ``Sequence[str]``
-            The prefix, or sequence of prefixes to listen for.
-            Planned support for mentions, and functions soon (tm).
+        prefix (:obj:`str` | :obj:`~typing.Sequence` [:obj:`str`]): The
+            prefix, or sequence of prefixes to listen for. Planned
+            support for mentions, and functions soon (tm).
 
-    Kwargs:
-        case_insensitive: :obj:`bool`
-            Whether or not to ignore case when handling message command
-            invocations. Defaults to ``True``.
-        owner_ids: :obj:`typing.Sequence[int]`
-            A sequence of integers representing the Snowflakes of the
-            bots owners. Defaults to an empty `tuple`.
-        allow_extra_args: ``bool``
-            Whether or not the bot should allow extra args in command
-            invocations. Defaults to `False`.
-        shared: ``bool``
-            Whether or not to create a `yami.Shared` instance and store
-            it in the `Bot.shared` property. Defaults to `False`.
-        raise_cmd_not_found: ``bool``
-            Whether or not to raise the `CommandNotFound` error.
-            Defaults to `False`.
-        kwargs: :obj:`typing.Any`
-            The remaining kwargs for :obj:`~hikari.impl.bot.GatewayBot`.
+    Keyword Args:
+        owner_ids (:obj:`~typing.Sequence` [:obj:`int`]): A sequence
+            of integers representing the Snowflakes of the bots owners.
+            Defaults to ``()``.
+        allow_extra_args (:obj:`bool`): Whether or not the bot should
+            allow extra args in command invocations. Defaults to
+            :obj:`False`.
+        raise_cmd_not_found (:obj:`bool`): Whether or not to raise the
+            :obj:`~yami.CommandNotFound` exception. Defaults to
+            :obj:`False`.
+        **kwargs (:obj:`~typing.Any`): The remaining kwargs for
+            :obj:`~hikari.impl.bot.GatewayBot`.
     """
 
     __slots__ = (
@@ -99,7 +92,6 @@ class Bot(hikari.GatewayBot):
         token: str,
         prefix: str | typing.Sequence[str],
         *,
-        case_insensitive: bool = True,
         owner_ids: typing.Sequence[int] = (),
         allow_extra_args: bool = False,
         raise_cmd_not_found: bool = False,
@@ -109,7 +101,6 @@ class Bot(hikari.GatewayBot):
 
         self._prefix: typing.Sequence[str] = (prefix,) if isinstance(prefix, str) else prefix
         self._aliases: dict[str, str] = {}
-        self._case_insensitive = case_insensitive
         self._allow_extra_args = allow_extra_args
         self._raise_cmd_not_found = raise_cmd_not_found
         self._commands: dict[str, commands_.MessageCommand] = {}
@@ -132,48 +123,49 @@ class Bot(hikari.GatewayBot):
 
     @property
     def commands(self) -> dict[str, commands_.MessageCommand]:
-        """A dictionary of name, MessageCommand pairs bound to the bot,
-        including commands from any loaded modules.
+        """A dictionary of name, :obj:`~yami.MessageCommand` pairs bound
+        to the bot, including commands from any loaded modules.
         """
         return self._commands
 
     @property
     def aliases(self) -> dict[str, str]:
         """A dictionary of aliases to their corresponding
-        MessageCommand's name.
+        :obj:`~yami.MessageCommand` name.
         """
         return self._aliases
 
     @property
     def modules(self) -> dict[str, modules_.Module]:
-        """A dictionary of name, `Module` pairs that are added to the
-        bot, this includes unloaded modules.
+        """A dictionary of name, :obj:`~yami.Module` pairs that are
+        added to the bot, this includes unloaded modules.
         """
         return self._modules
 
     @property
     def owner_ids(self) -> typing.Sequence[int]:
-        """A sequence of integers representing the Snowflakes of the
-        bots owners.
+        """A sequence of integers representing the ids of the bots
+        owners.
         """
         return self._owner_ids
 
     @property
     def allow_extra_args(self) -> bool:
-        """If `True` do not error when extra args are passed to a
-        command. Defaults to `False`.
+        """If :obj:`True` do not error when extra args are passed to a
+        command.
         """
         return self._allow_extra_args
 
     @property
     def shared(self) -> utils.Shared:
-        """The `Shared` instance associated with this bot."""
+        """The :obj:`~yami.Shared` instance associated with this bot."""
         return self._shared
 
     @property
     def raise_cmd_not_found(self) -> bool:
-        """Returns `True` if this bot will raise a `CommandNotFound`
-        exception when a prefix is used, but no command was found.
+        """Returns :obj:`True` if this bot will raise a
+        :obj:`~yami.CommandNotFound` exception when a prefix is used,
+        but no command was found.
         """
         return self._raise_cmd_not_found
 
@@ -193,23 +185,31 @@ class Bot(hikari.GatewayBot):
         _log.info(f"{self} is now ready to receive commands")
 
     def load_all_modules(self, *paths: str | Path, recursive: bool = True) -> None:
-        """Loads all modules from each of the given paths.This method
-        looks for all `.py` files that do not begin with an `_`. It is
-        recursive by default.
+        """Loads all modules from each of the given paths.
 
-        If this method fails partway through, the bots module's are
-        reverted to their state from before this method was called and
-        no modules will be added.
+        .. hint::
+            This method looks for all ``.py`` files that do not begin
+            with an `_`. It is recursive by default.
+
+            If this method fails partway through, the bots modules are
+            reverted to their previous state and no modules will be
+            loaded.
 
         Args:
-            *paths: `str` | `pathlib.Path`
-                One or multiple paths to load modules from.
+            *paths (:obj:`str` | :obj:`~pathlib.Path`): One or more
+                paths to load modules from.
+
+        Keyword Args:
+            recursive (:obj:`bool`): Whether or not to recurse into sub
+                directories while loading modules.
 
         Raises:
-            `yami.ModuleAddException`
-                When a module with the same name is already added to the
-                bot, or there is a failure with one of the commands in
-                the module.
+            :obj:`~yami.ModuleLoadException`: When a module with the
+                same name is already loaded on the bot, or when the
+                named module is not found inside the given path's source
+                file.
+            :obj:`~yami.ModuleAddException`: When there is a failure
+                with one of the commands in the module.
         """
         _log.debug(f"Loading all modules")
         mod_state = self._modules.copy()
@@ -222,21 +222,7 @@ class Bot(hikari.GatewayBot):
                 self._load_all_modules(file, mod_state)
 
     def _load_all_modules(self, path: Path, mod_state: dict[str, modules_.Module]) -> None:
-        """Load a given module onto the bot.
-
-        Args:
-            path: `Path`
-                The path to load the modules from.
-            mod_state: `dict[str, modules_.Module]`
-                The state to revert to if there is an error while
-                loading this module.
-
-        Raises:
-            `yami.ModuleAddException`
-                When a module with the same name is already added to the
-                bot, or there is a failure with one of the commands in
-                the module.
-        """
+        """Load a given module onto the bot."""
         _log.debug(f"Importing all modules from {path}")
 
         if not (to_load := self._get_modules_from_container(path, mod_state)):
@@ -249,6 +235,7 @@ class Bot(hikari.GatewayBot):
     def _get_modules_from_container(
         self, path: Path, mod_state: dict[str, modules_.Module], name: str | None = None
     ) -> list[typing.Type[modules_.Module]]:
+        """Gets the Module objects from a given py file."""
         try:
             container = importlib.import_module(str(path).replace(".py", "").replace(os.sep, "."))
         except ModuleNotFoundError as e:
@@ -267,6 +254,7 @@ class Bot(hikari.GatewayBot):
     def _try_load_module(
         self, mod: typing.Type[modules_.Module], mod_state: dict[str, modules_.Module]
     ) -> None:
+        """Tries to load a Module."""
         try:
             instantiated = mod(self)
         except TypeError:
@@ -295,24 +283,25 @@ class Bot(hikari.GatewayBot):
     def load_module(self, name: str, path: str | Path) -> None:
         """Loads a single module class from the path specified.
 
-        If this method fails partway through, the bots module's are
-        reverted to their state from before this method was called and
-        no modules will be added.
+        .. hint::
+
+            If this method fails partway through, the bots modules are
+            reverted to their previous state and the module will not be
+            loaded.
 
         Args:
-            name: `str`
-                The name of the module class to load. (case sensitive)
-            path: `str` | `pathlib.Path`
-                The path to load the module from.
+            name (:obj:`str`): The name of the module class to load.
+                (case sensitive)
+            path (:obj:`str` | :obj:`~pathlib.Path`): The path to load
+                the module from.
 
         Raises:
-            `yami.ModuleLoadException`
-                When a module with the same name is already loaded on
-                the bot, or when the named module is not found inside
-                the given path's source file.
-            `yami.ModuleAddException`
-                When there is a failure with one of the commands in
-                the module.
+            :obj:`~yami.ModuleLoadException`: When a module with the
+                same name is already loaded on the bot, or when the
+                named module is not found inside the given paths source
+                file.
+            :obj:`~yami.ModuleAddException`: When there is a failure
+                with one of the commands in the module.
         """
         _log.debug(f"Loading module '{name}' from {path}")
         mod_state = self._modules.copy()
@@ -325,20 +314,20 @@ class Bot(hikari.GatewayBot):
 
     def unload_module(self, name: str) -> modules_.Module:
         """Unloads a single module class with the given name. It will
-        remain in `Bot.modules`, but just in an unloaded state and its
-        commands will no longer be executable until it is loaded again.
+        remain in :obj:`Bot.modules`, but just in an unloaded state and
+        its commands will no longer be executable until it is loaded
+        again.
 
         Args:
-            name: `str`
-                The name of the module class to unload. (case sensitive)
+            name (:obj:`str`): The name of the module class to unload.
+                (case sensitive)
 
         Returns:
-            `yami.Module`
-                The module that was unloaded.
+            :obj:`~yami.Module`: The module that was unloaded.
 
         Raises:
-            `yami.ModuleUnloadException`
-                When no module with this name was found.
+            :obj:`~yami.ModuleUnloadException`: When no module with this
+                name was found.
         """
         _log.debug(f"Unloading module '{name}'")
 
@@ -362,19 +351,18 @@ class Bot(hikari.GatewayBot):
 
     def remove_module(self, name: str) -> modules_.Module:
         """Removes a single module class with the given name. It will
-        no longer be accessible via `Bot.modules`.
+        no longer be accessible via :obj:`Bot.modules`.
 
         Args:
-            name: `str`
-                The name of the module class to remove. (case sensitive)
+            name (:obj:`str`): The name of the module class to remove.
+                (case sensitive)
 
         Returns:
-            `yami.Module`
-                The module that was removed.
+            :obj:`~yami.Module`: The module that was removed.
 
         Raises:
-            `yami.ModuleRemoveException`
-                When no module with this name was found.
+            :obj:`~yami.ModuleRemoveException`: When no module with this
+                name was found.
         """
         _log.debug(f"Removing module '{name}'")
 
@@ -390,18 +378,7 @@ class Bot(hikari.GatewayBot):
         return mod
 
     def _add_module(self, module: modules_.Module) -> None:
-        """Adds a `yami.Module` to the bot.
-
-        Args:
-            module: `yami.Module`
-                The module to add to the bot.
-
-        Raises:
-            `yami.ModuleAddException`
-                When a module with the same name is already added to the
-                bot and loaded, or there is a failure with one of the
-                commands in the module.
-        """
+        """Adds a `yami.Module` to the bot."""
         if module.name in self._modules and module.is_loaded:
             raise exceptions.ModuleAddException(
                 f"Failed to add module {module} to bot - it is already added and loaded"
@@ -428,32 +405,29 @@ class Bot(hikari.GatewayBot):
     ) -> commands_.MessageCommand:
         """Adds a command to the bot.
 
-        Args
-            command: ``Callable[..., Any]`` | \
-                :obj:`~yami.MessageCommand`
-                The command or callback to add.
+        Args:
+            command (:obj:`~typing.Callable` [..., :obj:`~typing.Any`] \
+                | :obj:`~yami.MessageCommand`): The command or callback
+                to add.
 
-        Kwargs
-            name: ``str`` | ``None``
-                The name of the command. Defaults to the function name.
-            description: ``str``
-                The commands description. Defaults to ``""``.
-            aliases: ``Iterable[str]``
-                The commands aliases. Defaults to ``[]``.
-            raise_conversion: ``bool``
-                Whether or not to raise an error if argument conversion
-                fails. Defaults to ``False``.
+        Keyword Args:
+            name (:obj:`str` | :obj:`None`): The name of the command.
+                Defaults to the function name.
+            description (:obj:`str`): The commands description. Defaults
+                to ``""``.
+            aliases (:obj:`~typing.Iterable` [:obj:`str`]): The commands
+                aliases. Defaults to ``[]``.
+            raise_conversion(:obj:`bool`): Whether or not to raise an
+                exception if argument conversion fails. Defaults to
+                :obj:`False`.
 
-        Returns
-            :obj:`~yami.MessageCommand`
-                The command that was added.
+        Returns:
+            :obj:`~yami.MessageCommand`: The command that was added.
 
-        Raises
-            :obj:`~yami.DuplicateCommand`
-                If the command shares a name or alias with an existing
-                command.
-            :obj:`TypeError`
-                If aliases is not a list or a tuple.
+        Raises:
+            :obj:`~yami.DuplicateCommand`: If the command shares a name
+                or alias with an existing command.
+            :obj:`TypeError`: If aliases is not a list or a tuple.
         """
         if isinstance(command, commands_.MessageCommand):
             if not command.module:
@@ -491,17 +465,15 @@ class Bot(hikari.GatewayBot):
         """Removes a :obj:`~yami.MessageCommand` from the :obj:`Bot`,
         and its :obj:`yami.Module` if it has one.
 
-        Args
-            name: ``str``
-                The name of the command to remove.
+        Args:
+            name (:obj:`str`): The name of the command to remove.
 
-        Returns
-            :obj:`~yami.MessageCommand`
-                The command that was removed.
+        Returns:
+            :obj:`~yami.MessageCommand`: The command that was removed.
 
-        Raises
-            :obj:`~yami.CommandNotFound`
-                If the command was not found.
+        Raises:
+            :obj:`~yami.CommandNotFound`: When the command was not
+                found.
         """
         try:
             cmd = self._commands.pop(name)
@@ -516,32 +488,38 @@ class Bot(hikari.GatewayBot):
         _log.debug(f"Removed {cmd} from {self}")
         return cmd
 
-    def iter_commands(self) -> typing.Iterable[commands_.MessageCommand]:
-        """Iterates over commands attached to the bot, including all
-        commands bound to modules that are not loaded.
+    def iter_commands(self) -> typing.Generator[commands_.MessageCommand, None, None]:
+        """Iterates the bots commands.
 
-        Returns
-            :obj:`~typing.Iterable` [:obj:`~yami.MessageCommand`]
-                A iterator over the bots commands.
+        Returns:
+            :obj:`~typing.Generator`: A generator over the commands.
+
+        Yields:
+            :obj:`~yami.MessageCommand`: Each command.
         """
         yield from self._commands.values()
 
-    def iter_modules(self) -> typing.Iterable[modules_.Module]:
+    def iter_modules(self) -> typing.Generator[modules_.Module, None, None]:
         """Iterates over the modules attached to the bot. This will
-        yield both loaded, and unloaded modules.
+        included both loaded and unloaded modules.
 
-        Returns
-            :obj:`~typing.Iterable` [:obj:`~yami.Module`]
-                A iterator over the bots modules.
+        Returns:
+            :obj:`~typing.Generator`: A generator over the modules.
+
+        Yields:
+            :obj:`~yami.Module`: Each module.
         """
         yield from self._modules.values()
 
-    def iter_loaded_modules(self) -> typing.Iterable[modules_.Module]:
-        """Iterates over the loaded modules attached to the bot.
+    def iter_loaded_modules(self) -> typing.Generator[modules_.Module, None, None]:
+        """Iterates over the modules attached to the bot. This will
+        only include loaded modules.
 
-        Returns
-            :obj:`~typing.Iterable` [:obj:`~yami.Module`]
-                A iterator over the bots loaded modules.
+        Returns:
+            :obj:`~typing.Generator`: A generator over the modules.
+
+        Yields:
+            :obj:`~yami.Module`: Each loaded module.
         """
         yield from (m for m in self._modules.values() if m.is_loaded)
 
@@ -549,12 +527,11 @@ class Bot(hikari.GatewayBot):
         """Gets a command.
 
         Args:
-            name: `str`
-                The name or alias of the command to get.
+            name (:obj:`str`): The name or alias of the command to get.
 
         Returns:
-            `yami.MessageCommand` | `None`
-                The command, or `None` if not found.
+            :obj:`~yami.MessageCommand` | :obj:`None`:
+                The command, or :obj:`None` if not found.
         """
         return self._commands.get(self._aliases.get(name, name))
 
@@ -562,12 +539,11 @@ class Bot(hikari.GatewayBot):
         """Gets a module.
 
         Args:
-            name: `str`
-                The name of the module to get.
+            name (:obj:`str`): The name of the module to get.
 
         Returns:
-           `yami.Module` | `None`
-                The module, or` None` if not found.
+            :obj:`yami.Module` | :obj:`None`:
+                The module, or :obj:`None` if not found.
         """
         return self._modules.get(name)
 
@@ -580,29 +556,27 @@ class Bot(hikari.GatewayBot):
         raise_conversion: bool = False,
         invoke_with: bool = False,
     ) -> typing.Callable[..., typing.Any]:
-        """Decorator to add a message command to the bot. This should
-        be places immediately above the command callback. Any checks
-        should be placed above this decorator.
+        """Decorator to add a :obj:`~yami.MessageCommand` to the bot.
+        This should be placed immediately above the command callback.
+        Any checks should be placed above this decorator.
 
         Args:
-            name: `str`
-                The name of the command. Defaults to the function name.
-            description: `str`
-                The command description. If omitted, the callbacks
-                docstring will be used instead. REMINDER: docstrings are
-                stripped from your programs bytecode when it is run with
-                the `-OO` optimization flag.
+            name (:obj:`str`): The name of the command. Defaults to the
+                function name.
+            description (:obj:`str`): The command description. If
+                omitted, the callbacks docstring will be used instead.
 
-        Kwargs:
-            aliases: `Sequence[str]`
-                A list or tuple of aliases for the command.
-            raise_conversion: bool
-                Whether or not to raise an error when a type hint
-                conversion for the command arguments fails.
+        Keyword Args:
+            aliases (:obj:`~typing.Sequence` [:obj:`str`]): A list or
+                tuple of aliases for the command.
+            raise_conversion (:obj:`bool`): Whether or not to raise an
+                exception when a type hint conversion for the command
+                arguments fails.
 
         Returns:
-            `Callable[..., yami.MessageCommand]`
-                The callback, but transformed into a message command.
+            :obj:`~typing.Callable` [..., :obj:`~yami.MessageCommand`]:
+                A message command crafted from the callback, and
+                decorator arguments.
         """
         return lambda callback: self.add_command(
             commands_.MessageCommand(
@@ -691,6 +665,7 @@ class Bot(hikari.GatewayBot):
         cmd: commands_.MessageCommand,
         parsed: list[str],
     ) -> list[args_.MessageArg]:
+        """Parses for args."""
         annots = tuple(inspect.signature(cmd.callback).parameters.values())
         annots = annots[2:] if cmd.module or cmd.was_globally_added else annots[1:]
         annots_l = len(annots)
@@ -710,12 +685,14 @@ class Bot(hikari.GatewayBot):
     async def _execute_checks(
         self, ctx: context.MessageContext, cmd: commands_.MessageCommand
     ) -> None:
+        """Executes the given commands checks."""
         for check in cmd.iter_checks():
             await check.execute(ctx)
 
     async def _invoke_callback(
         self, ctx: context.MessageContext, cmd: commands_.MessageCommand
     ) -> None:
+        """Invokes the given commands callback."""
         if m := cmd.module:
             await cmd.callback(m, ctx, *ctx.iter_arg_values())
         elif cmd.was_globally_added:
