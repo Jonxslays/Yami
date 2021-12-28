@@ -137,7 +137,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         if type_ in self._mapping:
             converted: BuiltinTypeT
@@ -162,7 +162,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         if self._value == "true":
             return True
@@ -179,7 +179,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         try:
             return str(self._value)
@@ -198,7 +198,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         try:
             return bytes(self._value, encoding)
@@ -213,7 +213,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         try:
             return int(self._value)
@@ -228,7 +228,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         try:
             return complex(self._value)
@@ -243,7 +243,7 @@ class BuiltinConverter(Converter):
 
         Raises:
             `~yami.ConversionFailed`: If the conversion fails for any
-            reason.
+                reason.
         """
         try:
             return float(self._value)
