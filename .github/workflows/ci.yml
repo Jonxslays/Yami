@@ -98,8 +98,8 @@ jobs:
           ./scripts/docs-deploy.sh master
 
   upload-coverage:
-    name: Upload coverage
     if: ${{ github.event_name }} == "push"
+    name: Upload coverage
     needs: test
     runs-on: ubuntu-latest
 
