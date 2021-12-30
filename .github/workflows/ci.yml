@@ -8,7 +8,6 @@ on:
       - hotfix/**
       - bugfix/**
   pull_request:
-    types: [opened, reopened]
 
 jobs:
   test:
@@ -98,8 +97,8 @@ jobs:
           ./scripts/docs-deploy.sh master
 
   upload-coverage:
+    if: ${{ github.event_name }} == "push" && ${{ github.event.branch }} == "master"
     name: Upload coverage
-    if: ${{ github.event_name }} == "push"
     needs: test
     runs-on: ubuntu-latest
 
