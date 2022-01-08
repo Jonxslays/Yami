@@ -652,10 +652,7 @@ class Bot(hikari.GatewayBot):
             for arg in self._get_args(c, parsed):
                 await arg.convert(ctx)
 
-            try:
-                await self._invoke_callback(ctx, c)
-            except TypeError:
-                raise exceptions.MissingArgs(f"{c} is missing a required argument")
+            await self._invoke_callback(ctx, c)
 
             if not is_final:
                 ctx.args.clear()
@@ -677,8 +674,13 @@ class Bot(hikari.GatewayBot):
         if parsed_l > annots_l:
             if not self._allow_extra_args:
                 raise exceptions.TooManyArgs(
-                    f"{cmd} received too many args - excepted {annots_l} but got {parsed_l}"
+                    f"{cmd} received too many args - expected {annots_l} but got {parsed_l}"
                 )
+
+        if parsed_l < annots_l:
+            raise exceptions.MissingArgs(
+                f"{cmd} is missing a required argument - expected {annots_l} but got {parsed_l}"
+            )
 
         return args
 
