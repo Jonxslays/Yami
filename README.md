@@ -121,6 +121,7 @@ if __name__ == "__main__":
 - [x] Checks (WIP)
 - [x] Basic arg parsing (builtin types)
 - [x] Docs
+- [x] Events (Mostly)
 
 </details>
 </div>
@@ -130,7 +131,7 @@ if __name__ == "__main__":
 <details>
 <summary> :x: Incomplete</summary>
 
-- [ ] Events
+- [ ] Module listeners
 - [ ] Hooks?
 - [ ] Slash Commands
 - [ ] Slash Context
