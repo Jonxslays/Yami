@@ -1192,9 +1192,110 @@ decorator arguments.</p>
 <span id="context"></span><h3>context<a class="headerlink" href="#module-yami.context" title="Permalink to this headline"></a></h3>
 <p>Module containing Context objects.</p>
 <dl class="py class">
+<dt class="sig sig-object py" id="yami.context.Context">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.context.</span></span><span class="sig-name descname"><span class="pre">Context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://www.hikari-py.dev/hikari/messages.html#hikari.messages.Message" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.messages.Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoked_subcommands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.context.Context" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<p>Base Context all Yami contexts inherit from.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.bot">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.context.Context.bot" title="Permalink to this definition"></a></dt>
+<dd><p>The bot instance associated with this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.author">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/users.html#hikari.users.User" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.users.User</span></a></em><a class="headerlink" href="#yami.context.Context.author" title="Permalink to this definition"></a></dt>
+<dd><p>The user that created this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.cache">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/api/cache.html#hikari.api.cache.Cache" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.api.cache.Cache</span></a></em><a class="headerlink" href="#yami.context.Context.cache" title="Permalink to this definition"></a></dt>
+<dd><p>Shortcut to the bots cache.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.rest">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rest</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/api/rest.html#hikari.api.rest.RESTClient" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.api.rest.RESTClient</span></a></em><a class="headerlink" href="#yami.context.Context.rest" title="Permalink to this definition"></a></dt>
+<dd><p>Shortcut to the bots rest client.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.guild_id">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">guild_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/snowflakes.html#hikari.snowflakes.Snowflake" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.snowflakes.Snowflake</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></em><a class="headerlink" href="#yami.context.Context.guild_id" title="Permalink to this definition"></a></dt>
+<dd><p>The guild id associated with the context, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if this
+context was a <code class="xref py py-obj docutils literal notranslate"><span class="pre">DMChannel</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.args">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.args.MessageArg" title="yami.args.MessageArg"><span class="pre">yami.args.MessageArg</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.context.Context.args" title="Permalink to this definition"></a></dt>
+<dd><p>A list of converted <code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageArgs</span></code> passed to this
+context. Context will not be present here even though it was
+passed to the command callback.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If this context was invoked with subcommands and parent
+commands, only the final subcommands args will be present
+here.</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.exceptions">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exceptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.exceptions.YamiException" title="yami.exceptions.YamiException"><span class="pre">yami.exceptions.YamiException</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.context.Context.exceptions" title="Permalink to this definition"></a></dt>
+<dd><p>Any exceptions that were generated when this context was
+created, including failed check exceptions.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.channel_id">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/snowflakes.html#hikari.snowflakes.Snowflake" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.snowflakes.Snowflake</span></a></em><a class="headerlink" href="#yami.context.Context.channel_id" title="Permalink to this definition"></a></dt>
+<dd><p>The channel id this context was created in.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.message">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/messages.html#hikari.messages.Message" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.messages.Message</span></a></em><a class="headerlink" href="#yami.context.Context.message" title="Permalink to this definition"></a></dt>
+<dd><p>The message associated with this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.message_id">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/snowflakes.html#hikari.snowflakes.Snowflake" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.snowflakes.Snowflake</span></a></em><a class="headerlink" href="#yami.context.Context.message_id" title="Permalink to this definition"></a></dt>
+<dd><p>The message id of this contexts message.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.content">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">content</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#yami.context.Context.content" title="Permalink to this definition"></a></dt>
+<dd><p>The content of the message associated with the context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.command">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></em><a class="headerlink" href="#yami.context.Context.command" title="Permalink to this definition"></a></dt>
+<dd><p>The command invoked during the creation of this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.context.Context.shared">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.Shared" title="yami.utils.types.Shared"><span class="pre">yami.utils.types.Shared</span></a></em><a class="headerlink" href="#yami.context.Context.shared" title="Permalink to this definition"></a></dt>
+<dd><p>A <a class="reference internal" href="#yami.Shared" title="yami.Shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Shared</span></code></a> object that can be used to share data
+between subcommands.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Also houses cached data from the checks that were run for
+this context.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="yami.context.MessageContext">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.context.</span></span><span class="sig-name descname"><span class="pre">MessageContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://www.hikari-py.dev/hikari/messages.html#hikari.messages.Message" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.messages.Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoked_subcommands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.context.MessageContext" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.context.Context</span></code></a></p>
 <p>The context surrounding a message commands invocation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -1671,6 +1772,83 @@ for.</p>
 <section id="module-yami.events">
 <span id="events"></span><h3>events<a class="headerlink" href="#module-yami.events" title="Permalink to this headline"></a></h3>
 <p>Module for Yami events.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.events.YamiEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.events.</span></span><span class="sig-name descname"><span class="pre">YamiEvent</span></span><a class="headerlink" href="#yami.events.YamiEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://www.hikari-py.dev/hikari/events/base_events.html#hikari.events.base_events.Event" title="(in hikari v2.0.0.dev105)"><code class="xref py py-class docutils literal notranslate"><span class="pre">hikari.events.base_events.Event</span></code></a></p>
+<p>The base class all Yami events inherit from.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.YamiEvent.app">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.YamiEvent.app" title="Permalink to this definition"></a></dt>
+<dd><p>App instance for this application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The REST-aware app trait.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://www.hikari-py.dev/hikari/traits.html#hikari.traits.RESTAware" title="(in hikari v2.0.0.dev105)">hikari.traits.RESTAware</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.events.CommandInvokeEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.events.</span></span><span class="sig-name descname"><span class="pre">CommandInvokeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.events.CommandInvokeEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
+<p>Fires when any command is invoked.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandInvokeEvent.app">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.CommandInvokeEvent.app" title="Permalink to this definition"></a></dt>
+<dd><p>The app (Bot) associated with this event.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandInvokeEvent.ctx">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ctx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></em><a class="headerlink" href="#yami.events.CommandInvokeEvent.ctx" title="Permalink to this definition"></a></dt>
+<dd><p>The context this event is attached to.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandInvokeEvent.command">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></em><a class="headerlink" href="#yami.events.CommandInvokeEvent.command" title="Permalink to this definition"></a></dt>
+<dd><p>The command that triggered this event.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.events.CommandExceptionEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.events.</span></span><span class="sig-name descname"><span class="pre">CommandExceptionEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.events.CommandExceptionEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
+<p>Fires when a command encounters an exception of any kind.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandExceptionEvent.app">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.CommandExceptionEvent.app" title="Permalink to this definition"></a></dt>
+<dd><p>The app (Bot) associated with this event.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandExceptionEvent.ctx">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ctx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></em><a class="headerlink" href="#yami.events.CommandExceptionEvent.ctx" title="Permalink to this definition"></a></dt>
+<dd><p>The context this event is attached to.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandExceptionEvent.command">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></em><a class="headerlink" href="#yami.events.CommandExceptionEvent.command" title="Permalink to this definition"></a></dt>
+<dd><p>The command that triggered this event.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.events.CommandExceptionEvent.exception">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exception</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a></em><a class="headerlink" href="#yami.events.CommandExceptionEvent.exception" title="Permalink to this definition"></a></dt>
+<dd><p>The exception that triggered this event.</p>
+</dd></dl>
+
+</dd></dl>
+
 </section>
 <section id="module-yami.exceptions">
 <span id="exceptions"></span><h3>exceptions<a class="headerlink" href="#module-yami.exceptions" title="Permalink to this headline"></a></h3>
@@ -2330,7 +2508,7 @@ decorator arguments.</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="yami.MessageContext">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">MessageContext</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://www.hikari-py.dev/hikari/messages.html#hikari.messages.Message" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.messages.Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoked_subcommands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.MessageContext" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<dd><p>Bases: <a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.context.Context</span></code></a></p>
 <p>The context surrounding a message commands invocation.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -3798,6 +3976,184 @@ decorator, or otherwise used incorrectly.</p>
 <em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">ConversionFailed</span></span><a class="headerlink" href="#yami.ConversionFailed" title="Permalink to this definition"></a></dt>
 <dd><p>Bases: <a class="reference internal" href="#yami.exceptions.YamiException" title="yami.exceptions.YamiException"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.exceptions.YamiException</span></code></a></p>
 <p>Raised when the conversion performed by a converter fails.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.Context">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">Context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://www.hikari-py.dev/hikari/messages.html#hikari.messages.Message" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.messages.Message</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">command</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">invoked_subcommands</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.Context" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/abc.html#abc.ABC" title="(in Python v3.10)"><code class="xref py py-class docutils literal notranslate"><span class="pre">abc.ABC</span></code></a></p>
+<p>Base Context all Yami contexts inherit from.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.bot">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.Context.bot" title="Permalink to this definition"></a></dt>
+<dd><p>The bot instance associated with this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.author">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/users.html#hikari.users.User" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.users.User</span></a></em><a class="headerlink" href="#yami.Context.author" title="Permalink to this definition"></a></dt>
+<dd><p>The user that created this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.cache">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">cache</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/api/cache.html#hikari.api.cache.Cache" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.api.cache.Cache</span></a></em><a class="headerlink" href="#yami.Context.cache" title="Permalink to this definition"></a></dt>
+<dd><p>Shortcut to the bots cache.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.rest">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">rest</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/api/rest.html#hikari.api.rest.RESTClient" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.api.rest.RESTClient</span></a></em><a class="headerlink" href="#yami.Context.rest" title="Permalink to this definition"></a></dt>
+<dd><p>Shortcut to the bots rest client.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.guild_id">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">guild_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/snowflakes.html#hikari.snowflakes.Snowflake" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.snowflakes.Snowflake</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.10)"><span class="pre">None</span></a></em><a class="headerlink" href="#yami.Context.guild_id" title="Permalink to this definition"></a></dt>
+<dd><p>The guild id associated with the context, or <code class="docutils literal notranslate"><span class="pre">None</span></code> if this
+context was a <code class="xref py py-obj docutils literal notranslate"><span class="pre">DMChannel</span></code>.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.args">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">args</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.args.MessageArg" title="yami.args.MessageArg"><span class="pre">yami.args.MessageArg</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.Context.args" title="Permalink to this definition"></a></dt>
+<dd><p>A list of converted <code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageArgs</span></code> passed to this
+context. Context will not be present here even though it was
+passed to the command callback.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If this context was invoked with subcommands and parent
+commands, only the final subcommands args will be present
+here.</p>
+</div>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.exceptions">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exceptions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.10)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#yami.exceptions.YamiException" title="yami.exceptions.YamiException"><span class="pre">yami.exceptions.YamiException</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#yami.Context.exceptions" title="Permalink to this definition"></a></dt>
+<dd><p>Any exceptions that were generated when this context was
+created, including failed check exceptions.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.channel_id">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">channel_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/snowflakes.html#hikari.snowflakes.Snowflake" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.snowflakes.Snowflake</span></a></em><a class="headerlink" href="#yami.Context.channel_id" title="Permalink to this definition"></a></dt>
+<dd><p>The channel id this context was created in.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.message">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/messages.html#hikari.messages.Message" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.messages.Message</span></a></em><a class="headerlink" href="#yami.Context.message" title="Permalink to this definition"></a></dt>
+<dd><p>The message associated with this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.message_id">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">message_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://www.hikari-py.dev/hikari/snowflakes.html#hikari.snowflakes.Snowflake" title="(in hikari v2.0.0.dev105)"><span class="pre">hikari.snowflakes.Snowflake</span></a></em><a class="headerlink" href="#yami.Context.message_id" title="Permalink to this definition"></a></dt>
+<dd><p>The message id of this contexts message.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.content">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">content</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.10)"><span class="pre">str</span></a></em><a class="headerlink" href="#yami.Context.content" title="Permalink to this definition"></a></dt>
+<dd><p>The content of the message associated with the context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.command">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></em><a class="headerlink" href="#yami.Context.command" title="Permalink to this definition"></a></dt>
+<dd><p>The command invoked during the creation of this context.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.Context.shared">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">shared</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.Shared" title="yami.utils.types.Shared"><span class="pre">yami.utils.types.Shared</span></a></em><a class="headerlink" href="#yami.Context.shared" title="Permalink to this definition"></a></dt>
+<dd><p>A <a class="reference internal" href="#yami.Shared" title="yami.Shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Shared</span></code></a> object that can be used to share data
+between subcommands.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Also houses cached data from the checks that were run for
+this context.</p>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.YamiEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">YamiEvent</span></span><a class="headerlink" href="#yami.YamiEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference external" href="https://www.hikari-py.dev/hikari/events/base_events.html#hikari.events.base_events.Event" title="(in hikari v2.0.0.dev105)"><code class="xref py py-class docutils literal notranslate"><span class="pre">hikari.events.base_events.Event</span></code></a></p>
+<p>The base class all Yami events inherit from.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.YamiEvent.app">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.YamiEvent.app" title="Permalink to this definition"></a></dt>
+<dd><p>App instance for this application.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>The REST-aware app trait.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://www.hikari-py.dev/hikari/traits.html#hikari.traits.RESTAware" title="(in hikari v2.0.0.dev105)">hikari.traits.RESTAware</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.CommandInvokeEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">CommandInvokeEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.CommandInvokeEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
+<p>Fires when any command is invoked.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandInvokeEvent.app">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.CommandInvokeEvent.app" title="Permalink to this definition"></a></dt>
+<dd><p>The app (Bot) associated with this event.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandInvokeEvent.ctx">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ctx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></em><a class="headerlink" href="#yami.CommandInvokeEvent.ctx" title="Permalink to this definition"></a></dt>
+<dd><p>The context this event is attached to.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandInvokeEvent.command">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></em><a class="headerlink" href="#yami.CommandInvokeEvent.command" title="Permalink to this definition"></a></dt>
+<dd><p>The command that triggered this event.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="yami.CommandExceptionEvent">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">CommandExceptionEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ctx</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">exc</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.CommandExceptionEvent" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
+<p>Fires when a command encounters an exception of any kind.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandExceptionEvent.app">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.CommandExceptionEvent.app" title="Permalink to this definition"></a></dt>
+<dd><p>The app (Bot) associated with this event.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandExceptionEvent.ctx">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">ctx</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.context.Context" title="yami.context.Context"><span class="pre">yami.context.Context</span></a></em><a class="headerlink" href="#yami.CommandExceptionEvent.ctx" title="Permalink to this definition"></a></dt>
+<dd><p>The context this event is attached to.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandExceptionEvent.command">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">command</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.commands.MessageCommand" title="yami.commands.MessageCommand"><span class="pre">yami.commands.MessageCommand</span></a></em><a class="headerlink" href="#yami.CommandExceptionEvent.command" title="Permalink to this definition"></a></dt>
+<dd><p>The command that triggered this event.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="yami.CommandExceptionEvent.exception">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exception</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a></em><a class="headerlink" href="#yami.CommandExceptionEvent.exception" title="Permalink to this definition"></a></dt>
+<dd><p>The exception that triggered this event.</p>
+</dd></dl>
+
 </dd></dl>
 
 </section>
