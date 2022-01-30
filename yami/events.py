@@ -21,9 +21,9 @@ import abc
 
 import hikari
 
-from yami import bot as bot_
-from yami import commands as commands_
-from yami import context as context_
+from yami import bot
+from yami import commands
+from yami import context
 
 __all__ = ["YamiEvent", "CommandInvokeEvent", "CommandExceptionEvent"]
 
@@ -33,28 +33,28 @@ class YamiEvent(hikari.Event):
 
     @property
     @abc.abstractmethod
-    def app(self) -> bot_.Bot:
+    def app(self) -> bot.Bot:
         ...
 
 
 class CommandInvokeEvent(YamiEvent):
     """Fires when any command is invoked."""
 
-    def __init__(self, ctx: context_.Context) -> None:
+    def __init__(self, ctx: context.Context) -> None:
         self._ctx = ctx
 
     @property
-    def app(self) -> bot_.Bot:
+    def app(self) -> bot.Bot:
         """The app (Bot) associated with this event."""
         return self._ctx.bot
 
     @property
-    def ctx(self) -> context_.Context:
+    def ctx(self) -> context.Context:
         """The context this event is attached to."""
         return self._ctx
 
     @property
-    def command(self) -> commands_.MessageCommand:  # FIXME: make this generic
+    def command(self) -> commands.MessageCommand:  # FIXME: make this generic
         """The command that triggered this event."""
         return self._ctx.command
 
@@ -62,22 +62,22 @@ class CommandInvokeEvent(YamiEvent):
 class CommandExceptionEvent(YamiEvent):
     """Fires when a command encounters an exception of any kind."""
 
-    def __init__(self, ctx: context_.Context, exc: Exception) -> None:
+    def __init__(self, ctx: context.Context, exc: Exception) -> None:
         self._ctx = ctx
         self._exc = exc
 
     @property
-    def app(self) -> bot_.Bot:
+    def app(self) -> bot.Bot:
         """The app (Bot) associated with this event."""
         return self._ctx.bot
 
     @property
-    def ctx(self) -> context_.Context:
+    def ctx(self) -> context.Context:
         """The context this event is attached to."""
         return self._ctx
 
     @property
-    def command(self) -> commands_.MessageCommand:  # FIXME: make this generic
+    def command(self) -> commands.MessageCommand:  # FIXME: make this generic
         """The command that triggered this event."""
         return self._ctx.command
 
