@@ -28,7 +28,7 @@ import hikari
 
 from yami import args as args_
 from yami import commands as commands_
-from yami import context, exceptions
+from yami import context, events, exceptions
 from yami import modules as modules_
 from yami import utils
 
@@ -600,6 +600,7 @@ class Bot(hikari.GatewayBot):
             if e.message.content.startswith(p):
                 return await self._invoke(p, e, e.message.content)
 
+
     def _parse_for_subcommands(
         self,
         cmd: commands_.MessageCommand,
@@ -624,8 +625,6 @@ class Bot(hikari.GatewayBot):
             # If there is whitespace between the prefix and the command.
             name = parsed.pop(0)
 
-        # TODO: Fire a CommandInvokeEvent here once we make it
-
         if name in self._aliases:
             cmd = self._commands[self._aliases[name]]
         elif name in self._commands:
@@ -636,26 +635,34 @@ class Bot(hikari.GatewayBot):
             return None
 
         ctx = context.MessageContext(self, event.message, cmd, p)
-        all_invoked = (cmd, *self._parse_for_subcommands(cmd, parsed))
 
-        for i, c in enumerate(all_invoked):
-            is_final = i + 1 >= len(all_invoked)
-            for check in c.iter_checks():
-                await check.execute(ctx)
+        try:
+            all_invoked = (cmd, *self._parse_for_subcommands(cmd, parsed))
 
-            if c.is_subcommand:
-                if c.invoke_with or is_final:
-                    ctx._invoked_subcommands.append(c)
-                else:
-                    continue
+            for i, c in enumerate(all_invoked):
+                is_final = i + 1 >= len(all_invoked)
+                for check in c.iter_checks():
+                    await check.execute(ctx)
 
-            for arg in self._get_args(c, parsed):
-                await arg.convert(ctx)
+                if c.is_subcommand:
+                    if c.invoke_with or is_final:
+                        ctx._invoked_subcommands.append(c)
+                    else:
+                        continue
 
-            await self._invoke_callback(ctx, c)
+                for arg in self._get_args(c, parsed):
+                    await arg.convert(ctx)
 
-            if not is_final:
-                ctx.args.clear()
+                await self._invoke_callback(ctx, c)
+
+                if not is_final:
+                    ctx.args.clear()
+
+        except Exception as e:
+            await self.dispatch(events.CommandExceptionEvent(ctx, e))
+
+        else:
+            await self.dispatch(events.CommandInvokeEvent(ctx))
 
     def _get_args(
         self,

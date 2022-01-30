@@ -17,6 +17,7 @@
 
 from __future__ import annotations
 
+import abc
 import asyncio
 import typing
 
@@ -29,10 +30,123 @@ from yami import commands, exceptions, utils
 if typing.TYPE_CHECKING:
     from hikari.api import special_endpoints
 
-__all__ = ["MessageContext"]
+__all__ = ["Context", "MessageContext"]
 
 
-class MessageContext:
+class Context(abc.ABC):
+    """Base Context all Yami contexts inherit from."""
+
+    __slots__ = ()
+
+    def __init__(
+        self,
+        bot: bot_.Bot,
+        message: hikari.Message,
+        command: commands.MessageCommand,
+        prefix: str,
+        invoked_subcommands: list[commands.MessageCommand] = [],
+    ) -> None:
+        ...
+
+    @property
+    @abc.abstractmethod
+    def bot(self) -> bot_.Bot:
+        """The bot instance associated with this context."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def author(self) -> hikari.User:
+        """The user that created this context."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def cache(self) -> hikari.api.Cache:
+        """Shortcut to the bots cache."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def rest(self) -> hikari.api.RESTClient:
+        """Shortcut to the bots rest client."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def guild_id(self) -> hikari.Snowflake | None:
+        """The guild id associated with the context, or ``None`` if this
+        context was a :obj:`~hikari.DMChannel`.
+        """
+        ...
+
+    @property
+    @abc.abstractmethod
+    def args(self) -> list[args_.MessageArg]:
+        """A list of converted :obj:`~yami.MessageArgs` passed to this
+        context. Context will not be present here even though it was
+        passed to the command callback.
+
+        .. note::
+            If this context was invoked with subcommands and parent
+            commands, only the final subcommands args will be present
+            here.
+        """
+        ...
+
+    @property
+    @abc.abstractmethod
+    def exceptions(self) -> list[exceptions.YamiException]:
+        """Any exceptions that were generated when this context was
+        created, including failed check exceptions.
+        """
+        ...
+
+    @property
+    @abc.abstractmethod
+    def channel_id(self) -> hikari.Snowflake:
+        """The channel id this context was created in."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def message(self) -> hikari.Message:
+        """The message associated with this context."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def message_id(self) -> hikari.Snowflake:
+        """The message id of this contexts message."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def content(self) -> str:
+        """The content of the message associated with the context."""
+        # This is checked before the context is created.
+        ...
+
+    @property
+    @abc.abstractmethod
+    def command(self) -> commands.MessageCommand:
+        """The command invoked during the creation of this context."""
+        ...
+
+    @property
+    @abc.abstractmethod
+    def shared(self) -> utils.Shared:
+        """A :obj:`~yami.Shared` object that can be used to share data
+        between subcommands.
+
+        .. hint::
+            Also houses cached data from the checks that were run for
+            this context.
+        """
+        ...
+
+
+class MessageContext(Context):
     """The context surrounding a message commands invocation.
 
     Args:

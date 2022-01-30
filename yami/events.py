@@ -16,3 +16,72 @@
 """Module for Yami events."""
 
 from __future__ import annotations
+
+import abc
+
+import hikari
+
+from yami import bot as bot_
+from yami import commands as commands_
+from yami import context as context_
+
+__all__ = ["YamiEvent", "CommandInvokeEvent", "CommandExceptionEvent"]
+
+
+class YamiEvent(hikari.Event):
+    """The base class all Yami events inherit from."""
+
+    @property
+    @abc.abstractmethod
+    def app(self) -> bot_.Bot:
+        ...
+
+
+class CommandInvokeEvent(YamiEvent):
+    """Fires when any command is invoked."""
+
+    def __init__(self, ctx: context_.Context) -> None:
+        self._ctx = ctx
+
+    @property
+    def app(self) -> bot_.Bot:
+        """The app (Bot) associated with this event."""
+        return self._ctx.bot
+
+    @property
+    def ctx(self) -> context_.Context:
+        """The context this event is attached to."""
+        return self._ctx
+
+    @property
+    def command(self) -> commands_.MessageCommand:  # FIXME: make this generic
+        """The command that triggered this event."""
+        return self._ctx.command
+
+
+class CommandExceptionEvent(YamiEvent):
+    """Fires when a command encounters an exception of any kind."""
+
+    def __init__(self, ctx: context_.Context, exc: Exception) -> None:
+        self._ctx = ctx
+        self._exc = exc
+
+    @property
+    def app(self) -> bot_.Bot:
+        """The app (Bot) associated with this event."""
+        return self._ctx.bot
+
+    @property
+    def ctx(self) -> context_.Context:
+        """The context this event is attached to."""
+        return self._ctx
+
+    @property
+    def command(self) -> commands_.MessageCommand:  # FIXME: make this generic
+        """The command that triggered this event."""
+        return self._ctx.command
+
+    @property
+    def exception(self) -> Exception:
+        """The exception that triggered this event."""
+        return self._exc

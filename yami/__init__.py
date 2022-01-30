@@ -58,6 +58,10 @@ __all__ = [
     "TooManyArgs",
     "MissingArgs",
     "ConversionFailed",
+    "Context",
+    "YamiEvent",
+    "CommandInvokeEvent",
+    "CommandExceptionEvent",
 ]
 
 __packagename__ = "Yami"
