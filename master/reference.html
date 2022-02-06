@@ -1791,12 +1791,6 @@ for.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.YamiEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.YamiEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -1863,81 +1857,6 @@ for.</p>
 <dt class="sig sig-object py" id="yami.events.CommandExceptionEvent.exception">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exception</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.10)"><span class="pre">Exception</span></a></em><a class="headerlink" href="#yami.events.CommandExceptionEvent.exception" title="Permalink to this definition"></a></dt>
 <dd><p>The exception that triggered this event.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="yami.events.ModuleUnloadEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.events.</span></span><span class="sig-name descname"><span class="pre">ModuleUnloadEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.events.ModuleUnloadEvent" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
-<p>Fires when a Module is unloaded from the bot.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleUnloadEvent.app">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.ModuleUnloadEvent.app" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleUnloadEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.ModuleUnloadEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleUnloadEvent.module">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></em><a class="headerlink" href="#yami.events.ModuleUnloadEvent.module" title="Permalink to this definition"></a></dt>
-<dd><p>The module that was unloaded.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="yami.events.ModuleLoadEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.events.</span></span><span class="sig-name descname"><span class="pre">ModuleLoadEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.events.ModuleLoadEvent" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
-<p>Fires when a Module is loaded to the bot.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleLoadEvent.app">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.ModuleLoadEvent.app" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleLoadEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.ModuleLoadEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleLoadEvent.module">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></em><a class="headerlink" href="#yami.events.ModuleLoadEvent.module" title="Permalink to this definition"></a></dt>
-<dd><p>The module that was loaded.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="yami.events.ModuleRemoveEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.events.</span></span><span class="sig-name descname"><span class="pre">ModuleRemoveEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.events.ModuleRemoveEvent" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
-<p>Fires when a Module is removed completely from the bot.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleRemoveEvent.app">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.ModuleRemoveEvent.app" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleRemoveEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.events.ModuleRemoveEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.events.ModuleRemoveEvent.module">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></em><a class="headerlink" href="#yami.events.ModuleRemoveEvent.module" title="Permalink to this definition"></a></dt>
-<dd><p>The module that was removed.</p>
 </dd></dl>
 
 </dd></dl>
@@ -4191,12 +4110,6 @@ this context.</p>
 </dl>
 </dd></dl>
 
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.YamiEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.YamiEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="py class">
@@ -4267,81 +4180,6 @@ this context.</p>
 
 </dd></dl>
 
-<dl class="py class">
-<dt class="sig sig-object py" id="yami.ModuleUnloadEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">ModuleUnloadEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.ModuleUnloadEvent" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
-<p>Fires when a Module is unloaded from the bot.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleUnloadEvent.app">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.ModuleUnloadEvent.app" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleUnloadEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.ModuleUnloadEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleUnloadEvent.module">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></em><a class="headerlink" href="#yami.ModuleUnloadEvent.module" title="Permalink to this definition"></a></dt>
-<dd><p>The module that was unloaded.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="yami.ModuleLoadEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">ModuleLoadEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.ModuleLoadEvent" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
-<p>Fires when a Module is loaded to the bot.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleLoadEvent.app">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.ModuleLoadEvent.app" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleLoadEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.ModuleLoadEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleLoadEvent.module">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></em><a class="headerlink" href="#yami.ModuleLoadEvent.module" title="Permalink to this definition"></a></dt>
-<dd><p>The module that was loaded.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="yami.ModuleRemoveEvent">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">yami.</span></span><span class="sig-name descname"><span class="pre">ModuleRemoveEvent</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#yami.ModuleRemoveEvent" title="Permalink to this definition"></a></dt>
-<dd><p>Bases: <a class="reference internal" href="#yami.events.YamiEvent" title="yami.events.YamiEvent"><code class="xref py py-class docutils literal notranslate"><span class="pre">yami.events.YamiEvent</span></code></a></p>
-<p>Fires when a Module is removed completely from the bot.</p>
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleRemoveEvent.app">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">app</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.ModuleRemoveEvent.app" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleRemoveEvent.bot">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bot</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.bot.Bot" title="yami.bot.Bot"><span class="pre">yami.bot.Bot</span></a></em><a class="headerlink" href="#yami.ModuleRemoveEvent.bot" title="Permalink to this definition"></a></dt>
-<dd><p>The app (Bot) associated with this event.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="yami.ModuleRemoveEvent.module">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">module</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#yami.modules.Module" title="yami.modules.Module"><span class="pre">yami.modules.Module</span></a></em><a class="headerlink" href="#yami.ModuleRemoveEvent.module" title="Permalink to this definition"></a></dt>
-<dd><p>The module that was removed.</p>
-</dd></dl>
-
-</dd></dl>
-
 </section>
 </section>
 
@@ -4355,7 +4193,7 @@ this context.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2021-present Jonxslays.</p>
+    <p>&#169; Copyright 2021 Jonxslays.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
