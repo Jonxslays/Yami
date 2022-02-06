@@ -600,7 +600,6 @@ class Bot(hikari.GatewayBot):
             if e.message.content.startswith(p):
                 return await self._invoke(p, e, e.message.content)
 
-
     def _parse_for_subcommands(
         self,
         cmd: commands_.MessageCommand,

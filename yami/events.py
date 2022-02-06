@@ -21,19 +21,23 @@ import abc
 
 import hikari
 
-from yami import bot
-from yami import commands
-from yami import context
+from yami import bot as bot_
+from yami import commands, context
 
 __all__ = ["YamiEvent", "CommandInvokeEvent", "CommandExceptionEvent"]
 
 
-class YamiEvent(hikari.Event):
+class YamiEvent(hikari.Event, abc.ABC):
     """The base class all Yami events inherit from."""
 
     @property
     @abc.abstractmethod
-    def app(self) -> bot.Bot:
+    def app(self) -> bot_.Bot:
+        ...
+
+    @property
+    @abc.abstractmethod
+    def bot(self) -> bot_.Bot:
         ...
 
 
@@ -44,7 +48,12 @@ class CommandInvokeEvent(YamiEvent):
         self._ctx = ctx
 
     @property
-    def app(self) -> bot.Bot:
+    def app(self) -> bot_.Bot:
+        """The app (Bot) associated with this event."""
+        return self._ctx.bot
+
+    @property
+    def bot(self) -> bot_.Bot:
         """The app (Bot) associated with this event."""
         return self._ctx.bot
 
@@ -67,7 +76,12 @@ class CommandExceptionEvent(YamiEvent):
         self._exc = exc
 
     @property
-    def app(self) -> bot.Bot:
+    def app(self) -> bot_.Bot:
+        """The app (Bot) associated with this event."""
+        return self._ctx.bot
+
+    @property
+    def bot(self) -> bot_.Bot:
         """The app (Bot) associated with this event."""
         return self._ctx.bot
 
