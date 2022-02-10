@@ -44,7 +44,7 @@ ed25519 = { version = "~=1.5", optional = true }
 speedups = ["aiodns", "cchardet", "brotli", "ciso8601", "ed25519"]
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2"
+pytest = "^7.0"
 black = "^21.12b0"
 flake8 = "^4.0.1"
 isort = "^5.10.1"
