@@ -97,7 +97,7 @@ jobs:
           ./scripts/docs-deploy.sh master
 
   upload-coverage:
-    if: ${{ github.event_name }} == "push" && ${{ github.event.branch }} == "master"
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
     name: Upload coverage
     needs: test
     runs-on: ubuntu-latest
