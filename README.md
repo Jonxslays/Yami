@@ -52,9 +52,7 @@ import os
 import typing
 
 import hikari
-
 import yami
-
 
 bot = yami.Bot(os.environ["TOKEN"], prefix="$")
 
