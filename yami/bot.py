@@ -634,6 +634,7 @@ class Bot(hikari.GatewayBot):
             return None
 
         ctx = context.MessageContext(self, event.message, cmd, p)
+        await self.dispatch(events.CommandInvokeEvent(ctx))
 
         try:
             all_invoked = (cmd, *self._parse_for_subcommands(cmd, parsed))
@@ -658,10 +659,11 @@ class Bot(hikari.GatewayBot):
                     ctx.args.clear()
 
         except Exception as e:
-            await self.dispatch(events.CommandExceptionEvent(ctx, e))
+            ctx.exceptions.append(e)
+            await self.dispatch(events.CommandExceptionEvent(ctx))
 
         else:
-            await self.dispatch(events.CommandInvokeEvent(ctx))
+            await self.dispatch(events.CommandSuccessEvent(ctx))
 
     def _get_args(
         self,

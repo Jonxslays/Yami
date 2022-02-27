@@ -24,7 +24,7 @@ import hikari
 from yami import bot as bot_
 from yami import commands, context
 
-__all__ = ["YamiEvent", "CommandInvokeEvent", "CommandExceptionEvent"]
+__all__ = ["YamiEvent", "CommandInvokeEvent", "CommandExceptionEvent", "CommandSuccessEvent"]
 
 
 class YamiEvent(hikari.Event, abc.ABC):
@@ -68,12 +68,38 @@ class CommandInvokeEvent(YamiEvent):
         return self._ctx.command
 
 
+class CommandSuccessEvent(YamiEvent):
+    """Fires when any command invocation is successful."""
+
+    def __init__(self, ctx: context.Context) -> None:
+        self._ctx = ctx
+
+    @property
+    def app(self) -> bot_.Bot:
+        """The app (Bot) associated with this event."""
+        return self._ctx.bot
+
+    @property
+    def bot(self) -> bot_.Bot:
+        """The app (Bot) associated with this event."""
+        return self._ctx.bot
+
+    @property
+    def ctx(self) -> context.Context:
+        """The context this event is attached to."""
+        return self._ctx
+
+    @property
+    def command(self) -> commands.MessageCommand:  # FIXME: make this generic
+        """The command that triggered this event."""
+        return self._ctx.command
+
+
 class CommandExceptionEvent(YamiEvent):
     """Fires when a command encounters an exception of any kind."""
 
-    def __init__(self, ctx: context.Context, exc: Exception) -> None:
+    def __init__(self, ctx: context.Context) -> None:
         self._ctx = ctx
-        self._exc = exc
 
     @property
     def app(self) -> bot_.Bot:
@@ -96,6 +122,6 @@ class CommandExceptionEvent(YamiEvent):
         return self._ctx.command
 
     @property
-    def exception(self) -> Exception:
+    def exceptions(self) -> list[Exception]:
         """The exception that triggered this event."""
-        return self._exc
+        return self._ctx.exceptions

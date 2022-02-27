@@ -25,7 +25,7 @@ import hikari
 
 from yami import args as args_
 from yami import bot as bot_
-from yami import commands, exceptions, utils
+from yami import commands, utils
 
 if typing.TYPE_CHECKING:
     from hikari.api import special_endpoints
@@ -96,7 +96,7 @@ class Context(abc.ABC):
 
     @property
     @abc.abstractmethod
-    def exceptions(self) -> list[exceptions.YamiException]:
+    def exceptions(self) -> list[Exception]:
         """Any exceptions that were generated when this context was
         created, including failed check exceptions.
         """
@@ -183,7 +183,7 @@ class MessageContext(Context):
         self._command = command
         self._bot = bot
         self._prefix = prefix
-        self._exceptions: list[exceptions.YamiException] = []
+        self._exceptions: list[Exception] = []
         self._shared = utils.Shared()
         self._args: list[args_.MessageArg] = []
         self._invoked_subcommands = invoked_subcommands
@@ -229,7 +229,7 @@ class MessageContext(Context):
         return self._args
 
     @property
-    def exceptions(self) -> list[exceptions.YamiException]:
+    def exceptions(self) -> list[Exception]:
         """Any exceptions that were generated when this context was
         created, including failed check exceptions.
         """

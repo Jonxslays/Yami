@@ -62,6 +62,7 @@ __all__ = [
     "YamiEvent",
     "CommandInvokeEvent",
     "CommandExceptionEvent",
+    "CommandSuccessEvent",
 ]
 
 __packagename__ = "Yami"
