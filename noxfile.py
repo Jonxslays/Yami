@@ -16,36 +16,37 @@
 
 from __future__ import annotations
 
+import functools
+from typing import Callable
 from pathlib import Path
 
 import nox
 import toml
 
+SessionT = Callable[[nox.Session], None]
+InjectorT = Callable[[SessionT], SessionT]
 
-def get_dependencies() -> dict[str, str]:
-    with open("pyproject.toml") as f:
-        data = toml.loads(f.read())["tool"]["poetry"]
-        deps = data["dev-dependencies"]
-        deps.update(data["dependencies"])
-
-    return dict((k, f"{k}{v}".replace("^", "~=")) for k, v in deps.items())
+with open("pyproject.toml") as f:
+    data = toml.loads(f.read())["tool"]["poetry"]
+    deps: dict[str, str] = {**data["dependencies"], **data["dev-dependencies"]}
+    DEPS = {k.lower(): f"{k}{v}" for k, v in deps.items()}
 
 
-DEPS = get_dependencies()
+def install(*packages: str) -> InjectorT:
+    def inner(func: SessionT) -> SessionT:
+        @functools.wraps(func)
+        def wrapper(session: nox.Session) -> None:
+            session.install("-U", *(DEPS[p] for p in packages))
+            return func(session)
+
+        return wrapper
+
+    return inner
 
 
 @nox.session(reuse_venv=True)
+@install("pytest", "pytest-asyncio", "pytest-testdox", "mock", "hikari", "coverage")
 def tests(session: nox.Session) -> None:
-    session.install(
-        "-U",
-        DEPS["pytest"],
-        DEPS["pytest-asyncio"],
-        DEPS["pytest-testdox"],
-        DEPS["mock"],
-        DEPS["hikari"],
-        DEPS["coverage"],
-    )
-
     session.run(
         "coverage",
         "run",
@@ -59,9 +60,8 @@ def tests(session: nox.Session) -> None:
 
 
 @nox.session(reuse_venv=True)
+@install("coverage")
 def coverage(session: nox.Session) -> None:
-    session.install("-U", DEPS["coverage"])
-
     if not Path(".coverage").exists():
         session.skip("Skipping coverage")
 
@@ -69,22 +69,22 @@ def coverage(session: nox.Session) -> None:
 
 
 @nox.session(reuse_venv=True)
+@install("pyright", "mypy", "hikari")
 def types(session: nox.Session) -> None:
-    session.install("-U", DEPS["pyright"], DEPS["mypy"], DEPS["hikari"])
     session.run("mypy", "yami")
     session.run("pyright")
 
 
 @nox.session(reuse_venv=True)
+@install("black", "len8")
 def formatting(session: nox.Session) -> None:
-    session.install("-U", DEPS["black"], DEPS["len8"])
     session.run("black", ".", "--check")
     session.run("len8")
 
 
 @nox.session(reuse_venv=True)
+@install("flake8", "isort")
 def imports(session: nox.Session) -> None:
-    session.install("-U", DEPS["flake8"], DEPS["isort"])
     session.run("isort", "yami", "tests", "-cq")
     session.run(
         "flake8",
@@ -124,14 +124,8 @@ def licensing(session: nox.Session) -> None:
 
 
 @nox.session(reuse_venv=True)
+@install("sphinx", "sphinx-rtd-theme", "sphinx-rtd-dark-mode", "hikari")
 def docs(session: nox.Session) -> None:
-    session.install(
-        "-U",
-        DEPS["sphinx"],
-        DEPS["sphinx-rtd-theme"],
-        DEPS["sphinx-rtd-dark-mode"],
-        DEPS["hikari"],
-    )
     session.run(
         "python", "-m", "sphinx.cmd.build", "-b", "html", "-a", "./docs/source", "./docs/build"
     )
