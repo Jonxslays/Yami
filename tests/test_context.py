@@ -33,17 +33,17 @@ class TestMessageContext:
         return yami.MessageContext(mock.Mock(), message, mock.Mock(), "$$")
 
     def test_init(self) -> None:
-        bot = object()
-        message = object()
-        command = object()
+        bot = mock.Mock()
+        message = mock.Mock()
+        command = mock.Mock()
         prefix = "@@"
 
         ctx = yami.MessageContext(bot, message, command, prefix)
 
-        assert ctx.bot == bot
-        assert ctx.message == message
-        assert ctx.command == command
-        assert ctx.prefix == prefix
+        assert ctx.bot is bot
+        assert ctx.message is message
+        assert ctx.command is command
+        assert ctx.prefix is prefix
 
     def test_properties(self, message_context: yami.MessageContext, message: mock.Mock) -> None:
         message.author = "AUTHOR"
@@ -60,14 +60,12 @@ class TestMessageContext:
         assert message_context.content == "happy december folks"
         assert message_context.message is message
 
-    @pytest.mark.asyncio()
     async def test_message_context_respond(self, message_context: yami.MessageContext) -> None:
         await message_context.respond("hello", kwarg="testing")
         message_context._message.respond.assert_awaited_once_with("hello", kwarg="testing")
 
-    @pytest.mark.asyncio()
     async def test_getch_guild_with_cache(self, message_context: yami.MessageContext) -> None:
-        message_context._message.guild_id = 888
+        message_context._message.guild_id = 888  # type: ignore
         message_context._bot.rest.fetch_guild = mock.AsyncMock()
         message_context._bot.cache.get_guild = mock.Mock()
 
@@ -79,9 +77,8 @@ class TestMessageContext:
         message_context._bot.cache.get_guild.assert_called_once_with(888)
         message_context._bot.rest.fetch_guild.assert_not_called()
 
-    @pytest.mark.asyncio()
     async def test_getch_guild_no_cache(self, message_context: yami.MessageContext) -> None:
-        message_context._message.guild_id = 888
+        message_context._message.guild_id = 888  # type: ignore
         message_context._bot.rest.fetch_guild = mock.AsyncMock()
         message_context._bot.cache.get_guild = mock.Mock(return_value=None)
 
@@ -93,7 +90,6 @@ class TestMessageContext:
         message_context._bot.cache.get_guild.assert_called_once_with(888)
         message_context._bot.rest.fetch_guild.assert_awaited_once_with(888)
 
-    @pytest.mark.asyncio()
     async def test_getch_guild_when_in_dm(self, message_context: yami.MessageContext) -> None:
         message_context._message.guild_id = None
         message_context._bot.rest.fetch_guild = mock.AsyncMock()
@@ -104,10 +100,9 @@ class TestMessageContext:
         message_context._bot.cache.get_guild.assert_not_called()
         message_context._bot.rest.fetch_guild.assert_not_called()
 
-    @pytest.mark.asyncio()
     async def test_getch_channel_with_cache(self, message_context: yami.MessageContext) -> None:
         channel = object()
-        message_context._message.channel_id = 42
+        message_context._message.channel_id = 42  # type: ignore
         message_context._bot.rest.fetch_channel = mock.AsyncMock()
         message_context._bot.cache.get_guild_channel = mock.Mock(return_value=channel)
 
@@ -116,10 +111,9 @@ class TestMessageContext:
         message_context._bot.cache.get_guild_channel.assert_called_once_with(42)
         message_context._bot.rest.fetch_channel.assert_not_called()
 
-    @pytest.mark.asyncio()
     async def test_getch_channel_no_cache(self, message_context: yami.MessageContext) -> None:
         channel = object()
-        message_context._message.channel_id = 69
+        message_context._message.channel_id = 69  # type: ignore
         message_context._bot.rest.fetch_channel = mock.AsyncMock(return_value=channel)
         message_context._bot.cache.get_guild_channel = mock.Mock(return_value=None)
 
