@@ -83,13 +83,13 @@
              
   <section id="checks">
 <h1>Checks<a class="headerlink" href="#checks" title="Permalink to this headline"></a></h1>
-<p><a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> objects allow you to control the context in which
+<p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code> objects allow you to control the context in which
 your command can be invoked. A lot of useful ones are built into the
 library, but you can make your own custom checks as well.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> decorators <span class="ul">must</span> be placed <span class="ul">above</span>
+<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code> decorators <span class="ul">must</span> be placed <span class="ul">above</span>
 the <code class="docutils literal notranslate"><span class="pre">command</span></code> decorator.</p></li>
 </ul>
 </div>
@@ -166,14 +166,14 @@ value (including <code class="docutils literal notranslate"><span class="pre">No
 </pre></div>
 </div>
 <ul class="simple">
-<li><p>Using your own <a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> subclass:</p></li>
+<li><p>Using your own <code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code> subclass:</p></li>
 </ul>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <ul class="simple">
-<li><p>If you subclass <a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> it is required that your
+<li><p>If you subclass <code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code> it is required that your
 subclass has an async method called <code class="docutils literal notranslate"><span class="pre">execute</span></code> that accepts one
-parameter, a <a class="reference internal" href="reference.html#yami.MessageContext" title="yami.MessageContext"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageContext</span></code></a>.</p></li>
+parameter, a <code class="xref py py-obj docutils literal notranslate"><span class="pre">MessageContext</span></code>.</p></li>
 <li><p>If the <code class="docutils literal notranslate"><span class="pre">execute</span></code> method <span class="ul">does not</span> raise any exception, it
 is considered <span class="ul">passed</span>. Make sure you raise an exception if
 you want the check to fail.</p></li>
