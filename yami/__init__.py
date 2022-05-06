@@ -66,7 +66,7 @@ __all__ = [
 ]
 
 __packagename__ = "Yami"
-__version__ = "0.4.0.post0"
+__version__ = "0.4.1"
 __author__ = "Jonxslays"
 __copyright__ = "2021-present Jonxslays"
 __description__ = "A command handler that complements Hikari."
