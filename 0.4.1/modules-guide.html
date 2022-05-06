@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modules &mdash; Yami &#34;0.4.1&#34; documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/styles.css" type="text/css" />
+      <link rel="stylesheet" href="_static/dark_mode_css/general.css" type="text/css" />
+      <link rel="stylesheet" href="_static/dark_mode_css/dark.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/dark_mode_js/default_dark.js"></script>
+        <script src="_static/dark_mode_js/theme_switcher.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="reference.html" />
+    <link rel="prev" title="Checks" href="checks-guide.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> Yami
+          </a>
+              <div class="version">
+                "0.4.1"
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="getting-started-guide.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="message-commands-guide.html">Message commands</a></li>
+<li class="toctree-l1"><a class="reference internal" href="checks-guide.html">Checks</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Modules</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#what-is-a-module">What is a module?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#create-a-module">Create a module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#load-a-module">Load a module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#unload-a-module">Unload a module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#remove-a-module">Remove a module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Yami</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Modules</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules-guide.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="modules">
+<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline"></a></h1>
+<section id="what-is-a-module">
+<h2>What is a module?<a class="headerlink" href="#what-is-a-module" title="Permalink to this headline"></a></h2>
+<p>In Yami, a <code class="docutils literal notranslate"><span class="pre">Module</span></code> is any class that inherits from <a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>.
+This is typically commands or functions that should be grouped together
+for one reason or another. If you’re coming from <code class="docutils literal notranslate"><span class="pre">discord.py</span></code>, they
+are Yami’s equivalent to a <code class="docutils literal notranslate"><span class="pre">Cog</span></code>.</p>
+</section>
+<section id="create-a-module">
+<h2>Create a module<a class="headerlink" href="#create-a-module" title="Permalink to this headline"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># fun.py</span>
+<span class="kn">import</span> <span class="nn">yami</span>
+
+<span class="k">class</span> <span class="nc">Games</span><span class="p">(</span><span class="n">yami</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="nd">@yami</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;slap&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">slap_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">user_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Slaps a user.&quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;&lt;@!</span><span class="si">{</span><span class="n">ctx</span><span class="o">.</span><span class="n">author</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&gt; slapped &lt;@!</span><span class="si">{</span><span class="n">user_id</span><span class="si">}</span><span class="s2">&gt;&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">ClassicWow</span><span class="p">(</span><span class="n">yami</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+
+    <span class="nd">@yami</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;logs&quot;</span><span class="p">)</span>
+    <span class="k">async</span> <span class="k">def</span> <span class="nf">logs_cmd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="sd">&quot;&quot;&quot;Fetches logs search link for a user.&quot;&quot;&quot;</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;https://classic.warcraftlogs.com/search/?term=</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The ideal implementation contains a directory with files that contain
+<a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> subclasses. These files do not require any special
+load or unload functions, Yami takes care of that for you.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>For any of the following methods that request the <code class="docutils literal notranslate"><span class="pre">name</span></code> of a
+module, the name is case sensitive and should match the class name.</p>
+</div>
+</section>
+<section id="load-a-module">
+<h2>Load a module<a class="headerlink" href="#load-a-module" title="Permalink to this headline"></a></h2>
+<p>Loading a module will import the class and initialize it, passing a
+<a class="reference internal" href="reference.html#yami.Bot" title="yami.Bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code></a> instance to its constructor.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Directory structure</span>
+.
+├── main.py
+└── modules
+    ├── admin.py
+    ├── fun.py
+    └── meta.py
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+
+<span class="kn">import</span> <span class="nn">yami</span>
+
+<span class="n">bot</span> <span class="o">=</span> <span class="n">yami</span><span class="o">.</span><span class="n">Bot</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TOKEN&quot;</span><span class="p">],</span> <span class="s2">&quot;$&quot;</span><span class="p">)</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">load_all_modules</span><span class="p">(</span><span class="s2">&quot;./modules&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>In the example above all the classes that subclass <a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code></a>
+that are inside the files underneath the <code class="docutils literal notranslate"><span class="pre">modules</span></code> directory will be
+loaded to the bot, and that means all their commands will be loaded too.</p>
+<p>You can load modules individually from a file as well:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+
+<span class="kn">import</span> <span class="nn">yami</span>
+
+<span class="n">bot</span> <span class="o">=</span> <span class="n">yami</span><span class="o">.</span><span class="n">Bot</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TOKEN&quot;</span><span class="p">],</span> <span class="s2">&quot;$&quot;</span><span class="p">)</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="s2">&quot;Games&quot;</span><span class="p">,</span> <span class="s2">&quot;./modules/fun&quot;</span><span class="p">)</span>
+
+<span class="c1"># This is also valid.</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="s2">&quot;ClassicWow&quot;</span><span class="p">,</span> <span class="s2">&quot;./modules/fun.py&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="unload-a-module">
+<h2>Unload a module<a class="headerlink" href="#unload-a-module" title="Permalink to this headline"></a></h2>
+<p>Unloading a module will remove it’s command from the bot, and place it
+into an unloaded state but the module itself will still be attached to
+the bot, in <a class="reference internal" href="reference.html#yami.Bot.modules" title="yami.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.modules</span></code></a>. To remove the module completely see
+<a class="reference external" href="modules-guide.html#remove-a-module">remove_module</a></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+
+<span class="kn">import</span> <span class="nn">yami</span>
+
+<span class="n">bot</span> <span class="o">=</span> <span class="n">yami</span><span class="o">.</span><span class="n">Bot</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TOKEN&quot;</span><span class="p">],</span> <span class="s2">&quot;$&quot;</span><span class="p">)</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">load_all_modules</span><span class="p">(</span><span class="s2">&quot;./modules&quot;</span><span class="p">)</span>
+
+<span class="nd">@yami</span><span class="o">.</span><span class="n">is_owner</span><span class="p">()</span>
+<span class="nd">@bot</span><span class="o">.</span><span class="n">command</span><span class="p">(</span><span class="s2">&quot;unload&quot;</span><span class="p">)</span>
+<span class="k">async</span> <span class="k">def</span> <span class="nf">unload_cmd</span><span class="p">(</span><span class="n">ctx</span><span class="p">:</span> <span class="n">yami</span><span class="o">.</span><span class="n">MessageContext</span><span class="p">,</span> <span class="n">mod</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Unloads a module.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">fetched</span> <span class="o">:=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">get_module</span><span class="p">(</span><span class="n">mod</span><span class="p">))</span> <span class="ow">and</span> <span class="n">fetched</span><span class="o">.</span><span class="n">is_loaded</span><span class="p">:</span>
+        <span class="n">ctx</span><span class="o">.</span><span class="n">bot</span><span class="o">.</span><span class="n">unload_module</span><span class="p">(</span><span class="n">fetched</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s2">&quot;Done!&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">await</span> <span class="n">ctx</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="s2">&quot;Failed to unload the module.&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-a-module">
+<h2>Remove a module<a class="headerlink" href="#remove-a-module" title="Permalink to this headline"></a></h2>
+<p>Removing a module will remove it completely from the bot, including all
+commands.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
+<span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>
+
+<span class="kn">import</span> <span class="nn">yami</span>
+
+<span class="n">bot</span> <span class="o">=</span> <span class="n">yami</span><span class="o">.</span><span class="n">Bot</span><span class="p">(</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;TOKEN&quot;</span><span class="p">],</span> <span class="s2">&quot;$&quot;</span><span class="p">)</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">load_all_modules</span><span class="p">(</span><span class="s2">&quot;./modules&quot;</span><span class="p">)</span>
+
+<span class="n">bot</span><span class="o">.</span><span class="n">remove_module</span><span class="p">(</span><span class="s2">&quot;Games&quot;</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="checks-guide.html" class="btn btn-neutral float-left" title="Checks" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="reference.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021 Jonxslays.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
