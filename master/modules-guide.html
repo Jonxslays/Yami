@@ -88,7 +88,7 @@
 <h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline"></a></h1>
 <section id="what-is-a-module">
 <h2>What is a module?<a class="headerlink" href="#what-is-a-module" title="Permalink to this headline"></a></h2>
-<p>In Yami, a <code class="docutils literal notranslate"><span class="pre">Module</span></code> is any class that inherits from <code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code>.
+<p>In Yami, a <code class="docutils literal notranslate"><span class="pre">Module</span></code> is any class that inherits from <a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>.
 This is typically commands or functions that should be grouped together
 for one reason or another. If you’re coming from <code class="docutils literal notranslate"><span class="pre">discord.py</span></code>, they
 are Yami’s equivalent to a <code class="docutils literal notranslate"><span class="pre">Cog</span></code>.</p>
@@ -114,7 +114,7 @@ are Yami’s equivalent to a <code class="docutils literal notranslate"><span cl
 </pre></div>
 </div>
 <p>The ideal implementation contains a directory with files that contain
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code> subclasses. These files do not require any special
+<a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a> subclasses. These files do not require any special
 load or unload functions, Yami takes care of that for you.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -125,7 +125,7 @@ module, the name is case sensitive and should match the class name.</p>
 <section id="load-a-module">
 <h2>Load a module<a class="headerlink" href="#load-a-module" title="Permalink to this headline"></a></h2>
 <p>Loading a module will import the class and initialize it, passing a
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code> instance to its constructor.</p>
+<a class="reference internal" href="reference.html#yami.Bot" title="yami.Bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code></a> instance to its constructor.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Directory structure</span>
 .
 ├── main.py
@@ -147,7 +147,7 @@ module, the name is case sensitive and should match the class name.</p>
     <span class="n">bot</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>In the example above all the classes that subclass <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code>
+<p>In the example above all the classes that subclass <a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Module</span></code></a>
 that are inside the files underneath the <code class="docutils literal notranslate"><span class="pre">modules</span></code> directory will be
 loaded to the bot, and that means all their commands will be loaded too.</p>
 <p>You can load modules individually from a file as well:</p>
@@ -171,7 +171,7 @@ loaded to the bot, and that means all their commands will be loaded too.</p>
 <h2>Unload a module<a class="headerlink" href="#unload-a-module" title="Permalink to this headline"></a></h2>
 <p>Unloading a module will remove it’s command from the bot, and place it
 into an unloaded state but the module itself will still be attached to
-the bot, in <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.modules</span></code>. To remove the module completely see
+the bot, in <a class="reference internal" href="reference.html#yami.Bot.modules" title="yami.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.modules</span></code></a>. To remove the module completely see
 <a class="reference external" href="modules-guide.html#remove-a-module">remove_module</a></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
 <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">environ</span>

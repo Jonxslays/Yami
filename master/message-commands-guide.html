@@ -109,14 +109,14 @@ basic Python types automatically.</p>
 <section id="create-a-message-subcommand">
 <h2>Create a message subcommand<a class="headerlink" href="#create-a-message-subcommand" title="Permalink to this headline"></a></h2>
 <p>Subcommands in Yami do not have a special class. The only designation
-they receive is the <code class="xref py py-obj docutils literal notranslate"><span class="pre">is_subcommand</span></code> and the
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">parent</span></code> properties.</p>
+they receive is the <a class="reference internal" href="reference.html#yami.MessageCommand.is_subcommand" title="yami.MessageCommand.is_subcommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_subcommand</span></code></a> and the
+<a class="reference internal" href="reference.html#yami.MessageCommand.parent" title="yami.MessageCommand.parent"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parent</span></code></a> properties.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">subcommand</span></code> decorator should be used
+<p>The <a class="reference internal" href="reference.html#yami.MessageCommand.subcommand" title="yami.MessageCommand.subcommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">subcommand</span></code></a> decorator should be used
 as a method of the callback function of the parent command.</p>
 <ul class="simple">
-<li><p>Subcommands must also pass each <code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code> bound to its
+<li><p>Subcommands must also pass each <a class="reference internal" href="reference.html#yami.Check" title="yami.Check"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Check</span></code></a> bound to its
 parent commands.</p></li>
 </ul>
 </div>
@@ -145,21 +145,21 @@ holding you back :).</p>
 <p class="admonition-title">Warning</p>
 <p>Chaining subcommands does have some side effects to be aware of.</p>
 <ul class="simple">
-<li><p>The <code class="docutils literal notranslate"><span class="pre">allow_extra_args</span></code> kwarg for <code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code> is very
+<li><p>The <code class="docutils literal notranslate"><span class="pre">allow_extra_args</span></code> kwarg for <a class="reference internal" href="reference.html#yami.Bot" title="yami.Bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code></a> is very
 helpful for allowing you to align the arguments of your
 subcommands.</p></li>
 <li><p>Yami disables the callback for all parent commands by default.
 This can be set using the <code class="docutils literal notranslate"><span class="pre">invoke_with</span></code> kwarg in the
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.command</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.command</span></code>, and
-<code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand.subcommand</span></code> decorators.</p></li>
+<a class="reference internal" href="reference.html#yami.command" title="yami.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.command</span></code></a>, <a class="reference internal" href="reference.html#yami.Bot.command" title="yami.Bot.command"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.command</span></code></a>, and
+<a class="reference internal" href="reference.html#yami.MessageCommand.subcommand" title="yami.MessageCommand.subcommand"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageCommand.subcommand</span></code></a> decorators.</p></li>
 <li><p>Varying number and type for arguments in the command callbacks
 can cause failures. Pay close attention to what type hints and
 what argument positions you occupy in each callback, as well as
 what defaults you set.</p></li>
-<li><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageContext.shared</span></code> can be a powerful tool when used
+<li><p><a class="reference internal" href="reference.html#yami.MessageContext.shared" title="yami.MessageContext.shared"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.MessageContext.shared</span></code></a> can be a powerful tool when used
 to share information between parent commands and their
 subcommands. Keep in mind that if something goes wrong in the
-first callback, you may receive a <code class="xref py py-obj docutils literal notranslate"><span class="pre">SharedNone</span></code> if you
+first callback, you may receive a <a class="reference internal" href="reference.html#yami.SharedNone" title="yami.SharedNone"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SharedNone</span></code></a> if you
 access an attribute that has not been set in a later subcommands
 callback.</p></li>
 </ul>
