@@ -17,6 +17,7 @@
         <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
         <script src="_static/dark_mode_js/default_dark.js"></script>
         <script src="_static/dark_mode_js/theme_switcher.js"></script>
@@ -85,16 +86,16 @@
            <div itemprop="articleBody">
              
   <section id="modules">
-<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this headline"></a></h1>
+<h1>Modules<a class="headerlink" href="#modules" title="Permalink to this heading"></a></h1>
 <section id="what-is-a-module">
-<h2>What is a module?<a class="headerlink" href="#what-is-a-module" title="Permalink to this headline"></a></h2>
+<h2>What is a module?<a class="headerlink" href="#what-is-a-module" title="Permalink to this heading"></a></h2>
 <p>In Yami, a <code class="docutils literal notranslate"><span class="pre">Module</span></code> is any class that inherits from <a class="reference internal" href="reference.html#yami.Module" title="yami.Module"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Module</span></code></a>.
 This is typically commands or functions that should be grouped together
 for one reason or another. If you’re coming from <code class="docutils literal notranslate"><span class="pre">discord.py</span></code>, they
 are Yami’s equivalent to a <code class="docutils literal notranslate"><span class="pre">Cog</span></code>.</p>
 </section>
 <section id="create-a-module">
-<h2>Create a module<a class="headerlink" href="#create-a-module" title="Permalink to this headline"></a></h2>
+<h2>Create a module<a class="headerlink" href="#create-a-module" title="Permalink to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># fun.py</span>
 <span class="kn">import</span> <span class="nn">yami</span>
 
@@ -123,7 +124,7 @@ module, the name is case sensitive and should match the class name.</p>
 </div>
 </section>
 <section id="load-a-module">
-<h2>Load a module<a class="headerlink" href="#load-a-module" title="Permalink to this headline"></a></h2>
+<h2>Load a module<a class="headerlink" href="#load-a-module" title="Permalink to this heading"></a></h2>
 <p>Loading a module will import the class and initialize it, passing a
 <a class="reference internal" href="reference.html#yami.Bot" title="yami.Bot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Bot</span></code></a> instance to its constructor.</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Directory structure</span>
@@ -168,7 +169,7 @@ loaded to the bot, and that means all their commands will be loaded too.</p>
 </div>
 </section>
 <section id="unload-a-module">
-<h2>Unload a module<a class="headerlink" href="#unload-a-module" title="Permalink to this headline"></a></h2>
+<h2>Unload a module<a class="headerlink" href="#unload-a-module" title="Permalink to this heading"></a></h2>
 <p>Unloading a module will remove it’s command from the bot, and place it
 into an unloaded state but the module itself will still be attached to
 the bot, in <a class="reference internal" href="reference.html#yami.Bot.modules" title="yami.Bot.modules"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yami.Bot.modules</span></code></a>. To remove the module completely see
@@ -197,7 +198,7 @@ the bot, in <a class="reference internal" href="reference.html#yami.Bot.modules"
 </div>
 </section>
 <section id="remove-a-module">
-<h2>Remove a module<a class="headerlink" href="#remove-a-module" title="Permalink to this headline"></a></h2>
+<h2>Remove a module<a class="headerlink" href="#remove-a-module" title="Permalink to this heading"></a></h2>
 <p>Removing a module will remove it completely from the bot, including all
 commands.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># main.py</span>
