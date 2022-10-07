@@ -44,7 +44,7 @@ speedups = ["aiodns", "cchardet", "brotli", "ciso8601"]
 
 [tool.poetry.dev-dependencies]
 pytest = "==7.1.2"
-black = "==22.3.0"
+black = "==22.10.0"
 flake8 = "==4.0.1"
 isort = "==5.10.1"
 nox = "==2022.1.7"
